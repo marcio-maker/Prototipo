@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>HairOS — Cortes, Visagismo, Coloração, Kits & Ferramentas</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0808; --bg-card:#1a1612; --bg-elevated:#221d18;
+    --text:#f5f0ea; --text-sec:#ddd0c0; --text-muted:#a89e93;
+    --gold:#d9bb90; --gold-light:#edd4ac; --gold-hi:#fdf1d4; --gold-lo:#9b8363;
+    --gold-grad:linear-gradient(145deg,var(--gold-hi),#edd4ac 32%,#ceaf84 64%,var(--gold-lo));
+    --border:rgba(217,187,144,.10); --border-gold:rgba(217,187,144,.28);
+    --radius:14px;
+    --ease-luxury:cubic-bezier(.23,1,.32,1);
+    --ease-out:cubic-bezier(.22,1,.36,1);
+    --tr-ui:background-color .3s var(--ease-out),border-color .3s var(--ease-out),color .3s var(--ease-out),box-shadow .3s var(--ease-out),transform .3s var(--ease-out),opacity .3s var(--ease-out);
+    --focus-ring:0 0 0 3px rgba(217,187,144,.5);
+    --header-h:56px;
+    --nav-space:calc(var(--header-h) + 28px + env(safe-area-inset-top,0px));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.65;overflow-x:hidden}
+  body{padding:0 14px calc(112px + env(safe-area-inset-bottom,0px));max-width:1600px;margin:0 auto}
+  :focus-visible{outline:none;box-shadow:var(--focus-ring)}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeSection{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes sheetIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+  .topbar{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:0;right:0;margin-inline:auto;width:min(calc(100% - 28px),560px);height:var(--header-h);background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);border-radius:999px;z-index:900;display:flex;align-items:center;box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);opacity:0;transform:translateY(-16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
+  body.app-pronta .topbar{opacity:1;transform:none}
+  .topbar-inner{width:100%;padding:0 8px 0 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1;cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;padding:0}
+  .brand-h{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:-.03em;text-shadow:0 0 8px rgba(237,212,172,.4),0 0 18px rgba(206,175,132,.2)}
+  .brand-rest{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--text-sec);line-height:1;letter-spacing:.01em}
+  .menu-btn{width:40px;height:40px;border-radius:50%;background:transparent;border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui)}
+  .menu-btn:hover{background:rgba(217,187,144,.08);border-color:var(--gold)}
+  .menu-btn .bar{display:block;width:18px;height:1.5px;background:currentColor;border-radius:2px;transition:var(--tr-ui)}
+  .menu-btn .bar + .bar{margin-top:4px}
+
+  .drawer-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:950;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
+  .drawer-overlay.ativo{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);background:var(--bg-card);border-left:1px solid var(--border-gold);z-index:960;transform:translateX(100%);transition:transform .45s var(--ease-luxury);display:flex;flex-direction:column;padding:24px 0;overflow-y:auto;box-shadow:-18px 0 44px rgba(0,0,0,.5)}
+  .drawer.aberto{transform:translateX(0)}
+  .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:0 24px 24px;border-bottom:1px solid var(--border)}
+  .drawer-brand{display:flex;align-items:baseline;gap:2px;line-height:1}
+  .drawer-brand .brand-h{font-size:1.5rem}
+  .drawer-brand .brand-rest{font-size:.92rem}
+  .drawer-fechar{width:36px;height:36px;border-radius:50%;background:rgba(120,25,35,.55);border:1px solid rgba(184,58,74,.55);color:#e8a0a8;cursor:pointer;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui)}
+  .drawer-fechar:hover{background:rgba(150,35,48,.75);color:#f5c8ce}
+  .drawer-nav{display:flex;flex-direction:column;padding:16px 0}
+  .drawer-nav button{display:block;width:100%;text-align:left;padding:16px 24px;background:none;border:none;color:var(--text);font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;font-weight:500;border-bottom:1px solid var(--border);transition:var(--tr-ui),padding-left .3s var(--ease-out);cursor:pointer}
+  .drawer-nav button:last-child{border-bottom:none}
+  .drawer-nav button:hover{background:rgba(217,187,144,.05);color:var(--gold);padding-left:30px}
+  .drawer-nav button.ativo{color:var(--gold)}
+  .drawer-footer{margin-top:auto;padding:24px;font-size:.62rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
+
+  .secao{display:none;animation:fadeSection .4s var(--ease-out)}
+  .secao.ativa{display:block}
+  .page-title{text-align:center;padding:calc(var(--nav-space) + 8px) 16px 8px;margin-bottom:24px}
+  .page-title h1{font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;font-weight:600;color:var(--text);letter-spacing:-.015em;line-height:1.2}
+  .page-title .divider{display:block;width:20px;height:1px;margin:18px auto 14px;background:var(--border-gold)}
+  .page-title .sub{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:300;line-height:1.9}
+  .page-title .sub .highlight{color:var(--gold);font-weight:400}
+
+  .bloco{margin-bottom:56px}
+  .bloco-head{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:0 4px}
+  .bloco-head h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.25rem;color:var(--text);white-space:nowrap;letter-spacing:-.01em}
+  .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
+
+  .grid{display:grid;gap:12px}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+
+  .card{position:relative;display:block;width:100%;cursor:pointer;padding:1.5px;background:var(--gold-grad);border-radius:calc(var(--radius) + 1.5px);box-shadow:0 0 10px rgba(217,187,144,.08);transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);-webkit-tap-highlight-color:transparent;animation:fadeInUp .55s var(--ease-out) backwards;text-align:left;border:none;font-family:inherit;color:inherit}
+  .card:focus-visible{outline:2px solid rgba(253,241,212,.7);outline-offset:4px}
+  .card .card-inner{border-radius:var(--radius);overflow:hidden;background:var(--bg-card);display:block;position:relative}
+  .card img{width:100%;display:block;object-fit:cover;object-position:center top;background:var(--bg-elevated);transition:transform .8s var(--ease-out);aspect-ratio:1/1}
+  .card.aspect-retrato img{aspect-ratio:3/4}
+  .card.aspect-vertical img{aspect-ratio:4/5}
+  .card-info{padding:12px 10px;text-align:center;background:var(--bg-card);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:70px;justify-content:center}
+  .card-nome{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;font-weight:600;color:var(--gold-light);letter-spacing:.01em;line-height:1.2}
+  .card-sub{font-size:.68rem;color:var(--text-muted);font-weight:300;line-height:1.35}
+  @media (hover:hover){
+    .card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 0 12px rgba(253,241,212,.12),0 0 22px rgba(217,187,144,.07),0 16px 30px rgba(0,0,0,.42);z-index:10}
+    .card:hover img{transform:scale(1.035)}
+  }
+  .card:active{transform:scale(.985);transition-duration:.18s}
+
+  .aviso-afiliado{max-width:720px;margin:0 auto 32px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);font-size:.74rem;color:var(--text-muted);font-weight:300;text-align:center;line-height:1.6}
+  .aviso-afiliado .gold{color:var(--gold);font-weight:400}
+
+  .tone-lista{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .tone-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .25s var(--ease-out)}
+  .tone-row:last-child{border-bottom:none}
+  .tone-row:hover{background:rgba(217,187,144,.04)}
+  .tone-swatch{width:32px;height:32px;border-radius:50%;flex-shrink:0;border:1px solid rgba(217,187,144,.25)}
+  .tone-num{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--gold);min-width:26px;font-weight:600}
+  .tone-name{font-size:.85rem;color:var(--text);flex:1;font-weight:300}
+  .tone-link{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:1px;transition:all .2s;font-weight:500;white-space:nowrap}
+  .tone-link:hover{color:var(--gold-hi);border-color:var(--gold-hi)}
+
+  .dock{position:fixed;left:0;right:0;margin-inline:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(calc(100% - 28px),500px);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:999px;--i:0;background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);z-index:900;opacity:0;transform:translateY(16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
+  body.app-pronta .dock{opacity:1;transform:none}
+  .dock-ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px) / 5);border-radius:999px;background:rgba(217,187,144,.13);border:1px solid rgba(217,187,144,.22);transform:translateX(calc(var(--i) * 100%));transition:transform .55s var(--ease-out);pointer-events:none}
+  .dock-btn{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:52px;padding:0;border:none;border-radius:999px;background:none;color:var(--text-muted);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:color .3s var(--ease-out),transform .2s var(--ease-out)}
+  .dock-btn svg{width:18px;height:18px;display:block;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .45s var(--ease-out)}
+  .dock-btn span{font-size:.54rem;font-weight:500;letter-spacing:.04em;line-height:1}
+  .dock-btn.ativo{color:var(--gold)}
+  .dock-btn.ativo svg{transform:translateY(-1px)}
+  .dock-btn:active{transform:scale(.94)}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(10,8,8,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;transition:opacity .35s var(--ease-out)}
+  .modal-bg.on{display:flex;opacity:1}
+  .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:16px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
+  .modal-bg.on .modal{transform:translateY(0)}
+  .modal::-webkit-scrollbar{width:0;display:none}
+  .modal{scrollbar-width:none}
+  .modal-img{width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--bg-elevated);border-radius:16px 16px 0 0;position:relative}
+  .modal-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(120,25,35,.75);border:1px solid rgba(184,58,74,.55);color:#e8a0a8;cursor:pointer;font-size:1rem;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui);z-index:5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .modal-close:hover{background:rgba(150,35,48,.9);color:#f5c8ce;transform:scale(1.08)}
+  .modal-body{padding:26px 24px 28px;animation:sheetIn .55s .1s var(--ease-out) backwards}
+  .modal-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.4rem;color:var(--text);letter-spacing:-.01em;margin-bottom:6px}
+  .modal-sub{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:16px;display:block}
+  .modal-text{font-size:.88rem;color:var(--text-sec);line-height:1.7;margin-bottom:20px;font-weight:300}
+  .modal-list{list-style:none;margin-bottom:22px}
+  .modal-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:.84rem;color:var(--text);display:flex;align-items:center;gap:10px}
+  .modal-list li:last-child{border-bottom:none}
+  .modal-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 6px rgba(217,187,144,.5)}
+  .modal-actions{display:flex;gap:10px;margin-top:22px}
+  .modal-btn{flex:1;padding:14px;border:none;border-radius:10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;font-weight:600;transition:var(--tr-ui);text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+  .modal-btn.primary{background:var(--gold);color:#1b1209}
+  .modal-btn.primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+  .modal-btn.secondary{background:transparent;color:var(--text-muted);border:1px solid var(--border-gold)}
+  .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
+
+  @media (max-width:600px){
+    .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}
+    .bloco-head h2{font-size:1.05rem}
+    .page-title h1{font-size:1.35rem}
+    .dock-btn span{font-size:.5rem}
+    .dock-btn svg{width:16px;height:16px}
+  }
+  @media (min-width:900px){
+    .grid-3{grid-template-columns:repeat(4,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+  }
+  @media (min-width:1200px){
+    .grid-3{grid-template-columns:repeat(5,1fr)}
+    .grid-4{grid-template-columns:repeat(6,1fr)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" id="brandHome" aria-label="HairOS — início">
+      <span class="brand-h">H</span><span class="brand-rest">airOS</span>
+    </button>
+    <button type="button" class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+      <span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="dock" id="dock" aria-label="Navegação principal">
+  <span class="dock-ind" aria-hidden="true"></span>
+  <button type="button" class="dock-btn" data-secao="cortes">
+    <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+    <span>Cortes</span>
+  </button>
+  <button type="button" class="dock-btn" data-secao="visagismo">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.66V18a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2.66"/></svg>
+    <span>Visagismo</span>
+  </button>
+  <button type="button" class="dock-btn" data-secao="coloracao">
+    <svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="14.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="15.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 3 3 0 0 0 0-6 3 3 0 0 1 0-6 3 3 0 0 0 0-6"/></svg>
+    <span>Coloração</span>
+  </button>
+  <button type="button" class="dock-btn" data-secao="kits">
+    <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <span>Kits</span>
+  </button>
+  <button type="button" class="dock-btn" data-secao="ferramentas">
+    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    <span>Ferram.</span>
+  </button>
+</nav>
+
+<div class="drawer-overlay" id="drawerOverlay" hidden></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-header">
+    <span class="drawer-brand"><span class="brand-h">H</span><span class="brand-rest">airOS</span></span>
+    <button type="button" class="drawer-fechar" id="drawerFechar" aria-label="Fechar menu">&times;</button>
+  </div>
+  <nav class="drawer-nav">
+    <button type="button" data-secao="cortes">Cortes</button>
+    <button type="button" data-secao="visagismo">Visagismo</button>
+    <button type="button" data-secao="coloracao">Coloração</button>
+    <button type="button" data-secao="kits" class="ativo">Kits</button>
+    <button type="button" data-secao="ferramentas">Ferramentas</button>
+  </nav>
+  <div class="drawer-footer">HairOS · 2026</div>
+</aside>
+
+<main class="main-content" id="mainContent">
+
+  <!-- ============ ABA CORTES ============ -->
+  <section class="secao" id="secao-cortes">
+    <div class="page-title">
+      <h1>Cortes</h1>
+      <span class="divider"></span>
+      <div class="sub">Inspire-se com cortes femininos<br><span class="highlight">em 3 ângulos</span></div>
+    </div>
+    <div class="grid grid-3" id="grid-cortes"></div>
+  </section>
+
+  <!-- ============ ABA VISAGISMO ============ -->
+  <section class="secao" id="secao-visagismo">
+    <div class="page-title">
+      <h1>Visagismo</h1>
+      <span class="divider"></span>
+      <div class="sub">Entenda o que<br><span class="highlight">valoriza o seu rosto</span></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Formatos de Rosto</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-rostos"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Harmonização de Cores</h2><div class="linha"></div></div>
+      <div class="grid grid-2" id="grid-harmonizacao"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Tipos de Cabelo</h2><div class="linha"></div></div>
+      <div class="grid grid-4" id="grid-tipos"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Franjas</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-franjas"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Comprimentos</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-comprimentos"></div>
+    </div>
+  </section>
+
+  <!-- ============ ABA COLORAÇÃO ============ -->
+  <section class="secao" id="secao-coloracao">
+    <div class="page-title">
+      <h1>Coloração</h1>
+      <span class="divider"></span>
+      <div class="sub">Tons e técnicas<br><span class="highlight">que transformam</span></div>
+    </div>
+
+    <div class="aviso-afiliado">
+      <span class="gold">Não vendemos produtos.</span> Indicamos os que fazem sentido, com link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão — <span class="gold">sem nenhum custo extra para você.</span>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Técnicas</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-tecnicas"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Tons</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-tons"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Cuidados</h2><div class="linha"></div></div>
+      <div class="grid grid-2" id="grid-cuidados"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Manutenção</h2><div class="linha"></div></div>
+      <div class="grid grid-2" id="grid-manutencao"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Altura de Tom</h2><div class="linha"></div></div>
+      <div class="tone-lista">
+        <div class="tone-row"><div class="tone-swatch" style="background:#0a0a0a"></div><span class="tone-num">1</span><span class="tone-name">Preto</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#1a1210"></div><span class="tone-num">2</span><span class="tone-name">Preto Suave</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#3b2818"></div><span class="tone-num">3</span><span class="tone-name">Castanho Escuro</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#5a3d24"></div><span class="tone-num">4</span><span class="tone-name">Castanho Médio</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#7a5638"></div><span class="tone-num">5</span><span class="tone-name">Castanho Claro</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#a37a4e"></div><span class="tone-num">6</span><span class="tone-name">Loiro Escuro</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#c49a6c"></div><span class="tone-num">7</span><span class="tone-name">Loiro Médio</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#dcb98a"></div><span class="tone-num">8</span><span class="tone-name">Loiro Claro</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#ecd2a8"></div><span class="tone-num">9</span><span class="tone-name">Loiro Muito Claro</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+        <div class="tone-row"><div class="tone-swatch" style="background:#f7e6c9"></div><span class="tone-num">10</span><span class="tone-name">Loiro Claríssimo</span><a href="https://meli.la/1GbiW7M" target="_blank" rel="nofollow sponsored" class="tone-link">Comprar</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABA KITS ============ -->
+  <section class="secao ativa" id="secao-kits">
+    <div class="page-title">
+      <h1>Kits</h1>
+      <span class="divider"></span>
+      <div class="sub">Produtos selecionados<br><span class="highlight">para manter em casa</span></div>
+    </div>
+    <div class="aviso-afiliado">
+      <span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span>
+    </div>
+    <div class="grid grid-3" id="grid-kits"></div>
+  </section>
+
+  <!-- ============ ABA FERRAMENTAS ============ -->
+  <section class="secao" id="secao-ferramentas">
+    <div class="page-title">
+      <h1>Ferramentas</h1>
+      <span class="divider"></span>
+      <div class="sub">As ferramentas certas<br><span class="highlight">para cada resultado</span></div>
+    </div>
+    <div class="aviso-afiliado">
+      <span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span>
+    </div>
+    <div class="grid grid-3" id="grid-ferramentas"></div>
+  </section>
+
+</main>
+
+<div class="modal-bg" id="modalBg" onclick="closeModalBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
+    <div class="modal-img"><img id="mImg" src="" alt=""></div>
+    <div class="modal-body">
+      <h3 class="modal-title" id="mTitle"></h3>
+      <span class="modal-sub" id="mSub"></span>
+      <p class="modal-text" id="mText"></p>
+      <ul class="modal-list" id="mList"></ul>
+      <div class="modal-actions">
+        <a id="mLink" href="#" target="_blank" rel="nofollow sponsored" class="modal-btn primary">Ver produtos</a>
+        <button class="modal-btn secondary" onclick="closeModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ LINKS DE AFILIADO ============ */
+const ML_LINKS = {
+  keune:       "https://meli.la/1GbiW7M",
+  inoa:        "https://meli.la/28LpPj2",
+  kerastase:   "https://meli.la/1MwSY7v",
+  expert:      "https://meli.la/2nmeunk",
+  joico:       "https://meli.la/2x9xqBe",
+  ferramentas: "https://meli.la/2H5F4mn",
+  davines:     "https://meli.la/2sHyDUk",
+  igora:       "https://meli.la/1MBhptD",
+  moroccanoil: "https://meli.la/2djh4z5",
+  schwarzkopf: "https://meli.la/2jyNSj5",
+  livingproof: "https://meli.la/34fZAEp"
+};
+
+/* ============ NAVEGAÇÃO ============ */
+const secoes = document.querySelectorAll('.secao');
+const dockBtns = document.querySelectorAll('.dock-btn');
+const dock = document.getElementById('dock');
+const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits','ferramentas'];
+
+function irParaSecao(nome){
+  secoes.forEach(s => s.classList.toggle('ativa', s.id === 'secao-' + nome));
+  dockBtns.forEach(b => {
+    const on = b.dataset.secao === nome;
+    b.classList.toggle('ativo', on);
+    if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+  const idx = Math.max(0, ORDEM_SECOES.indexOf(nome));
+  dock.style.setProperty('--i', idx);
+  window.scrollTo({top:0, behavior:'auto'});
+}
+dockBtns.forEach(btn => btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)));
+
+/* DRAWER */
+const menuBtn = document.getElementById('menuBtn');
+const drawer = document.getElementById('drawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const drawerFechar = document.getElementById('drawerFechar');
+
+function abrirDrawer(){
+  drawer.classList.add('aberto'); drawer.setAttribute('aria-hidden','false');
+  drawerOverlay.hidden = false; requestAnimationFrame(() => drawerOverlay.classList.add('ativo'));
+  menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow = 'hidden';
+}
+function fecharDrawer(){
+  if (!drawer.classList.contains('aberto')) return;
+  drawer.classList.remove('aberto'); drawer.setAttribute('aria-hidden','true');
+  drawerOverlay.classList.remove('ativo'); menuBtn.setAttribute('aria-expanded','false');
+  document.body.style.overflow = '';
+  setTimeout(() => { drawerOverlay.hidden = true; }, 350);
+}
+menuBtn.addEventListener('click', abrirDrawer);
+drawerFechar.addEventListener('click', fecharDrawer);
+drawerOverlay.addEventListener('click', fecharDrawer);
+document.querySelectorAll('.drawer-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.drawer-nav button').forEach(b => b.classList.remove('ativo'));
+    btn.classList.add('ativo');
+    irParaSecao(btn.dataset.secao);
+    fecharDrawer();
+  });
+});
+
+/* MODAL */
+function openModal(nome, categoria, texto1, texto2, lista, link, img){
+  document.getElementById('mTitle').innerHTML = nome;
+  document.getElementById('mSub').textContent = categoria;
+  document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
+  document.getElementById('mImg').src = img || '';
+  const ul = document.getElementById('mList');
+  ul.innerHTML = '';
+  if (lista && lista.length){
+    lista.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+  }
+  const linkEl = document.getElementById('mLink');
+  if (link){
+    linkEl.href = link;
+    linkEl.style.display = 'inline-flex';
+  } else {
+    linkEl.style.display = 'none';
+  }
+  document.getElementById('modalBg').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function closeModalBg(e){
+  if (e.target.id === 'modalBg') closeModal();
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ============ RENDER ============ */
+function renderGrid(id, data, catLabel, linkDefault){
+  const grid = document.getElementById(id);
+  if (!grid) return;
+  grid.innerHTML = '';
+  data.forEach((item, idx) => {
+    const card = document.createElement('button');
+    card.className = 'card' + (item.aspect === 'retrato' ? ' aspect-retrato' : item.aspect === 'vertical' ? ' aspect-vertical' : '');
+    card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
+    const img = item.img || '';
+    card.innerHTML = `
+      <div class="card-inner">
+        <img src="${img}" alt="${item.title}" loading="lazy">
+        <div class="card-info">
+          <div class="card-nome">${item.title}</div>
+          ${item.sub ? '<div class="card-sub">' + item.sub + '</div>' : ''}
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      openModal(item.title, catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img);
+    });
+    grid.appendChild(card);
+  });
+}
+
+/* ============ DADOS ============ */
+
+/* FORMATOS DE ROSTO */
+const rostosData = [
+  {title:'Redondo', desc:'Curvas suaves e largura similar ao comprimento.', desc2:'Objetivo: criar ilusão de alongamento e angularidade.', lista:['Volume no topo','Laterais justas','Risca lateral'], img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', link:ML_LINKS.kerastase},
+  {title:'Quadrado', desc:'Mandíbula e testa marcadas, ângulos retos.', desc2:'Objetivo: suavizar os ângulos com curvas e movimento.', lista:['Ondas suaves','Camadas','Evitar cortes retos'], img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', link:ML_LINKS.kerastase},
+  {title:'Oval', desc:'Proporções equilibradas, formato coringa.', desc2:'Objetivo: valorizar o equilíbrio natural.', lista:['Rosto aberto','Camadas suaves','Evitar franjas pesadas'], img:'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', link:ML_LINKS.kerastase},
+  {title:'Coração', desc:'Testa larga e queixo fino.', desc2:'Objetivo: equilibrar a parte inferior com volume.', lista:['Volume inferior','Franja lateral','Evitar volume no topo'], img:'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', link:ML_LINKS.kerastase},
+  {title:'Triangular', desc:'Testa estreita e mandíbula larga.', desc2:'Objetivo: criar volume no topo e disfarçar a base.', lista:['Volume no topo','Camadas laterais','Evitar volume inferior'], img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', link:ML_LINKS.kerastase},
+  {title:'Diamante', desc:'Maçãs largas, testa e queixo estreitos.', desc2:'Objetivo: suavizar as maçãs.', lista:['Volume topo e base','Leveza nas maçãs','Franja lateral'], img:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', link:ML_LINKS.kerastase},
+  {title:'Oblongo', desc:'Mais longo que largo.', desc2:'Objetivo: criar largura com ondas laterais.', lista:['Largura lateral','Sem volume no topo','Ondas laterais'], img:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', link:ML_LINKS.kerastase},
+  {title:'Hexagonal', desc:'Ângulos suaves, variação do quadrado.', desc2:'Objetivo: suavizar os ângulos.', lista:['Curvas suaves','Movimento','Evitar linhas retas'], img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', link:ML_LINKS.kerastase},
+  {title:'Retangular', desc:'Ângulos definidos, rosto comprido.', desc2:'Objetivo: suavizar ângulos e criar largura.', lista:['Ondas laterais','Sem volume no topo','Camadas'], img:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', link:ML_LINKS.kerastase},
+  {title:'Oval Alongado', desc:'Oval com proporções mais longas.', desc2:'Objetivo: criar largura lateral.', lista:['Largura lateral','Equilíbrio','Ondas laterais'], img:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', link:ML_LINKS.kerastase}
+];
+
+/* HARMONIZAÇÃO DE CORES */
+const harmonizacaoData = [
+  {title:'Pele Escura', sub:'Cores que iluminam', desc:'Subtom Frio: Chocolate Frio, Borgonha.', desc2:'Subtom Quente: Cobre Queimado, Café Quente.', lista:['Chocolate Frio','Borgonha','Cobre Queimado','Café Quente'], img:'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', aspect:'retrato', link:ML_LINKS.keune},
+  {title:'Pele Morena', sub:'Cores que iluminam', desc:'Subtom Frio: Chocolate Frio, Castanho.', desc2:'Subtom Quente: Cobre Queimado, Mel.', lista:['Chocolate Frio','Castanho','Cobre Queimado','Mel'], img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', aspect:'retrato', link:ML_LINKS.keune},
+  {title:'Pele Média', sub:'Cores que iluminam', desc:'Subtom Frio: Castanho Frio, Borgonha.', desc2:'Subtom Quente: Caramelo, Mel Acobreado.', lista:['Castanho Frio','Borgonha','Caramelo','Mel Acobreado'], img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', aspect:'retrato', link:ML_LINKS.keune},
+  {title:'Pele Clara', sub:'Cores que iluminam', desc:'Subtom Frio: Loiro Platina, Acinzentado.', desc2:'Subtom Quente: Loiro Dourado, Mel Claro.', lista:['Loiro Platina','Acinzentado','Loiro Dourado','Mel Claro'], img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', aspect:'retrato', link:ML_LINKS.keune}
+];
+
+/* TIPOS DE CABELO */
+const tiposData = [
+  {title:'1A', sub:'Liso, sem volume', desc:'Cuidados: shampoo leve, leave-in para brilho.', lista:['Shampoo leve','Leave-in brilho'], img:'https://i.pinimg.com/736x/96/ed/ba/96edbad796f6419dde511218d30b4a89.jpg', aspect:'vertical', link:ML_LINKS.expert},
+  {title:'1B', sub:'Liso com leve volume', desc:'Cuidados: finalizador leve, protetor térmico.', lista:['Finalizador leve','Protetor térmico'], img:'https://i.pinimg.com/736x/97/12/55/971255981aaef5c19d234cbe7bb15b5b.jpg', aspect:'vertical', link:ML_LINKS.expert},
+  {title:'1C', sub:'Liso com mais corpo', desc:'Cuidados: pomada texturizante, spray de volume.', lista:['Pomada texturizante','Spray volume'], img:'https://i.pinimg.com/736x/20/e5/0e/20e50e3d7d91ea1c77739beef358253e.jpg', aspect:'vertical', link:ML_LINKS.expert},
+  {title:'2A', sub:'Ondas suaves', desc:'Cuidados: creme de pentear, difusor.', lista:['Creme de pentear','Difusor'], img:'https://i.pinimg.com/736x/d2/3f/6c/d23f6cb6d4eba707e8af9dbd0365d7b3.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'2B', sub:'Ondas definidas', desc:'Cuidados: ativador de ondas, gel leve.', lista:['Ativador de ondas','Gel leve'], img:'https://i.pinimg.com/236x/5b/d6/67/5bd6678622f65f802a790f27193d2b43.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'2C', sub:'Ondas volumosas', desc:'Cuidados: mousse, difusor, creme definição.', lista:['Mousse','Difusor','Creme definição'], img:'https://i.pinimg.com/736x/b3/23/38/b323381530d017a718dfd57ebb70f280.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'3A', sub:'Cachos definidos', desc:'Cuidados: creme de pentear, gel, finalizador.', lista:['Creme de pentear','Gel','Finalizador'], img:'https://i.pinimg.com/736x/f2/f4/09/f2f4094f58a52962676524bcc79dc511.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'3B', sub:'Cachos fechados', desc:'Cuidados: creme, gel, difusor, hidratação.', lista:['Creme','Gel','Difusor','Hidratação'], img:'https://i.pinimg.com/736x/a3/c2/a8/a3c2a82d52cb1f590ebbb7b6ba386229.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'3C', sub:'Cachos volumosos', desc:'Cuidados: creme, gel, óleo, hidratação.', lista:['Creme','Gel','Óleo','Hidratação'], img:'https://i.pinimg.com/736x/03/38/48/033848a08f6285b6473392e31710c7b5.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'4A', sub:'Crespos definidos', desc:'Cuidados: creme, gel, óleo, umectação.', lista:['Creme','Gel','Óleo','Umectação'], img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'4B', sub:'Crespos em ziguezague', desc:'Cuidados: creme, gel, óleo, umectação.', lista:['Creme','Gel','Óleo','Umectação'], img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', aspect:'vertical', link:ML_LINKS.joico},
+  {title:'4C', sub:'Crespos apertados', desc:'Cuidados: creme, gel, óleo, umectação.', lista:['Creme','Gel','Óleo','Umectação'], img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', aspect:'vertical', link:ML_LINKS.joico}
+];
+
+/* FRANJAS */
+const franjasData = [
+  {title:'Reta', sub:'Encurta o rosto', desc:'Encurta o rosto e destaca os olhos.', desc2:'Ideal para rostos longos.', lista:['Encurta o rosto','Destaca olhos'], img:'https://i.pinimg.com/736x/c7/83/c4/c783c422b3a1b9b4a980b2c3a472118f.jpg'},
+  {title:'Cortina', sub:'Alonga o rosto', desc:'Alonga o rosto e suaviza traços.', desc2:'Ideal para rostos redondos e quadrados.', lista:['Alonga o rosto','Suaviza traços'], img:'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg'},
+  {title:'Lateral', sub:'Cria assimetria', desc:'Emoldura e cria assimetria.', desc2:'Ideal para rostos quadrados e ovais.', lista:['Emoldura','Cria assimetria'], img:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg'},
+  {title:'Desfiada', sub:'Leve e moderna', desc:'Leve e moderna, não pesa.', desc2:'Ideal para todos os formatos.', lista:['Leve','Moderna','Não pesa'], img:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'},
+  {title:'Arredondada', sub:'Suaviza ângulos', desc:'Suaviza ângulos e valoriza curvas.', desc2:'Ideal para rostos quadrados.', lista:['Suaviza ângulos','Valoriza curvas'], img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg'},
+  {title:'Baby', sub:'Delicada', desc:'Delicada e alonga o rosto.', desc2:'Ideal para rostos redondos e ovais.', lista:['Delicada','Alonga o rosto'], img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg'}
+];
+
+/* COMPRIMENTOS */
+const comprimentosData = [
+  {title:'Curto', sub:'Praticidade', desc:'Praticidade e destaca os traços do rosto.', desc2:'Ideal para quem quer um visual moderno.', lista:['Praticidade','Destaca traços'], img:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', aspect:'retrato'},
+  {title:'Médio', sub:'Versatilidade', desc:'Versatilidade e equilíbrio.', desc2:'Ideal para quem quer mudar sem perder comprimento.', lista:['Versatilidade','Equilíbrio'], img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', aspect:'retrato'},
+  {title:'Longo', sub:'Elegância', desc:'Elegância e alonga a silhueta.', desc2:'Ideal para quem quer um visual sofisticado.', lista:['Elegância','Alonga silhueta'], img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', aspect:'retrato'}
+];
+
+/* CORTES */
+const cortesData = [
+  {title:'Velvet Bob', sub:'Bob Texturizado', desc:'Camadas internas que dão volume sem peso.', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg'},
+  {title:'Wolf Cut', sub:'Topo Volumoso', desc:'Topo curto e rebelde com nuca longa.', img:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg'},
+  {title:'Pixie Cut', sub:'Corte Curto', desc:'Topo volumoso com laterais curtas.', img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg'},
+  {title:'Butterfly Cut', sub:'Camadas em Asa', desc:'Duas camadas em asa com base pesada e movimento.', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg'},
+  {title:'Blunt Cut', sub:'Corte Reto', desc:'Zero camadas: linha reta e precisa.', img:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg'},
+  {title:'Shaggy Hair', sub:'Camadas Desconectadas', desc:'Camadas cruas e desconectadas.', img:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg'},
+  {title:'Long Bob', sub:'Bob Ombro', desc:'Base inclinada para frente.', img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg'},
+  {title:'French Bob', sub:'Chanel com Franja', desc:'Curtíssimo no maxilar com franja reta.', img:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg'},
+  {title:'Italian Bob', sub:'Bob Repicado', desc:'Repicados internos com volume na base.', img:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg'},
+  {title:'Bixie Cut', sub:'Pixie-Bob', desc:'Meio pixie, meio bob, desfiado.', img:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg'},
+  {title:'Soft Layers', sub:'Camadas Longas', desc:'Camadas contínuas sem marcação.', img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg'},
+  {title:'Kitty Cut', sub:'Bob-Shag', desc:'Bob-shag híbrido: base reta + camadas.', img:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg'}
+];
+
+/* TÉCNICAS */
+const tecnicasData = [
+  {title:'Balayage', desc:'Pintura manual que cria degradê natural.', desc2:'Ideal para loiro iluminado sem raiz marcada.', lista:['Degradê natural','Sem raiz marcada'], img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link:ML_LINKS.inoa},
+  {title:'Babylights', desc:'Mechas finíssimas que imitam o sol.', desc2:'Ideal para loiros delicados.', lista:['Mechas finas','Clareamento natural'], img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link:ML_LINKS.inoa},
+  {title:'Luzes', desc:'Mechas tradicionais com papel alumínio.', desc2:'Ideal para clarear de forma uniforme.', lista:['Mechas tradicionais','Clareamento uniforme'], img:'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', link:ML_LINKS.inoa},
+  {title:'Mechas', desc:'Mechas mais largas e definidas.', desc2:'Ideal para contraste marcante.', lista:['Mechas largas','Contraste marcante'], img:'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', link:ML_LINKS.inoa},
+  {title:'Morena Iluminada', desc:'Mechas sutis para iluminar o castanho.', desc2:'Ideal para morenas que querem loiro discreto.', lista:['Mechas sutis','Ilumina o castanho'], img:'https://i.pinimg.com/1200x/e8/cc/fd/e8ccfd0d23c0a67cdec7b3518588c87a.jpg', link:ML_LINKS.inoa},
+  {title:'Loiro Acobreado', desc:'Mechas com reflexos quentes e dourados.', desc2:'Ideal para loiro vibrante.', lista:['Reflexos quentes','Dourado'], img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link:ML_LINKS.inoa},
+  {title:'Ombré Hair', desc:'Degradê do escuro ao claro.', desc2:'Ideal para efeito natural e baixa manutenção.', lista:['Degradê','Natural'], img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link:ML_LINKS.inoa},
+  {title:'Sombré Hair', desc:'Degradê mais suave que o ombré.', desc2:'Ideal para efeito discreto.', lista:['Degradê suave','Discreto'], img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link:ML_LINKS.inoa},
+  {title:'California', desc:'Luzes que reproduzem o efeito do sol.', desc2:'Transição natural e iluminada.', lista:['Efeito sol','Transição natural'], img:'https://i.pinimg.com/1200x/e8/cc/fd/e8ccfd0d23c0a67cdec7b3518588c87a.jpg', link:ML_LINKS.inoa}
+];
+
+/* TONS */
+const tonsData = [
+  {title:'7.1', sub:'Loiro Acinzentado', desc:'Frio, ideal para subtons frios.', desc2:'Tinta recomendada: 7.1 com matizador.', lista:['Frio','Acinzentado'], img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link:ML_LINKS.inoa},
+  {title:'8.3', sub:'Loiro Dourado', desc:'Quente, ideal para subtons quentes.', desc2:'Tinta recomendada: 8.3.', lista:['Quente','Dourado'], img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link:ML_LINKS.inoa},
+  {title:'6.0', sub:'Castanho Escuro', desc:'Neutro, natural.', desc2:'Ideal para cobertura de brancos.', lista:['Neutro','Natural'], img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link:ML_LINKS.inoa},
+  {title:'9.1', sub:'Loiro Muito Claro', desc:'Frio, muito claro.', desc2:'Ideal para loiros platinados.', lista:['Frio','Platinado'], img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link:ML_LINKS.inoa},
+  {title:'5.5', sub:'Castanho Avermelhado', desc:'Quente, avermelhado.', desc2:'Ideal para subtons quentes.', lista:['Quente','Avermelhado'], img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link:ML_LINKS.inoa},
+  {title:'4.0', sub:'Castanho Médio', desc:'Neutro, natural.', desc2:'Ideal para cobertura de brancos.', lista:['Neutro','Natural'], img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link:ML_LINKS.inoa},
+  {title:'10.0', sub:'Loiro Extra Claro', desc:'Neutro, claríssimo.', desc2:'Ideal para loiros muito claros.', lista:['Neutro','Extra claro'], img:'https://i.pinimg.com/736x/5e/8a/1c/5e8a1c4d7b2f9e6a3c8d5b1f7e4c2a91.jpg', link:ML_LINKS.inoa},
+  {title:'3.0', sub:'Castanho Escuro', desc:'Neutro, escuro.', desc2:'Ideal para cobertura de brancos.', lista:['Neutro','Escuro'], img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link:ML_LINKS.inoa}
+];
+
+/* CUIDADOS */
+const cuidadosData = [
+  {title:'Shampoo Matizador', sub:'Mantém o tom frio', desc:'Mantém o tom frio e evita amarelamento.', desc2:'Ideal para cabelos loiros, platinados ou com mechas.', lista:['Mantém tom frio','Evita amarelamento'], img:'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg', link:ML_LINKS.kerastase},
+  {title:'Máscara de Reconstrução', sub:'Repõe massa', desc:'Repõe massa e força após a química.', desc2:'Ideal para cabelos pós-coloração.', lista:['Repõe massa','Força'], img:'https://i.pinimg.com/1200x/55/d6/10/55d610f599b3c10b5fe4cafceb5104fc.jpg', link:ML_LINKS.joico},
+  {title:'Leave-in', sub:'Protege e finaliza', desc:'Protege e finaliza no dia a dia.', desc2:'Ideal para todos os tipos de cabelo.', lista:['Protege','Finaliza'], img:'https://i.pinimg.com/736x/c1/4a/bb/c14abbd5fb1d4528ab1371784cd4503b.jpg', link:ML_LINKS.kerastase},
+  {title:'Óleo Finalizador', sub:'Sela cutículas', desc:'Sela cutículas e dá brilho.', desc2:'Ideal para cabelos secos ou com frizz.', lista:['Sela cutículas','Brilho','Anti-frizz'], img:'https://i.pinimg.com/1200x/59/d8/dd/59d8dd9ea4a78fdeb7e0b420ffcdda0a.jpg', link:ML_LINKS.kerastase},
+  {title:'Protetor Térmico', sub:'Protege do calor', desc:'Protege do calor de secador e prancha.', desc2:'Ideal para quem usa ferramentas de calor.', lista:['Protege do calor','Secador','Prancha'], img:'https://i.pinimg.com/736x/f6/62/3d/f6623df560fe941b4fce33574488031c.jpg', link:ML_LINKS.kerastase}
+];
+
+/* MANUTENÇÃO */
+const manutencaoData = [
+  {title:'Retoque de Raiz', desc:'Como e quando retocar a raiz.', desc2:'Ideal para manter a cor uniforme.', lista:['Retoque de raiz','Cor uniforme'], img:'https://i.pinimg.com/736x/45/26/d3/4526d3bd85f723c62b5d376a21575ae5.jpg', link:ML_LINKS.inoa},
+  {title:'Matização', desc:'Como usar matizador para manter o tom.', desc2:'Ideal para loiros e platinados.', lista:['Matizador','Tom frio'], img:'https://i.pinimg.com/736x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg', link:ML_LINKS.kerastase},
+  {title:'Durabilidade da Cor', desc:'O que fazer para a cor durar mais.', desc2:'Ideal para quem quer manter o tom.', lista:['Durabilidade','Cor'], img:'https://i.pinimg.com/736x/45/9c/a1/459ca1eba3cc70bc50f8414b1490a0b0.jpg', link:ML_LINKS.kerastase},
+  {title:'Lavagem', desc:'Frequência ideal e produtos recomendados.', desc2:'Ideal para manter a cor e a saúde.', lista:['Frequência','Produtos'], img:'https://i.pinimg.com/736x/cd/3c/0e/cd3c0ef3f5b2a4ec9c4e8b1e110b46ba.jpg', link:ML_LINKS.kerastase},
+  {title:'Proteção Solar', desc:'Como o sol afeta a cor e como proteger.', desc2:'Ideal para manter a cor vibrante.', lista:['Sol','Proteção'], img:'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link:ML_LINKS.kerastase}
+];
+
+/* KITS — 11 kits (6 originais + 5 novos) */
+const kitsData = [
+  {title:'Kit Kérastase', sub:'Reconstrução + Brilho', desc:'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', img:'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg', link:ML_LINKS.kerastase},
+  {title:"Kit L'Oréal Expert", sub:'Profissional', desc:'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', link:ML_LINKS.expert},
+  {title:'Kit Joico', sub:'Hidratação Intensa', desc:'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK', img:'https://i.pinimg.com/1200x/55/d6/10/55d610f599b3c10b5fe4cafceb5104fc.jpg', link:ML_LINKS.joico},
+  {title:'Kit Keune', sub:'Coloração Comercial', desc:'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor', img:'https://i.pinimg.com/736x/f9/71/b6/f971b6679e2c7fda2f777c25d6e49b66.jpg', link:ML_LINKS.keune},
+  {title:"Kit L'Oréal INOA", sub:'Coloração Técnica', desc:'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol', img:'https://i.pinimg.com/1200x/8a/c7/0e/8ac70e6de8ca914b0a3e53ff6b93a0cc.jpg', link:ML_LINKS.inoa},
+  {title:'Kit Ferramentas', sub:'Ferramentas', desc:'Secador Iônico Pro + Prancha de Titânio + Escova Rotativa', img:'https://i.pinimg.com/736x/7f/4d/8b/7f4d8b424f29dffaa67ad8856df09263.jpg', link:ML_LINKS.ferramentas},
+  {title:'Kit Davines', sub:'Linha Profissional', desc:'Kit completo Davines para tratamento e manutenção capilar.', img:'https://i.pinimg.com/1200x/89/e5/01/89e501475e7958c4a34c233162602fbf.jpg', link:ML_LINKS.davines},
+  {title:'Kit Igora Royal', sub:'Coloração Profissional', desc:'Tintas Igora Royal + oxidantes para coloração de alta performance.', img:'https://i.pinimg.com/1200x/15/c0/3a/15c03a2b953335ebf38debce86f00369.jpg', link:ML_LINKS.igora},
+  {title:'Kit Moroccanoil', sub:'Óleo e Tratamento', desc:'Óleo de argan + shampoo + condicionador para nutrição intensa.', img:'https://i.pinimg.com/1200x/e3/ab/ec/e3abec47d003544f4000d2a16c09c1df.jpg', link:ML_LINKS.moroccanoil},
+  {title:'Kit Schwarzkopf', sub:'Coloração e Cuidados', desc:'Linha profissional Schwarzkopf para coloração e manutenção.', img:'https://i.pinimg.com/1200x/0d/cc/70/0dcc7014d6f959b39b8609df422988cc.jpg', link:ML_LINKS.schwarzkopf},
+  {title:'Kit Living Proof', sub:'Tecnologia Avançada', desc:'Produtos Living Proof com tecnologia patenteada para todos os tipos de cabelo.', img:'https://i.pinimg.com/736x/a1/a3/e0/a1a3e0b869485a5888daa48d0f43d2d9.jpg', link:ML_LINKS.livingproof}
+];
+
+/* FERRAMENTAS */
+const ferramentasData = [
+  {title:'Secador Iônico Pro', sub:'Secagem Rápida', desc:'Secador com tecnologia iônica que reduz frizz.', img:'https://i.pinimg.com/736x/7f/4d/8b/7f4d8b424f29dffaa67ad8856df09263.jpg'},
+  {title:'Prancha de Titânio', sub:'Alisamento Uniforme', desc:'Placas de titânio para alta condução de calor.', img:'https://i.pinimg.com/1200x/e7/b6/e1/e7b6e1de363429ccf8f85d02f6c3abbc.jpg'},
+  {title:'Modelador de Ondas', sub:'Ondas Perfeitas', desc:'Modelador térmico para ondas marcadas.', img:'https://i.pinimg.com/736x/e5/5c/8d/e55c8d124b8fbd55f7a2a45f6a238dd7.jpg'},
+  {title:'Babyliss Cerâmica', sub:'Cachos Definidos', desc:'Modelador cilíndrico cerâmico para cachos.', img:'https://i.pinimg.com/736x/ff/a3/ae/ffa3ae40d17685e0321de9ca3e27a41d.jpg'},
+  {title:'Escova Rotativa', sub:'Modelagem e Volume', desc:'Escova de ar quente que combina secagem e modelagem.', img:'https://i.pinimg.com/736x/26/b8/ba/26b8ba113a222d08c5a7ececcf00cecf.jpg'},
+  {title:'Tesoura Profissional', sub:'Corte de Precisão', desc:'Tesoura para cortes técnicos e acabamento preciso.', img:'https://i.pinimg.com/736x/6b/05/1d/6b051d5086bf9f85682e686e181bcf10.jpg'},
+  {title:'Escova de Cerdas Naturais', sub:'Acabamento e Brilho', desc:'Cerdas naturais para pentear e distribuir oleosidade.', img:'https://i.pinimg.com/736x/32/2f/20/322f20b363ee6487911c3817f293dd21.jpg'},
+  {title:'Máquina de Corte', sub:'Degradê e Aparo', desc:'Lâmina ajustável para cortes, contornos e degradês.', img:'https://i.pinimg.com/736x/00/2b/50/002b5062b94512b47d3916ecf55212d3.jpg'},
+  {title:'Difusor Universal', sub:'Cachos sem Frizz', desc:'Acessório para secador que distribui o ar.', img:'https://i.pinimg.com/736x/de/d6/1f/ded61f2c199f9e13e40fd64d3aa51708.jpg'},
+  {title:'Escova Térmica Alisadora', sub:'Alisamento', desc:'Escova elétrica com superfície aquecida para alisar.', img:'https://i.pinimg.com/736x/fe/02/a6/fe02a6570cf649da1defec4455a46b2d.jpg'},
+  {title:'Escova Paddle', sub:'Desembaraçar', desc:'Base larga e plana para desembaraçar e alinhar.', img:'https://i.pinimg.com/1200x/49/36/a0/4936a0c18a5b237312f90b674f9b45db.jpg'},
+  {title:'Escova Térmica', sub:'Modelagem com Brilho', desc:'Escova redonda com cilindro cerâmico.', img:'https://i.pinimg.com/736x/f3/b8/14/f3b8140efec0fd25bee16ede2f9effb2.jpg'}
+];
+
+/* ============ INIT ============ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
+  renderGrid('grid-rostos', rostosData, 'Formato de Rosto', ML_LINKS.kerastase);
+  renderGrid('grid-harmonizacao', harmonizacaoData, 'Harmonização de Cores', ML_LINKS.keune);
+  renderGrid('grid-tipos', tiposData, 'Tipo de Cabelo', ML_LINKS.joico);
+  renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
+  renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
+  renderGrid('grid-tecnicas', tecnicasData, 'Técnica', ML_LINKS.inoa);
+  renderGrid('grid-tons', tonsData, 'Tom', ML_LINKS.inoa);
+  renderGrid('grid-cuidados', cuidadosData, 'Cuidado', ML_LINKS.kerastase);
+  renderGrid('grid-manutencao', manutencaoData, 'Manutenção', ML_LINKS.keune);
+  renderGrid('grid-kits', kitsData, 'Kit', null);
+  renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
+
+  /* Kits com links próprios */
+  const gridKits = document.getElementById('grid-kits');
+  if (gridKits){
+    gridKits.querySelectorAll('.card').forEach((card, i) => {
+      const item = kitsData[i];
+      if (item && item.link){
+        card.replaceWith(card.cloneNode(true));
+        const newCard = gridKits.children[i];
+        newCard.addEventListener('click', () => {
+          openModal(item.title, 'Kit', item.desc, '', [], item.link, item.img);
+        });
+      }
+    });
+  }
+
+  document.body.classList.add('app-pronta');
+  dock.style.setProperty('--i', 3);
+});
+</script>
+
+</body>
+</html>
