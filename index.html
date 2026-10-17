@@ -72,7 +72,6 @@
   .bloco-head h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.25rem;color:var(--text);white-space:nowrap;letter-spacing:-.01em}
   .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
 
-  /* GRID RESPONSIVO */
   .grid{display:grid;gap:12px}
   .grid-2{grid-template-columns:repeat(2,1fr)}
   .grid-3{grid-template-columns:repeat(3,1fr)}
@@ -141,17 +140,13 @@
   .modal-btn.secondary{background:transparent;color:var(--text-muted);border:1px solid var(--border-gold)}
   .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
 
-  /* ========== RESPONSIVO ========== */
-  
   /* MOBILE — cards menores e mais compactos */
   @media (max-width:600px){
     .grid{gap:8px}
     .grid-2, .grid-3, .grid-4{grid-template-columns:repeat(2,1fr)}
     
-    /* Tipos de cabelo: 3 colunas no mobile */
     #grid-tipos{grid-template-columns:repeat(3,1fr)}
     
-    /* Ajuste específico para os blocos que estavam muito grandes */
     #grid-harmonizacao,
     #grid-manutencao {
       grid-template-columns: repeat(3, 1fr) !important;
@@ -174,7 +169,6 @@
       display: none !important;
     }
     
-    /* Cards gerais compactos */
     .card-info{padding:8px 6px;min-height:56px;gap:2px}
     .card-nome{font-size:.68rem;line-height:1.15}
     .card-sub{font-size:.56rem;line-height:1.2}
@@ -182,12 +176,10 @@
     .card.aspect-retrato img{aspect-ratio:1/1}
     .card.aspect-vertical img{aspect-ratio:1/1}
     
-    /* Blocos mais próximos */
     .bloco{margin-bottom:36px}
     .bloco-head{margin-bottom:16px;gap:10px}
     .bloco-head h2{font-size:.95rem}
     
-    /* Título da página menor */
     .page-title{padding-top:calc(var(--header-h) + 20px);margin-bottom:18px}
     .page-title h1{font-size:1.15rem}
     .page-title .sub{font-size:.58rem}
@@ -265,6 +257,8 @@
     <button type="button" data-secao="coloracao">Coloração</button>
     <button type="button" data-secao="kits" class="ativo">Kits</button>
     <button type="button" data-secao="ferramentas">Ferramentas</button>
+    <button type="button" data-secao="sobre">Sobre</button>
+    <button type="button" data-secao="contato">Contato</button>
   </nav>
   <div class="drawer-footer">HairOS · 2026</div>
 </aside>
@@ -390,6 +384,37 @@
     <div class="grid grid-3" id="grid-ferramentas"></div>
   </section>
 
+  <!-- ============ ABA SOBRE ============ -->
+  <section class="secao" id="secao-sobre">
+    <div class="page-title">
+      <h1>Sobre</h1>
+      <span class="divider"></span>
+      <div class="sub">A ideia por trás<br><span class="highlight">do HairOS</span></div>
+    </div>
+    <div class="aviso-afiliado" style="text-align:left; max-width: 600px; line-height: 1.8;">
+      O <span class="gold">HairOS</span> nasceu de uma ideia simples: escolher um corte de cabelo não deveria ser um chute. A maioria das pessoas chega ao salão sem saber o que pedir, e sai sem saber como manter o resultado.
+      <br><br>
+      Aqui você encontra <span class="gold">cortes organizados por ângulo</span> — frente, lado e atrás — para mostrar exatamente o que quer. E para cada corte, uma seleção de <span class="gold">produtos que realmente funcionam</span> para manter o visual em casa.
+      <br><br>
+      Não vendemos produtos. Indicamos os que fazem sentido, com link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão — <span class="gold">sem nenhum custo extra para você</span>.
+      <br><br>
+      O objetivo é um só: <span class="gold">você sair do salão sabendo exatamente como manter o corte</span> até a próxima visita.
+    </div>
+  </section>
+
+  <!-- ============ ABA CONTATO ============ -->
+  <section class="secao" id="secao-contato">
+    <div class="page-title">
+      <h1>Contato</h1>
+      <span class="divider"></span>
+      <div class="sub">Fale com<br><span class="highlight">o HairOS</span></div>
+    </div>
+    <div class="aviso-afiliado" style="text-align:center; max-width: 600px;">
+      <p style="margin-bottom: 16px;">Dúvidas, sugestões de cortes, parcerias ou pedidos de kits personalizados — envie uma mensagem. Respondemos em até 24h.</p>
+      <a href="mailto:hairbymarciostylist@gmail.com" style="display:inline-block; padding:12px 24px; background:var(--gold); color:#1b1209; text-decoration:none; border-radius:8px; font-weight:600; font-size:.85rem; text-transform:uppercase; letter-spacing:.05em; transition:all .3s;">✉ Enviar E-mail</a>
+    </div>
+  </section>
+
 </main>
 
 <div class="modal-bg" id="modalBg" onclick="closeModalBg(event)">
@@ -439,7 +464,7 @@ function irParaSecao(nome){
     if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
   });
   const idx = Math.max(0, ORDEM_SECOES.indexOf(nome));
-  dock.style.setProperty('--i', idx);
+  if (idx !== -1) dock.style.setProperty('--i', idx);
   window.scrollTo({top:0, behavior:'auto'});
 }
 dockBtns.forEach(btn => btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)));
@@ -652,7 +677,7 @@ const manutencaoData = [
   {title:'Proteção Solar', desc:'Como o sol afeta a cor e como proteger.', desc2:'Ideal para manter a cor vibrante.', lista:['Sol','Proteção'], img:'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link:ML_LINKS.kerastase}
 ];
 
-/* KITS — 11 kits */
+/* KITS — 12 kits (incluindo Igora Royal) */
 const kitsData = [
   {title:'Kit Kérastase', sub:'Reconstrução + Brilho', desc:'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', img:'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg', link:ML_LINKS.kerastase},
   {title:"Kit L'Oréal Expert", sub:'Profissional', desc:'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', link:ML_LINKS.expert},
@@ -660,10 +685,11 @@ const kitsData = [
   {title:'Kit Keune', sub:'Coloração Comercial', desc:'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor', img:'https://i.pinimg.com/736x/f9/71/b6/f971b6679e2c7fda2f777c25d6e49b66.jpg', link:ML_LINKS.keune},
   {title:"Kit L'Oréal INOA", sub:'Coloração Técnica', desc:'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol', img:'https://i.pinimg.com/1200x/8a/c7/0e/8ac70e6de8ca914b0a3e53ff6b93a0cc.jpg', link:ML_LINKS.inoa},
   {title:'Kit Ferramentas', sub:'Ferramentas', desc:'Secador Iônico Pro + Prancha de Titânio + Escova Rotativa', img:'https://i.pinimg.com/736x/7f/4d/8b/7f4d8b424f29dffaa67ad8856df09263.jpg', link:ML_LINKS.ferramentas},
-  {title:'Kit Igora Royal', sub:'Coloração Profissional', desc:'Tintas Igora Royal + oxidantes para coloração de alta performance.', img:'https://i.pinimg.com/1200x/59/d8/dd/59d8dd9ea4a78fdeb7e0b420ffcdda0a.jpg', link:ML_LINKS.igora},
-  {title:'Kit Moroccanoil', sub:'Óleo e Tratamento', desc:'Óleo de argan + shampoo + condicionador para nutrição intensa.', img:'https://i.pinimg.com/1200x/e3/ab/ec/e3abec47d003544f4000d2a16c09c1df.jpg', link:ML_LINKS.moroccanoil},
-  {title:'Kit Schwarzkopf', sub:'Coloração e Cuidados', desc:'Linha profissional Schwarzkopf para coloração e manutenção.', img:'https://i.pinimg.com/1200x/0d/cc/70/0dcc7014d6f959b39b8609df422988cc.jpg', link:ML_LINKS.schwarzkopf},
-  {title:'Kit Living Proof', sub:'Tecnologia Avançada', desc:'Produtos Living Proof com tecnologia patenteada para todos os tipos de cabelo.', img:'https://i.pinimg.com/736x/a1/a3/e0/a1a3e0b869485a5888daa48d0f43d2d9.jpg', link:ML_LINKS.livingproof}
+  {title:'Kit Davines', sub:'Linha Profissional', desc:'Kit completo Davines para tratamento e manutenção capilar.', img:'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800&q=80', link:ML_LINKS.davines},
+  {title:'Kit Igora Royal', sub:'Coloração Profissional', desc:'Tintas Igora Royal + oxidantes para coloração de alta performance.', img:'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&q=80', link:ML_LINKS.igora},
+  {title:'Kit Moroccanoil', sub:'Óleo e Tratamento', desc:'Óleo de argan + shampoo + condicionador para nutrição intensa.', img:'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=800&q=80', link:ML_LINKS.moroccanoil},
+  {title:'Kit Schwarzkopf', sub:'Coloração e Cuidados', desc:'Linha profissional Schwarzkopf para coloração e manutenção.', img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&q=80', link:ML_LINKS.schwarzkopf},
+  {title:'Kit Living Proof', sub:'Tecnologia Avançada', desc:'Produtos Living Proof com tecnologia patenteada para todos os tipos de cabelo.', img:'https://images.unsplash.com/photo-1631730359585-38a4935cbec4?w=800&q=80', link:ML_LINKS.livingproof}
 ];
 
 /* FERRAMENTAS */
