@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<!-- META TAG BLINDADA CONTRA ZOOM E BOUNCE -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
 <title>HairOS — Beleza Completa</title>
@@ -27,22 +28,40 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   
-  html { height: 100%; overflow: hidden; background: var(--bg); }
+  /* ==========================================
+     CSS DE APP NATIVO
+     ========================================== */
+  html {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+  }
   body {
-    height: 100%; position: fixed; inset: 0; background: var(--bg);
-    font-family: 'Inter', sans-serif; color: var(--text);
-    -webkit-font-smoothing: antialiased; line-height: 1.65;
-    overflow: hidden; width: 100%;
+    height: 100%;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.65;
+    overflow: hidden;
+    width: 100%;
   }
   
   main.main-content {
-    position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     padding: 0 14px calc(112px + env(safe-area-inset-bottom,0px));
     padding-top: calc(var(--nav-space) + 8px);
-    max-width: 1600px; margin: 0 auto;
+    max-width: 1600px;
+    margin: 0 auto;
     transition: opacity .3s var(--ease-out);
   }
+
   main.main-content::-webkit-scrollbar { width: 0; display: none; }
   main.main-content { scrollbar-width: none; }
 
@@ -51,48 +70,101 @@
   @keyframes fadeSection{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @keyframes sheetIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-  /* HEADER */
+  /* ==========================================
+     HEADER UNIFICADO
+     ========================================== */
   .header-unificado{
-    position:fixed; top:calc(env(safe-area-inset-top,0px) + 12px);
-    left:0; right:0; margin-inline:auto; width:min(calc(100% - 28px), 560px);
+    position:fixed;
+    top:calc(env(safe-area-inset-top,0px) + 12px);
+    left:0; right:0; margin-inline:auto;
+    width:min(calc(100% - 28px), 560px);
     background:rgba(26,22,18,.66);
-    backdrop-filter:blur(22px) saturate(170%); -webkit-backdrop-filter:blur(22px) saturate(170%);
-    border:1px solid var(--border-gold); border-radius:28px;
-    z-index:900; display:flex; flex-direction:column;
+    backdrop-filter:blur(22px) saturate(170%);
+    -webkit-backdrop-filter:blur(22px) saturate(170%);
+    border:1px solid var(--border-gold);
+    border-radius:28px;
+    z-index:900;
+    display:flex; flex-direction:column;
     box-shadow:0 12px 32px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,240,210,.06);
     opacity:0; transform:translateY(-16px);
     transition:transform .55s var(--ease-out), opacity .4s var(--ease-out);
   }
   body.app-pronta .header-unificado{opacity:1; transform:none;}
-  .header-top{height:56px; padding:0 16px 0 22px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+
+  .header-top{
+    height:56px; padding:0 16px 0 22px;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px;
+  }
   .brand{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1;cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;padding:0}
   .brand-h{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:-.03em;text-shadow:0 0 8px rgba(237,212,172,.4),0 0 18px rgba(206,175,132,.2)}
   .brand-rest{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--text-sec);line-height:1;letter-spacing:.01em}
+  
   .menu-btn{width:40px;height:40px;border-radius:50%;background:transparent;border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui)}
   .menu-btn:hover{background:rgba(217,187,144,.08);border-color:var(--gold)}
   .menu-btn .bar{display:block;width:18px;height:1.5px;background:currentColor;border-radius:2px;transition:var(--tr-ui)}
   .menu-btn .bar + .bar{margin-top:4px}
-  .busca-wrap{padding:0 12px 12px 12px; position:relative;}
+
+  .busca-wrap{
+    padding:0 12px 12px 12px; position:relative;
+  }
   .busca-wrap::before{
     content:'';position:absolute;left:28px;top:calc(50% - 6px);transform:translateY(-50%);
     width:16px;height:16px;pointer-events:none;opacity:.6;
     background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a89e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   }
-  .busca-input{width:100%;height:42px;padding:0 40px 0 42px;background:rgba(0,0,0,.25);border:1px solid transparent;border-radius:999px;color:var(--text);font-family:'Inter',sans-serif;font-size:.86rem;font-weight:400;transition:var(--tr-ui);-webkit-appearance:none;appearance:none;}
+  .busca-input{
+    width:100%;height:42px;padding:0 40px 0 42px;
+    background:rgba(0,0,0,.25);
+    border:1px solid transparent; border-radius:999px;
+    color:var(--text);font-family:'Inter',sans-serif;
+    font-size:.86rem;font-weight:400;
+    transition:var(--tr-ui);-webkit-appearance:none;appearance:none;
+  }
   .busca-input::placeholder{color:var(--text-muted);font-weight:300}
-  .busca-input:focus{outline:none;border-color:var(--border-gold);background:rgba(0,0,0,.45);box-shadow:inset 0 2px 6px rgba(0,0,0,.4);}
+  .busca-input:focus{
+    outline:none; border-color:var(--border-gold);
+    background:rgba(0,0,0,.45);
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.4);
+  }
   .busca-input::-webkit-search-cancel-button{-webkit-appearance:none;display:none;}
-  .busca-clear{position:absolute;right:22px;top:calc(50% - 6px);transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:rgba(217,187,144,.15);border:none;color:var(--gold-light);font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui);}
+  
+  .busca-clear{
+    position:absolute;right:22px;top:calc(50% - 6px);transform:translateY(-50%);
+    width:24px;height:24px;border-radius:50%;
+    background:rgba(217,187,144,.15); border:none;
+    color:var(--gold-light);font-size:.7rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    padding:0;transition:var(--tr-ui);
+  }
   .busca-clear:hover{background:rgba(184,58,74,.4);color:#f5c8ce}
-  .busca-sugestoes{position:absolute;top:100%;left:0;right:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-height:0;overflow:hidden;opacity:0;transition:max-height .4s var(--ease-out),opacity .3s var(--ease-out),padding .3s var(--ease-out);padding:0 12px;}
-  body.buscando .busca-sugestoes,.busca-sugestoes.visivel{max-height:200px;opacity:1;padding:12px;}
-  .busca-chip{padding:6px 12px;border-radius:999px;background:rgba(26,22,18,.92);border:1px solid var(--border-gold);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--gold-light);font-family:inherit;font-size:.7rem;font-weight:500;cursor:pointer;transition:var(--tr-ui);letter-spacing:.02em;box-shadow:0 6px 16px rgba(0,0,0,.4);}
-  .busca-chip:hover{background:rgba(217,187,144,.16);color:var(--gold-hi);border-color:var(--gold)}
-  .busca-chip:active{transform:scale(.96)}
-  .busca-chip-limpar{background:transparent;border-style:dashed;color:var(--text-muted);font-style:italic;box-shadow:none}
-  .busca-chip-limpar:hover{color:#e8a0a8;border-color:rgba(184,58,74,.55);background:rgba(120,25,35,.15)}
 
-  /* DRAWER */
+  .busca-sugestoes{
+    position:absolute; top:100%; left:0; right:0;
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .4s var(--ease-out), opacity .3s var(--ease-out), padding .3s var(--ease-out);
+    padding:0 12px;
+  }
+  body.buscando .busca-sugestoes,
+  .busca-sugestoes.visivel{ max-height:200px; opacity:1; padding:12px; }
+  
+  .busca-chip{
+    padding:6px 12px; border-radius:999px;
+    background:rgba(26,22,18,.92); border:1px solid var(--border-gold);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    color:var(--gold-light); font-family:inherit; font-size:.7rem; font-weight:500;
+    cursor:pointer; transition:var(--tr-ui); letter-spacing:.02em;
+    box-shadow:0 6px 16px rgba(0,0,0,.4);
+  }
+  .busca-chip:hover{background:rgba(217,187,144,.16); color:var(--gold-hi); border-color:var(--gold)}
+  .busca-chip:active{transform:scale(.96)}
+  .busca-chip-limpar{background:transparent; border-style:dashed; color:var(--text-muted); font-style:italic; box-shadow:none}
+  .busca-chip-limpar:hover{color:#e8a0a8; border-color:rgba(184,58,74,.55); background:rgba(120,25,35,.15)}
+
+  /* ==========================================
+     DRAWER (Menu Hambúrguer com PIX)
+     ========================================== */
   .drawer-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:950;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
   .drawer-overlay.ativo{opacity:1;visibility:visible}
   .drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);background:var(--bg-card);border-left:1px solid var(--border-gold);z-index:960;transform:translateX(100%);transition:transform .45s var(--ease-luxury);display:flex;flex-direction:column;padding:24px 0;overflow-y:auto;box-shadow:-18px 0 44px rgba(0,0,0,.5)}
@@ -108,16 +180,31 @@
   .drawer-nav button:last-child{border-bottom:none}
   .drawer-nav button:hover{background:rgba(217,187,144,.05);color:var(--gold);padding-left:30px}
   .drawer-nav button.ativo{color:var(--gold)}
-  .drawer-contribuir{margin:24px;padding:20px;background:var(--bg-elevated);border:1px solid var(--border-gold);border-radius:12px;text-align:center;}
-  .drawer-contribuir h3{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--gold);margin-bottom:8px;}
-  .drawer-contribuir p{font-size:0.75rem;color:var(--text-sec);line-height:1.5;margin-bottom:16px;font-weight:300;}
-  .pix-box{background:rgba(0,0,0,.3);padding:12px;border-radius:8px;border:1px dashed var(--border-gold);display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  .pix-box span{font-family:monospace;font-size:0.75rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .btn-copiar{background:var(--gold);color:#1b1209;border:none;padding:6px 10px;border-radius:6px;font-size:0.65rem;font-weight:600;cursor:pointer;transition:var(--tr-ui);}
-  .btn-copiar:hover{background:var(--gold-light);}
+  
+  /* Bloco Sobre e PIX */
+  .drawer-contribuir {
+    margin: 24px;
+    padding: 20px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-gold);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .drawer-contribuir h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); margin-bottom: 8px; }
+  .drawer-contribuir p { font-size: 0.75rem; color: var(--text-sec); line-height: 1.5; margin-bottom: 16px; font-weight: 300; }
+  .pix-box {
+    background: rgba(0,0,0,.3); padding: 12px; border-radius: 8px; border: 1px dashed var(--border-gold);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .pix-box span { font-family: monospace; font-size: 0.75rem; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .btn-copiar { background: var(--gold); color: #1b1209; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: var(--tr-ui); }
+  .btn-copiar:hover { background: var(--gold-light); }
+  
   .drawer-footer{margin-top:auto;padding:24px;font-size:.62rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
 
-  /* SHEET */
+  /* ==========================================
+     BOTTOM SHEET (Menu Mais)
+     ========================================== */
   .sheet-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:970;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
   .sheet-overlay.ativo{opacity:1;visibility:visible}
   .sheet{position:fixed;bottom:0;left:0;right:0;margin-inline:auto;width:min(100%, 560px);background:var(--bg-card);border:1px solid var(--border-gold);border-bottom:none;border-radius:24px 24px 0 0;z-index:980;transform:translateY(100%);transition:transform .4s var(--ease-luxury);padding:12px 24px calc(24px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.5)}
@@ -131,7 +218,9 @@
   .sheet-btn span{font-size:.75rem;font-weight:500;letter-spacing:.02em}
   .sheet-btn.ativo{background:rgba(217,187,144,.15);border-color:var(--gold);color:var(--gold)}
 
-  /* CONTEÚDO */
+  /* ==========================================
+     CONTEÚDO E GRIDS
+     ========================================== */
   .secao{display:none;animation:fadeSection .4s var(--ease-out)}
   .secao.ativa{display:block}
   .page-title{text-align:center;padding:0 16px 8px;margin-bottom:24px}
@@ -139,61 +228,142 @@
   .page-title .divider{display:block;width:20px;height:1px;margin:18px auto 14px;background:var(--border-gold)}
   .page-title .sub{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:300;line-height:1.9}
   .page-title .sub .highlight{color:var(--gold);font-weight:400}
+
   .bloco{margin-bottom:56px}
   .bloco-head{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:0 4px}
   .bloco-head h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.25rem;color:var(--text);white-space:nowrap;letter-spacing:-.01em}
   .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
 
-  /* ==========================================
-     GRIDS UNIVERSAIS — 2 MOBILE / 3 TABLET / 4 DESKTOP
-     ========================================== */
-  .grid{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
-  .mini-grid{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
-  .editorial-scroll{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
+  .grid{display:grid;gap:16px} /* Aumentei o gap para respirar */
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
 
-  .card{position:relative;display:block;width:100%;cursor:pointer;padding:1.5px;background:var(--gold-grad);border-radius:calc(var(--radius) + 1.5px);box-shadow:0 0 10px rgba(217,187,144,.08);transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);-webkit-tap-highlight-color:transparent;animation:fadeInUp .55s var(--ease-out) backwards;text-align:left;border:none;font-family:inherit;color:inherit}
-  .card:focus-visible{outline:2px solid rgba(253,241,212,.7);outline-offset:4px}
-  .card .card-inner{border-radius:var(--radius);overflow:hidden;background:var(--bg-card);display:block;position:relative}
-  .card img{width:100%;display:block;object-fit:cover;object-position:center top;background:var(--bg-elevated);transition:transform .8s var(--ease-out);aspect-ratio:1/1}
-  .card.aspect-retrato img{aspect-ratio:3/4}
-  .card.aspect-vertical img{aspect-ratio:4/5}
-  .card-info{padding:12px 10px;text-align:center;background:var(--bg-card);display:flex;flex-direction:column;align-items:center;gap:4px;min-height:70px;justify-content:center}
-  .card-nome{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;font-weight:600;color:var(--gold-light);letter-spacing:.01em;line-height:1.2}
-  .card-sub{font-size:.68rem;color:var(--text-muted);font-weight:300;line-height:1.35}
-  .card-nome mark{background:rgba(217,187,144,.22);color:var(--gold-hi);padding:0 2px;border-radius:2px;font-weight:700}
-  .card-badge{position:absolute;top:8px;left:8px;z-index:2;padding:3px 8px;border-radius:999px;background:rgba(10,8,8,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--border-gold);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:500;line-height:1.4}
-  
-  @media (hover:hover){
-    .card:hover,.card:focus-within{transform:translateY(-3px);box-shadow:0 0 12px rgba(253,241,212,.12),0 0 22px rgba(217,187,144,.07),0 16px 30px rgba(0,0,0,.42);z-index:10}
-    .card:hover img{transform:scale(1.035)}
+  /* ==========================================
+     CARD ESTILO PORTFÓLIO (TEXTO FORA)
+     ========================================== */
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    cursor: pointer;
+    background: transparent; /* Sem fundo, o texto flutua */
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    transition: transform .3s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    animation: fadeInUp .55s var(--ease-out) backwards;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
   }
-  .card:active{transform:scale(.985);transition-duration:.18s}
+
+  .card:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
+
+  /* Imagem Porta-Retrato 2:3 */
+  .card-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3; /* Padrão Ouro */
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-elevated);
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    border: 1px solid rgba(255,255,255,.05);
+    transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
+  }
+  
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform .8s var(--ease-out);
+    display: block;
+  }
+
+  /* Efeitos Hover */
+  @media (hover:hover) {
+    .card:hover { transform: translateY(-4px); }
+    .card:hover .card-img-wrap { border-color: var(--border-gold); box-shadow: 0 12px 32px rgba(0,0,0,.6); }
+    .card:hover img { transform: scale(1.04); }
+  }
+  .card:active .card-img-wrap { transform: scale(.98); }
+
+  /* Badge (Categoria ou Selo) */
+  .card-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 2;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(10,8,8,.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-gold);
+    font-size: .52rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Texto Fora do Card (Editorial) */
+  .card-text-wrap {
+    padding: 10px 2px 0 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .card-nome {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-sub {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-nome mark{background:rgba(217,187,144,.22);color:var(--gold-hi);padding:0 2px;border-radius:2px;font-weight:700}
 
   .aviso-afiliado{max-width:720px;margin:0 auto 32px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);font-size:.74rem;color:var(--text-muted);font-weight:300;text-align:center;line-height:1.6}
   .aviso-afiliado .gold{color:var(--gold);font-weight:400}
 
-  /* VISAGISMO */
-  .visagismo-container { display: flex; flex-direction: column; gap: 32px; width: 100%; }
-  .visagismo-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0; }
-  .visagismo-btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 8px; padding: 16px 8px;
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); cursor: pointer;
-    color: var(--text-muted); transition: var(--tr-ui);
-  }
-  .visagismo-btn svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; transition: var(--tr-ui); }
-  .visagismo-btn span { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
-  .visagismo-btn.ativo { color: var(--gold); border-color: var(--gold); background: rgba(217,187,144,.08); }
-  .visagismo-btn:hover { border-color: var(--border-gold); background: rgba(217,187,144,.04); }
+  /* ==========================================
+     VISAGISMO (EDITORIAL)
+     ========================================== */
+  .visagismo-container { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  .visagismo-nav { display: flex; gap: 12px; overflow-x: auto; padding: 4px 4px 16px 4px; scrollbar-width: none; -ms-overflow-style: none; }
+  .visagismo-nav::-webkit-scrollbar { display: none; }
+  .visagismo-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-muted); transition: var(--tr-ui); flex-shrink: 0; }
+  .visagismo-btn svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; padding: 8px; border-radius: 50%; border: 1px solid transparent; transition: var(--tr-ui); }
+  .visagismo-btn span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+  .visagismo-btn.ativo { color: var(--gold); }
+  .visagismo-btn.ativo svg { border-color: var(--border-gold); background: rgba(217,187,144,.08); box-shadow: 0 0 12px rgba(217,187,144,.15); }
 
-  .visagismo-painel {
-    background: var(--bg-card); border: 1px solid var(--border-gold);
-    border-radius: var(--radius); overflow: hidden;
-    animation: fadeInUp .4s var(--ease-out);
-    display: grid; grid-template-columns: 1fr;
-  }
-  .visagismo-painel img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); cursor: zoom-in; }
+  .visagismo-painel { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); overflow: hidden; animation: fadeInUp .4s var(--ease-out); }
+  .visagismo-painel img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); cursor: zoom-in; }
   .visagismo-painel-txt { padding: 20px; }
   .visagismo-painel-txt h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 6px; }
   .visagismo-painel-txt p { font-size: 0.85rem; color: var(--text-sec); line-height: 1.5; font-weight: 300; margin-bottom: 12px; }
@@ -201,19 +371,37 @@
   .btn-link { display: inline-block; margin-top: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(217,187,144,.1); border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; font-weight: 600; transition: var(--tr-ui); }
   .btn-link:hover { background: rgba(217,187,144,.2); color: var(--gold-hi); }
 
-  .cores-nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+  .cores-nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
   .cor-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: var(--tr-ui); box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .cor-btn.ativo { border-color: var(--gold); transform: scale(1.1); }
   .paleta-resultado { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 20px; text-align: center; }
   .paleta-titulo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); margin-bottom: 16px; }
-  .paleta-swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-  .swatch-card { width: 100%; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; }
+  
+  /* Paleta com Imagens */
+  .paleta-swatches { 
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; 
+  }
+  .swatch-card { 
+    width: 80px; border-radius: 10px; overflow: hidden; 
+    background: var(--bg-elevated); border: 2px solid transparent;
+    cursor: pointer; transition: transform 0.3s, border-color 0.3s;
+  }
   .swatch-card:hover { transform: translateY(-3px); }
   .swatch-card.ativo { border-color: var(--gold); box-shadow: 0 4px 12px rgba(217,187,144,.3); }
-  .swatch-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
-  .swatch-card-info { padding: 8px 4px; text-align: center; background: var(--bg-card); }
-  .swatch-card-cor { width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 1px solid rgba(255,255,255,.2); }
-  .swatch-card-info span { display: block; font-size: 0.6rem; color: var(--text-sec); line-height: 1.2; font-weight: 500; }
+  
+  .swatch-card img { 
+    width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; 
+  }
+  .swatch-card-info { 
+    padding: 6px; text-align: center; background: var(--bg-card);
+  }
+  .swatch-card-cor { 
+    width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 1px solid rgba(255,255,255,.2);
+  }
+  .swatch-card-info span { 
+    display: block; font-size: 0.55rem; color: var(--text-sec); line-height: 1.2; font-weight: 500;
+  }
+
   .paleta-resultado p { font-size: 0.85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; }
 
   .acordeao { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-card); }
@@ -225,28 +413,50 @@
   .acordeao-header::after { content: '+'; font-size: 1.2rem; transition: transform .3s; }
   .acordeao-header.active::after { content: '−'; transform: rotate(180deg); }
   .acordeao-body { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease-out); background: rgba(0,0,0,.2); }
-  .acordeao-body-inner {
-    padding: 0 20px 20px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .mini-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; }
-  .mini-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+  .acordeao-body-inner { padding: 0 20px 20px; display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; }
+  .acordeao-body-inner::-webkit-scrollbar { display: none; }
+  .mini-card { flex: 0 0 140px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; }
+  .mini-card img { width: 100%; height: 120px; object-fit: cover; }
   .mini-card-txt { padding: 10px; text-align: center; }
   .mini-card-txt strong { display: block; font-size: 0.8rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
   .mini-card-txt span { font-size: 0.65rem; color: var(--text-muted); }
 
-  /* COLORAÇÃO / MAQUIAGEM */
-  .col-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; -ms-overflow-style: none; margin-bottom: 16px; }
+  /* ==========================================
+     COLORAÇÃO / MAQUIAGEM / KITS (MAGAZINE)
+     ========================================== */
+  .col-tabs {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px;
+    scrollbar-width: none; -ms-overflow-style: none; margin-bottom: 16px;
+  }
   .col-tabs::-webkit-scrollbar { display: none; }
-  .col-tab { background: transparent; border: 1px solid var(--border-gold); color: var(--text-muted); padding: 8px 16px; border-radius: 999px; font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: var(--tr-ui); white-space: nowrap; }
+  .col-tab {
+    background: transparent; border: 1px solid var(--border-gold);
+    color: var(--text-muted); padding: 8px 16px; border-radius: 999px;
+    font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: var(--tr-ui);
+    white-space: nowrap;
+  }
   .col-tab.ativo { background: var(--gold); color: #1b1209; border-color: var(--gold); font-weight: 600; }
-  .col-display { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; animation: fadeInUp .4s var(--ease-out); }
-  .col-display img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); transition: opacity 0.3s; }
-  .col-paleta { display: flex; justify-content: center; gap: 12px; padding: 16px; overflow-x: auto; scrollbar-width: none; }
+
+  .col-display {
+    background: var(--bg-card); border: 1px solid var(--border-gold);
+    border-radius: var(--radius); overflow: hidden; margin-bottom: 24px;
+    animation: fadeInUp .4s var(--ease-out);
+  }
+  .col-display img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top;
+    border-bottom: 1px solid var(--border); transition: opacity 0.3s;
+  }
+  .col-paleta {
+    display: flex; justify-content: center; gap: 12px; padding: 16px;
+    overflow-x: auto; scrollbar-width: none;
+  }
   .col-paleta::-webkit-scrollbar { display: none; }
-  .col-swatch { width: 44px; height: 44px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .col-swatch {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid transparent; cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+    flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
   .col-swatch:hover { transform: scale(1.1); }
   .col-swatch.ativo { border-color: var(--gold); transform: scale(1.15); }
   .col-info { padding: 0 20px 20px; text-align: center; }
@@ -254,57 +464,92 @@
   .col-info p { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
   .col-info .btn-link { margin-top: 12px; }
 
-  /* EDITORIAL */
+  /* Carrossel Editorial (Técnicas, Noivas, Acessórios) */
+  .editorial-scroll {
+    display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+  }
+  .editorial-scroll::-webkit-scrollbar { display: none; }
   .editorial-card {
-    background: var(--bg-card); border: 1px solid var(--border-gold);
-    border-radius: var(--radius); overflow: hidden; cursor: pointer;
-    transition: transform .3s var(--ease-out);
-    width: 100%;
+    flex: 0 0 200px; scroll-snap-align: start;
+    background: transparent; border: none; padding: 0;
+    cursor: pointer; transition: transform .3s var(--ease-out);
+    display: flex; flex-direction: column;
   }
   .editorial-card:hover { transform: translateY(-4px); }
-  .editorial-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-bottom: 1px solid var(--border); display: block; }
-  .editorial-card-txt { padding: 14px; }
-  .editorial-card-txt h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-light); font-size: 1rem; margin-bottom: 4px; }
-  .editorial-card-txt p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
+  .editorial-card .card-img-wrap { aspect-ratio: 2/3; } /* Força o padrão */
+  .editorial-card-txt { padding: 10px 2px; text-align: left; }
+  .editorial-card-txt h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-light); font-size: 0.9rem; margin-bottom: 4px; }
+  .editorial-card-txt p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
 
-  /* MINI GRID */
+  /* Cuidados e Manutenção (Mini Cards) */
+  .mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .mini-card-editorial {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
-    overflow: hidden; cursor: pointer; transition: var(--tr-ui);
+    background: transparent; border: none; padding: 0;
+    cursor: pointer; transition: var(--tr-ui); display: flex; flex-direction: column;
   }
-  .mini-card-editorial:hover { border-color: var(--border-gold); }
-  .mini-card-editorial img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
-  .mini-card-editorial-txt { padding: 10px; text-align: center; }
-  .mini-card-editorial-txt strong { display: block; font-size: 0.75rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
-  .mini-card-editorial-txt span { font-size: 0.6rem; color: var(--text-muted); }
+  .mini-card-editorial .card-img-wrap { aspect-ratio: 2/3; }
+  .mini-card-editorial-txt { padding: 8px 2px; text-align: left; }
+  .mini-card-editorial-txt strong { display: block; font-size: 0.8rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
+  .mini-card-editorial-txt span { font-size: 0.65rem; color: var(--text-muted); }
 
-  /* ZOOM EDITORIAL */
-  .zoom-bg { position: fixed; inset: 0; background: rgba(10,8,8,.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .35s var(--ease-out), visibility .35s; padding: 20px; }
+  /* ==========================================
+     ZOOM EDITORIAL (IMAGEM + TEXTO + PRODUTOS)
+     ========================================== */
+  .zoom-bg {
+    position: fixed; inset: 0; background: rgba(10,8,8,.95);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    z-index: 1100; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: opacity .35s var(--ease-out), visibility .35s;
+    padding: 20px;
+  }
   .zoom-bg.on { opacity: 1; visibility: visible; }
-  .zoom-content { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 16px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(.95); transition: transform .4s var(--ease-luxury); box-shadow: 0 20px 60px rgba(0,0,0,.8); }
+  
+  .zoom-content {
+    background: var(--bg-card); border: 1px solid var(--border-gold);
+    border-radius: 16px; max-width: 500px; width: 100%; max-height: 90vh;
+    overflow-y: auto; position: relative; transform: scale(.95);
+    transition: transform .4s var(--ease-luxury);
+    box-shadow: 0 20px 60px rgba(0,0,0,.8);
+  }
   .zoom-bg.on .zoom-content { transform: scale(1); }
+  
   .zoom-content::-webkit-scrollbar { width: 0; display: none; }
   .zoom-content { scrollbar-width: none; }
+
   .zoom-img-wrap { width: 100%; position: relative; background: var(--bg-elevated); border-radius: 16px 16px 0 0; overflow: hidden; }
   .zoom-img-wrap img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+
   .zoom-text-wrap { padding: 24px; text-align: center; }
   .zoom-text-wrap h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: var(--gold); margin-bottom: 8px; }
   .zoom-text-wrap .zoom-cat { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 16px; display: block; }
   .zoom-text-wrap p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; font-weight: 300; margin-bottom: 20px; }
+  
   .btn-produto { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 10px; background: var(--gold); color: #1b1209; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; text-decoration: none; transition: var(--tr-ui); margin-bottom: 24px; }
   .btn-produto:hover { background: var(--gold-light); transform: translateY(-2px); }
+
   .zoom-sugestoes { border-top: 1px solid var(--border); padding-top: 20px; text-align: left; }
   .zoom-sugestoes h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
   .zoom-mini-kits { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 8px; }
   .zoom-mini-kits::-webkit-scrollbar { display: none; }
   .zoom-mini-kit { flex: 0 0 90px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: var(--tr-ui); }
   .zoom-mini-kit:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .zoom-mini-kit img { width: 100%; aspect-ratio: 1; object-fit: cover; border-bottom: 1px solid var(--border); display: block; }
+  .zoom-mini-kit img { width: 100%; aspect-ratio: 1; object-fit: cover; border-bottom: 1px solid var(--border); }
   .zoom-mini-kit span { display: block; padding: 8px 4px; text-align: center; font-size: 0.55rem; color: var(--gold-light); font-weight: 500; line-height: 1.2; }
-  .zoom-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(120,25,35,.75); border: 1px solid rgba(184,58,74,.55); color: #e8a0a8; cursor: pointer; font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0; transition: var(--tr-ui); z-index: 5; backdrop-filter: blur(8px); }
+
+  .zoom-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(120,25,35,.75); border: 1px solid rgba(184,58,74,.55);
+    color: #e8a0a8; cursor: pointer; font-size: 1rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+    transition: var(--tr-ui); z-index: 5; backdrop-filter: blur(8px);
+  }
   .zoom-close:hover { background: rgba(150,35,48,.9); color: #f5c8ce; transform: scale(1.08); }
 
-  /* MODAL CORTES */
+  /* ==========================================
+     MODAL DE CORTES/NOIVAS
+     ========================================== */
   .corte-carrossel-wrapper { position: relative; width: 100%; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
   .corte-carrossel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; gap: 6px; border-radius: 10px; }
   .corte-carrossel::-webkit-scrollbar { display: none; }
@@ -316,7 +561,9 @@
   .corte-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-gold); transition: background .3s, transform .3s; cursor: pointer; }
   .corte-dot.ativo { background: var(--gold); transform: scale(1.3); }
   
-  /* MODAL PADRÃO */
+  /* ==========================================
+     MODAL PADRÃO
+     ========================================== */
   .modal-bg{position:fixed;inset:0;background:rgba(10,8,8,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;transition:opacity .35s var(--ease-out)}
   .modal-bg.on{display:flex;opacity:1}
   .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:16px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
@@ -342,7 +589,9 @@
   .modal-btn.secondary{background:transparent;color:var(--text-muted);border:1px solid var(--border-gold)}
   .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
 
-  /* DOCK */
+  /* ==========================================
+     DOCK (5 Abas)
+     ========================================== */
   .dock{position:fixed;left:0;right:0;margin-inline:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(calc(100% - 28px),500px);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:999px;--i:0;background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);z-index:900;opacity:0;transform:translateY(16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
   body.app-pronta .dock{opacity:1;transform:none}
   .dock-ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px) / 5);border-radius:999px;background:rgba(217,187,144,.13);border:1px solid rgba(217,187,144,.22);transform:translateX(calc(var(--i) * 100%));transition:transform .55s var(--ease-out);pointer-events:none}
@@ -353,7 +602,9 @@
   .dock-btn.ativo svg{transform:translateY(-1px)}
   .dock-btn:active{transform:scale(.94)}
 
-  /* BUSCA */
+  /* ==========================================
+     ESTADOS DE BUSCA
+     ========================================== */
   body.buscando main.main-content > .secao:not(#secao-busca){display:none}
   body.buscando #secao-busca{display:block;animation:fadeSection .35s var(--ease-out)}
   #secao-busca{display:none}
@@ -364,7 +615,7 @@
   .busca-vazia .gold{color:var(--gold)}
 
   /* ==========================================
-     RESPONSIVO — GRIDS 2 / 3 / 4
+     RESPONSIVO
      ========================================== */
   @media (max-width:600px){
     :root{ --header-h:104px; }
@@ -374,13 +625,14 @@
     .busca-wrap::before{left:24px;width:15px;height:15px}
     .busca-input{height:38px;font-size:.82rem;padding:0 36px 0 38px}
     .busca-clear{right:18px;width:22px;height:22px}
-    .grid, .mini-grid, .editorial-scroll{gap:8px}
-    .card-info{padding:8px 6px;min-height:56px;gap:2px}
-    .card-nome{font-size:.68rem;line-height:1.15}
-    .card-sub{font-size:.56rem;line-height:1.2}
-    .card img{aspect-ratio:1/1}
-    .card.aspect-retrato img{aspect-ratio:1/1}
-    .card.aspect-vertical img{aspect-ratio:1/1}
+    
+    .grid{gap:12px}
+    .grid-2, .grid-3, .grid-4{grid-template-columns:repeat(2,1fr)}
+    #grid-tipos{grid-template-columns:repeat(3,1fr)}
+    
+    /* No mobile, garante 2:3 */
+    .card-img-wrap { aspect-ratio: 2/3; } 
+    
     .bloco{margin-bottom:36px}
     .bloco-head{margin-bottom:16px;gap:10px}
     .bloco-head h2{font-size:.95rem}
@@ -389,49 +641,31 @@
     .card-badge{font-size:.46rem;padding:2px 6px;top:6px;left:6px}
     .dock-btn span{font-size:.5rem}
     .dock-btn svg{width:16px;height:16px}
-    .visagismo-btn svg { width: 32px; height: 32px; }
-    .visagismo-btn span { font-size: 0.6rem; }
-    .visagismo-btn { padding: 12px 6px; }
-    .visagismo-painel img { aspect-ratio: 4/3; }
+    .visagismo-btn svg { width: 40px; height: 40px; }
+    .visagismo-btn span { font-size: 0.55rem; }
     .cor-btn { width: 36px; height: 36px; }
-    .swatch-card-info span { font-size: 0.55rem; }
-    .editorial-card-txt { padding: 10px; }
-    .editorial-card-txt h4 { font-size: 0.85rem; }
-    .editorial-card-txt p { font-size: 0.65rem; }
-    .mini-card-editorial-txt { padding: 8px 4px; }
-    .mini-card-editorial-txt strong { font-size: 0.68rem; }
-    .mini-card-editorial-txt span { font-size: 0.55rem; }
-    .acordeao-body-inner { padding: 0 14px 16px; gap: 8px; }
-    .mini-card img { height: 100px; }
+    
+    .editorial-card { flex: 0 0 160px; }
+    .mini-grid { gap: 12px; }
+    .swatch-card { width: 68px; }
+    
+    .card-nome { font-size: 0.8rem; }
+    .card-sub { font-size: 0.65rem; }
   }
-
-  /* TABLET (601–1023px): 3 colunas em TODOS os grids */
-  @media (min-width:601px) and (max-width:1023px){
-    .grid,
-    .mini-grid,
-    .editorial-scroll,
-    .visagismo-nav,
-    .paleta-swatches,
-    .acordeao-body-inner {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .visagismo-painel { grid-template-columns: 1fr 1fr; }
-    .visagismo-painel img { aspect-ratio: auto; height: 100%; border-bottom: none; border-right: 1px solid var(--border); }
+  @media (min-width:601px) and (max-width:899px){
+    .grid-3, .grid-4{grid-template-columns:repeat(3,1fr)}
+    #grid-tipos{grid-template-columns:repeat(4,1fr)}
   }
-
-  /* DESKTOP (1024px+): 4 colunas em TODOS os grids */
-  @media (min-width:1024px){
-    .grid,
-    .mini-grid,
-    .editorial-scroll,
-    .visagismo-nav,
-    .paleta-swatches,
-    .acordeao-body-inner {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .visagismo-painel { grid-template-columns: 1fr 2fr; }
+  @media (min-width:900px){
+    .grid-3{grid-template-columns:repeat(4,1fr)}
+    .grid-4{grid-template-columns:repeat(5,1fr)}
+    #grid-tipos{grid-template-columns:repeat(6,1fr)}
   }
-
+  @media (min-width:1200px){
+    .grid-3{grid-template-columns:repeat(5,1fr)}
+    .grid-4{grid-template-columns:repeat(6,1fr)}
+    #grid-tipos{grid-template-columns:repeat(6,1fr)}
+  }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
   }
@@ -482,6 +716,7 @@
   </button>
 </nav>
 
+<!-- MENU DRAWER (Hambúrguer) -->
 <div class="drawer-overlay" id="drawerOverlay" hidden></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer-header">
@@ -497,6 +732,8 @@
     <button type="button" data-secao="kits" class="ativo">Kits & Acessórios</button>
     <button type="button" data-secao="ferramentas">Ferramentas</button>
   </nav>
+  
+  <!-- CONTRIBUIÇÃO VIA PIX -->
   <div class="drawer-contribuir">
     <h3>Apoie o HairOS</h3>
     <p>Este app é feito com carinho para você. Se ele te ajudou, considere apoiar o projeto com qualquer valor via PIX.</p>
@@ -505,14 +742,18 @@
       <button class="btn-copiar" onclick="copiarPix()">Copiar</button>
     </div>
   </div>
+  
   <div class="drawer-footer">HairOS · 2026</div>
 </aside>
 
+<!-- BOTTOM SHEET (Menu Mais) -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheet()"></div>
 <div class="sheet" id="sheet">
   <div class="sheet-handle"></div>
   <h3 class="sheet-title">Mais Opções</h3>
-  <div class="sheet-nav" id="sheetNav"></div>
+  <div class="sheet-nav" id="sheetNav">
+    <!-- Injetado via JS -->
+  </div>
 </div>
 
 <main class="main-content" id="mainContent">
@@ -522,19 +763,18 @@
       <h1>Cortes</h1><span class="divider"></span>
       <div class="sub">Inspire-se com cortes femininos<br><span class="highlight">em 3 ângulos</span></div>
     </div>
-    <div class="grid" id="grid-cortes"></div>
+    <div class="grid grid-3" id="grid-cortes"></div>
   </section>
 
+  <!-- VISAGISMO -->
   <section class="secao" id="secao-visagismo">
     <div class="page-title">
       <h1>Visagismo</h1><span class="divider"></span>
       <div class="sub">Descubra o que valoriza você<br><span class="highlight">de forma interativa</span></div>
     </div>
 
-    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
-
     <div class="visagismo-container">
-      <div class="bloco">
+      <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Formatos de Rosto</h2><div class="linha"></div></div>
         <div class="visagismo-nav" id="visagismoNav">
           <button class="visagismo-btn" data-formato="oval"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="7" ry="9"/></svg><span>Oval</span></button>
@@ -544,10 +784,10 @@
           <button class="visagismo-btn" data-formato="diamante"><svg viewBox="0 0 24 24"><path d="M12 2 L 20 12 L 12 22 L 4 12 Z"/></svg><span>Diamante</span></button>
           <button class="visagismo-btn" data-formato="triangular"><svg viewBox="0 0 24 24"><path d="M4 4 L 20 4 L 12 20 Z"/></svg><span>Triangular</span></button>
         </div>
-        <div class="visagismo-painel" id="visagismoResultado" style="margin-top:16px"></div>
+        <div class="visagismo-painel" id="visagismoResultado"></div>
       </div>
 
-      <div class="bloco">
+      <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Harmonização de Cores</h2><div class="linha"></div></div>
         <div class="cores-nav" id="coresNav">
           <button class="cor-btn" data-cor="clara" style="background:linear-gradient(135deg, #fcebdb, #e8c6b0)" aria-label="Pele Clara"></button>
@@ -558,7 +798,7 @@
         <div class="paleta-resultado" id="paletaResultado"></div>
       </div>
 
-      <div class="bloco">
+      <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Tipos de Cabelo</h2><div class="linha"></div></div>
         <div class="acordeao" id="acordeaoCabelos">
           <div class="acordeao-item">
@@ -580,18 +820,19 @@
         </div>
       </div>
 
-      <div class="bloco">
+      <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Franjas</h2><div class="linha"></div></div>
-        <div class="grid" id="grid-franjas"></div>
+        <div class="grid grid-3" id="grid-franjas"></div>
       </div>
 
-      <div class="bloco">
+      <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Comprimentos</h2><div class="linha"></div></div>
-        <div class="grid" id="grid-comprimentos"></div>
+        <div class="grid grid-3" id="grid-comprimentos"></div>
       </div>
     </div>
   </section>
 
+  <!-- COLORAÇÃO -->
   <section class="secao" id="secao-coloracao">
     <div class="page-title">
       <h1>Coloração</h1><span class="divider"></span>
@@ -631,6 +872,7 @@
     </div>
   </section>
 
+  <!-- MAQUIAGEM -->
   <section class="secao" id="secao-maquiagem">
     <div class="page-title">
       <h1>Maquiagem</h1><span class="divider"></span>
@@ -653,6 +895,7 @@
     </div>
   </section>
 
+  <!-- KITS & ACESSÓRIOS -->
   <section class="secao ativa" id="secao-kits">
     <div class="page-title">
       <h1>Kits & Acessórios</h1><span class="divider"></span>
@@ -663,7 +906,7 @@
 
     <div class="bloco">
       <div class="bloco-head"><h2>Kits de Tratamento</h2><div class="linha"></div></div>
-      <div class="grid" id="grid-kits"></div>
+      <div class="grid grid-3" id="grid-kits"></div>
     </div>
 
     <div class="bloco">
@@ -672,6 +915,7 @@
     </div>
   </section>
 
+  <!-- NOIVAS -->
   <section class="secao" id="secao-noivas">
     <div class="page-title">
       <h1>Noivas</h1><span class="divider"></span>
@@ -686,13 +930,14 @@
     </div>
   </section>
 
+  <!-- FERRAMENTAS -->
   <section class="secao" id="secao-ferramentas">
     <div class="page-title">
       <h1>Ferramentas</h1><span class="divider"></span>
       <div class="sub">As ferramentas certas<br><span class="highlight">para cada resultado</span></div>
     </div>
     <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
-    <div class="grid" id="grid-ferramentas"></div>
+    <div class="grid grid-3" id="grid-ferramentas"></div>
   </section>
 
   <section class="secao" id="secao-busca">
@@ -700,12 +945,13 @@
       <h1>Resultados</h1><span class="divider"></span>
       <div class="sub busca-meta-inline" id="buscaMeta" aria-live="polite">Digite algo para buscar</div>
     </div>
-    <div class="grid" id="grid-busca"></div>
+    <div class="grid grid-3" id="grid-busca"></div>
     <p class="busca-vazia" id="buscaVazia" hidden>Nada encontrado. Tente <span class="gold">“bob”</span>, <span class="gold">“loiro”</span> ou <span class="gold">“hidratação”</span>.</p>
   </section>
 
 </main>
 
+<!-- MODAL DE ZOOM EDITORIAL -->
 <div class="zoom-bg" id="zoomEditorialBg" onclick="fecharZoomEditorial(event)">
   <div class="zoom-content" id="zoomEditorialContent">
     <button class="zoom-close" onclick="fecharZoomEditorial()" aria-label="Fechar">✕</button>
@@ -716,7 +962,9 @@
       <h3 id="zoomEditorialTitulo"></h3>
       <span class="zoom-cat" id="zoomEditorialCat"></span>
       <p id="zoomEditorialDesc"></p>
+      
       <a id="zoomEditorialBtn" href="#" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-produto" style="display:none;">Ver Tinta / Produto</a>
+
       <div class="zoom-sugestoes">
         <h4>Produtos Recomendados para este visual</h4>
         <div class="zoom-mini-kits" id="zoomMiniKits"></div>
@@ -743,9 +991,18 @@
 </div>
 
 <script>
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('touchmove', function (e) { if (e.touches.length > 1) { e.preventDefault(); } }, { passive: false });
+/* BLOQUEIO DE ZOOM POR GESTO (PINCH) */
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
 
+document.addEventListener('touchmove', function (e) {
+  if (e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+/* FUNÇÃO COPIAR PIX */
 function copiarPix() {
   const pix = document.getElementById('pixKey').innerText;
   navigator.clipboard.writeText(pix).then(() => {
@@ -754,10 +1011,17 @@ function copiarPix() {
     btn.innerText = 'Copiado!';
     btn.style.background = '#4CAF50';
     btn.style.color = '#fff';
-    setTimeout(() => { btn.innerText = original; btn.style.background = ''; btn.style.color = ''; }, 2000);
-  }).catch(err => { alert('Erro ao copiar. Chave: ' + pix); });
+    setTimeout(() => {
+      btn.innerText = original;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  }).catch(err => {
+    alert('Erro ao copiar. Chave: ' + pix);
+  });
 }
 
+/* ============ LINKS DE AFILIADO ============ */
 const ML_LINKS = {
   keune: "https://meli.la/1GbiW7M", inoa: "https://meli.la/28LpPj2",
   kerastase: "https://meli.la/1MwSY7v", expert: "https://meli.la/2nmeunk",
@@ -767,6 +1031,7 @@ const ML_LINKS = {
   livingproof: "https://meli.la/34fZAEp"
 };
 
+/* ============ NAVEGAÇÃO ============ */
 const secoes = document.querySelectorAll('.secao');
 const dockBtns = document.querySelectorAll('.dock-btn:not(#btnMais)');
 const dock = document.getElementById('dock');
@@ -781,32 +1046,52 @@ function irParaSecao(nome){
     dbSetEstado('ultimoTermo', '');
     renderHistoricoChips();
   }
+
   secoes.forEach(s => s.classList.toggle('ativa', s.id === 'secao-' + nome));
+  
   dockBtns.forEach(b => {
     const on = b.dataset.secao === nome;
     b.classList.toggle('ativo', on);
     if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
   });
+
   const isMainDock = ORDEM_SECOES.includes(nome);
   const btnMais = document.getElementById('btnMais');
   if (btnMais) btnMais.classList.toggle('ativo', !isMainDock);
-  document.querySelectorAll('.drawer-nav button').forEach(b => { b.classList.toggle('ativo', b.dataset.secao === nome); });
+
+  document.querySelectorAll('.drawer-nav button').forEach(b => {
+    b.classList.toggle('ativo', b.dataset.secao === nome);
+  });
+
   let idx = ORDEM_SECOES.indexOf(nome);
-  if (idx === -1) idx = 4;
+  if (idx === -1) idx = 4; // Fica no "Mais"
+  
   dock.style.setProperty('--i', idx);
   document.getElementById('mainContent').scrollTo({top:0, behavior:'auto'});
-  if (!isMainDock) { document.querySelectorAll('.sheet-btn').forEach(b => { b.classList.toggle('ativo', b.dataset.secao === nome); }); }
+  
+  if (!isMainDock) {
+    document.querySelectorAll('.sheet-btn').forEach(b => {
+      b.classList.toggle('ativo', b.dataset.secao === nome);
+    });
+  }
 }
 
-dockBtns.forEach(btn => { if (btn.dataset.secao) { btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)); } });
+dockBtns.forEach(btn => {
+  if (btn.dataset.secao) {
+    btn.addEventListener('click', () => irParaSecao(btn.dataset.secao));
+  }
+});
 
 document.getElementById('btnMais').addEventListener('click', () => {
   document.getElementById('sheetOverlay').classList.add('ativo');
   document.getElementById('sheet').classList.add('aberto');
+  
   const secaoAtiva = document.querySelector('.secao.ativa');
   if (secaoAtiva) {
     const id = secaoAtiva.id.replace('secao-', '');
-    document.querySelectorAll('.sheet-btn').forEach(b => { b.classList.toggle('ativo', b.dataset.secao === id); });
+    document.querySelectorAll('.sheet-btn').forEach(b => {
+      b.classList.toggle('ativo', b.dataset.secao === id);
+    });
   }
 });
 
@@ -829,6 +1114,7 @@ sheetNav.innerHTML = sheetOpcoes.map(op => `
   </button>
 `).join('');
 
+/* DRAWER */
 const menuBtn = document.getElementById('menuBtn');
 const drawer = document.getElementById('drawer');
 const drawerOverlay = document.getElementById('drawerOverlay');
@@ -849,16 +1135,27 @@ menuBtn.addEventListener('click', abrirDrawer);
 drawerFechar.addEventListener('click', fecharDrawer);
 drawerOverlay.addEventListener('click', fecharDrawer);
 document.querySelectorAll('.drawer-nav button').forEach(btn => {
-  btn.addEventListener('click', () => { irParaSecao(btn.dataset.secao); fecharDrawer(); });
+  btn.addEventListener('click', () => {
+    irParaSecao(btn.dataset.secao);
+    fecharDrawer();
+  });
 });
 
+/* ============ MODAL DE ZOOM EDITORIAL ============ */
 function abrirZoomEditorial(src, titulo, cat, desc, link) {
   document.getElementById('zoomEditorialImg').src = src;
   document.getElementById('zoomEditorialTitulo').innerText = titulo;
   document.getElementById('zoomEditorialCat').innerText = cat;
   document.getElementById('zoomEditorialDesc').innerText = desc;
+  
   const btn = document.getElementById('zoomEditorialBtn');
-  if (link) { btn.href = link; btn.style.display = 'inline-flex'; } else { btn.style.display = 'none'; }
+  if (link) {
+    btn.href = link;
+    btn.style.display = 'inline-flex';
+  } else {
+    btn.style.display = 'none';
+  }
+
   const kitsWrap = document.getElementById('zoomMiniKits');
   kitsWrap.innerHTML = kitsData.slice(0, 5).map(kit => `
     <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="zoom-mini-kit">
@@ -866,6 +1163,7 @@ function abrirZoomEditorial(src, titulo, cat, desc, link) {
       <span>${kit.title}</span>
     </a>
   `).join('');
+
   document.getElementById('zoomEditorialBg').classList.add('on');
 }
 function fecharZoomEditorial(e) {
@@ -873,32 +1171,50 @@ function fecharZoomEditorial(e) {
   document.getElementById('zoomEditorialBg').classList.remove('on');
 }
 
+/* ============ MODAL PADRÃO ============ */
 let _focoAnterior = null;
 function openModal(nome, categoria, texto1, texto2, lista, link, img){
   _focoAnterior = document.activeElement;
   document.getElementById('mTitle').innerHTML = nome;
   document.getElementById('mSub').textContent = categoria;
   document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
+  
   const imgEl = document.getElementById('mImg');
   imgEl.src = img || '';
   document.querySelector('.modal-img').style.display = 'block';
+  
   const g = document.querySelector('.modal-body .corte-carrossel-wrapper');
   if (g) g.remove();
+
   const ul = document.getElementById('mList');
   ul.innerHTML = '';
-  if (lista && lista.length){ lista.forEach(item => { const li = document.createElement('li'); li.textContent = item; ul.appendChild(li); }); }
+  if (lista && lista.length){
+    lista.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+  }
   const linkEl = document.getElementById('mLink');
-  if (link){ linkEl.href = link; linkEl.textContent = 'Ver produtos'; linkEl.style.display = 'inline-flex'; } else { linkEl.style.display = 'none'; }
+  if (link){
+    linkEl.href = link;
+    linkEl.textContent = 'Ver produtos';
+    linkEl.style.display = 'inline-flex';
+  } else {
+    linkEl.style.display = 'none';
+  }
   document.getElementById('modalBg').classList.add('on');
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
+/* ============ MODAL EXCLUSIVO PARA CORTES/NOIVAS ============ */
 function openModalCorte(item) {
   _focoAnterior = document.activeElement;
   document.getElementById('mTitle').innerHTML = item.title;
   document.getElementById('mSub').textContent = item.sub || 'Corte';
   document.getElementById('mText').innerHTML = ''; 
   document.getElementById('mList').innerHTML = ''; 
+  
   const htmlCarrossel = `
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
@@ -922,11 +1238,13 @@ function openModalCorte(item) {
       </div>
     </div>
   `;
+  
   document.querySelector('.modal-img').style.display = 'none';
   const body = document.querySelector('.modal-body');
   const existingWrapper = body.querySelector('.corte-carrossel-wrapper');
   if (existingWrapper) existingWrapper.remove();
   document.getElementById('mSub').insertAdjacentHTML('afterend', htmlCarrossel);
+  
   setTimeout(() => {
     const carrossel = document.getElementById('corteCarrossel');
     if (!carrossel) return;
@@ -937,10 +1255,12 @@ function openModalCorte(item) {
       dots.forEach((dot, i) => { dot.classList.toggle('ativo', i === slideIdx); });
     });
   }, 100);
+
   const linkEl = document.getElementById('mLink');
   linkEl.href = item.link || ML_LINKS.kerastase;
   linkEl.textContent = 'Ver Kits de Cuidados';
   linkEl.style.display = 'inline-flex';
+  
   document.getElementById('modalBg').classList.add('on');
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
@@ -953,11 +1273,11 @@ function irParaSlide(idx) {
 function abrirZoom(src) {
   const overlay = document.getElementById('zoomOverlay');
   const img = document.getElementById('zoomImg');
-  if (overlay && img) { img.src = src; overlay.classList.add('on'); }
+  img.src = src;
+  overlay.classList.add('on');
 }
 function fecharZoom() {
-  const overlay = document.getElementById('zoomOverlay');
-  if (overlay) overlay.classList.remove('on');
+  document.getElementById('zoomOverlay').classList.remove('on');
 }
 function closeModal(){
   document.getElementById('modalBg').classList.remove('on');
@@ -973,12 +1293,14 @@ function closeModalBg(e){ if (e.target.id === 'modalBg') closeModal(); }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape'){
     if (document.getElementById('zoomEditorialBg').classList.contains('on')) { fecharZoomEditorial(); return; }
+    if (document.getElementById('zoomOverlay').classList.contains('on')) { fecharZoom(); return; }
     if (document.getElementById('modalBg').classList.contains('on')){ closeModal(); return; }
     if (drawer.classList.contains('aberto')){ fecharDrawer(); return; }
     if (document.getElementById('sheet').classList.contains('aberto')) { fecharSheet(); return; }
   }
 });
 
+/* ============ VISAGISMO ============ */
 const visagismoData = {
   oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural, mantendo o rosto aberto e com leveza.', produto: 'Spray Volume', link: ML_LINKS.kerastase },
   redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas e prefira risca lateral para quebrar a simetria.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
@@ -1005,36 +1327,49 @@ function renderVisagismo(formato) {
 }
 
 const coresData = {
-  clara: { nome: 'Pele Clara', cores: [
-    {c:'#E6C280', n:'Loiro Dourado', img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'}, 
-    {c:'#A87D5A', n:'Castanho Mel', img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'}, 
-    {c:'#C4A484', n:'Loiro Acinzentado', img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg'}, 
-    {c:'#7D5A4F', n:'Castanho Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}
-  ]},
-  media: { nome: 'Pele Média', cores: [
-    {c:'#C4864D', n:'Caramelo', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}, 
-    {c:'#8A4F3A', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
-    {c:'#5C3A21', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, 
-    {c:'#D1A368', n:'Mel Acobreado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}
-  ]},
-  morena: { nome: 'Pele Morena', cores: [
-    {c:'#6B3B1F', n:'Cobre Queimado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}, 
-    {c:'#3B1C0D', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}, 
-    {c:'#8E3B3B', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
-    {c:'#9C6B4A', n:'Castanho Mel', img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'}
-  ]},
-  escura: { nome: 'Pele Escura', cores: [
-    {c:'#2C1410', n:'Café Quente', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, 
-    {c:'#7A1E1E', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
-    {c:'#3E241A', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}, 
-    {c:'#BA6224', n:'Cobre Queimado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}
-  ]}
+  clara: { 
+    nome: 'Pele Clara', 
+    cores: [
+      {c:'#E6C280', n:'Loiro Dourado', img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'}, 
+      {c:'#A87D5A', n:'Castanho Mel', img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'}, 
+      {c:'#C4A484', n:'Loiro Acinzentado', img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg'}, 
+      {c:'#7D5A4F', n:'Castanho Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}
+    ] 
+  },
+  media: { 
+    nome: 'Pele Média', 
+    cores: [
+      {c:'#C4864D', n:'Caramelo', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}, 
+      {c:'#8A4F3A', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
+      {c:'#5C3A21', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, 
+      {c:'#D1A368', n:'Mel Acobreado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}
+    ] 
+  },
+  morena: { 
+    nome: 'Pele Morena', 
+    cores: [
+      {c:'#6B3B1F', n:'Cobre Queimado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}, 
+      {c:'#3B1C0D', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}, 
+      {c:'#8E3B3B', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
+      {c:'#9C6B4A', n:'Castanho Mel', img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'}
+    ] 
+  },
+  escura: { 
+    nome: 'Pele Escura', 
+    cores: [
+      {c:'#2C1410', n:'Café Quente', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, 
+      {c:'#7A1E1E', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, 
+      {c:'#3E241A', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}, 
+      {c:'#BA6224', n:'Cobre Queimado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}
+    ] 
+  }
 };
 
 function renderPaleta(cor) {
   const data = coresData[cor];
   const container = document.getElementById('paletaResultado');
   if (!container || !data) return;
+  
   const swatches = data.cores.map((item, i) => `
     <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}">
       <img src="${item.img}" alt="${item.n}" onclick="event.stopPropagation(); abrirZoomEditorial(this.src, '${item.n}', 'Harmonização', 'Tom recomendado para ${data.nome}.', '${ML_LINKS.inoa}')">
@@ -1044,23 +1379,29 @@ function renderPaleta(cor) {
       </div>
     </div>
   `).join('');
+  
   container.innerHTML = `
     <div class="paleta-titulo">Paleta Recomendada: ${data.nome}</div>
     <div class="paleta-swatches">${swatches}</div>
     <p>Use essas cores para iluminar o rosto e harmonizar com o seu subtom natural.</p>
   `;
+  
   container.querySelectorAll('.swatch-card').forEach(card => {
     card.addEventListener('click', () => {
       container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo'));
       card.classList.add('ativo');
     });
   });
-  document.querySelectorAll('.cor-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.cor === cor); });
+
+  document.querySelectorAll('.cor-btn').forEach(btn => { 
+    btn.classList.toggle('ativo', btn.dataset.cor === cor); 
+  });
 }
 
 document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato)); });
 document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => renderPaleta(btn.dataset.cor)); });
 
+/* Acordeão de Tipos de Cabelo */
 const cabelosData = {
   liso: [
     { title:'1A', sub:'Liso, sem volume', img:'https://i.pinimg.com/736x/96/ed/ba/96edbad796f6419dde511218d30b4a89.jpg' },
@@ -1099,47 +1440,70 @@ Object.keys(cabelosData).forEach(tipo => {
 document.querySelectorAll('.acordeao-header').forEach(btn => {
   btn.addEventListener('click', () => {
     const isActive = btn.classList.contains('active');
-    document.querySelectorAll('.acordeao-header').forEach(b => { b.classList.remove('active'); b.nextElementSibling.style.maxHeight = null; });
-    if (!isActive) { btn.classList.add('active'); const body = btn.nextElementSibling; body.style.maxHeight = body.scrollHeight + 'px'; }
+    document.querySelectorAll('.acordeao-header').forEach(b => {
+      b.classList.remove('active');
+      b.nextElementSibling.style.maxHeight = null;
+    });
+    if (!isActive) {
+      btn.classList.add('active');
+      const body = btn.nextElementSibling;
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
   });
 });
 
+/* ============ COLORAÇÃO E MAQUIAGEM ============ */
 const coloracaoData = {
-  loiros: { img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', tons: [
-    { cor: '#F5DEB3', nome: 'Loiro Platinado', desc: 'Ideal para peles frias. Clareamento máximo.', link: ML_LINKS.inoa },
-    { cor: '#E6C280', nome: 'Loiro Dourado', desc: 'Ilumina peles quentes. Efeito natural.', link: ML_LINKS.keune },
-    { cor: '#C49A6C', nome: 'Loiro Médio', desc: 'Clássico e versátil para o dia a dia.', link: ML_LINKS.inoa },
-    { cor: '#A37A4E', nome: 'Loiro Escuro', desc: 'Transição natural e suave.', link: ML_LINKS.keune }
-  ]},
-  castanhos: { img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', tons: [
-    { cor: '#5C3A21', nome: 'Chocolate Frio', desc: 'Neutro e sofisticado.', link: ML_LINKS.inoa },
-    { cor: '#7D5A4F', nome: 'Castanho Médio', desc: 'Coringa para todos os dias.', link: ML_LINKS.keune },
-    { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes e iluminados.', link: ML_LINKS.inoa },
-    { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', link: ML_LINKS.keune }
-  ]},
-  ruivos: { img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', tons: [
-    { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', link: ML_LINKS.inoa },
-    { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', link: ML_LINKS.keune },
-    { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', link: ML_LINKS.inoa },
-    { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', link: ML_LINKS.keune }
-  ]},
-  escuros: { img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', tons: [
-    { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', link: ML_LINKS.inoa },
-    { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo, mais natural.', link: ML_LINKS.keune },
-    { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', link: ML_LINKS.inoa },
-    { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', link: ML_LINKS.keune }
-  ]}
+  loiros: {
+    img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+    tons: [
+      { cor: '#F5DEB3', nome: 'Loiro Platinado', desc: 'Ideal para peles frias. Clareamento máximo.', link: ML_LINKS.inoa },
+      { cor: '#E6C280', nome: 'Loiro Dourado', desc: 'Ilumina peles quentes. Efeito natural.', link: ML_LINKS.keune },
+      { cor: '#C49A6C', nome: 'Loiro Médio', desc: 'Clássico e versátil para o dia a dia.', link: ML_LINKS.inoa },
+      { cor: '#A37A4E', nome: 'Loiro Escuro', desc: 'Transição natural e suave.', link: ML_LINKS.keune }
+    ]
+  },
+  castanhos: {
+    img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg',
+    tons: [
+      { cor: '#5C3A21', nome: 'Chocolate Frio', desc: 'Neutro e sofisticado.', link: ML_LINKS.inoa },
+      { cor: '#7D5A4F', nome: 'Castanho Médio', desc: 'Coringa para todos os dias.', link: ML_LINKS.keune },
+      { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes e iluminados.', link: ML_LINKS.inoa },
+      { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', link: ML_LINKS.keune }
+    ]
+  },
+  ruivos: {
+    img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg',
+    tons: [
+      { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', link: ML_LINKS.inoa },
+      { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', link: ML_LINKS.keune },
+      { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', link: ML_LINKS.inoa },
+      { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', link: ML_LINKS.keune }
+    ]
+  },
+  escuros: {
+    img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg',
+    tons: [
+      { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', link: ML_LINKS.inoa },
+      { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo, mais natural.', link: ML_LINKS.keune },
+      { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', link: ML_LINKS.inoa },
+      { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', link: ML_LINKS.keune }
+    ]
+  }
 };
 
 function renderColoracao(categoria) {
   const data = coloracaoData[categoria];
   if (!data) return;
+
   document.getElementById('colImagem').src = data.img;
   const paleta = document.getElementById('colPaleta');
   paleta.innerHTML = data.tons.map((t, i) => 
     `<div class="col-swatch ${i===0 ? 'ativo' : ''}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}"></div>`
   ).join('');
+
   atualizarInfoCor(data.tons[0]);
+
   paleta.querySelectorAll('.col-swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
       paleta.querySelectorAll('.col-swatch').forEach(s => s.classList.remove('ativo'));
@@ -1147,8 +1511,12 @@ function renderColoracao(categoria) {
       atualizarInfoCor({ nome: swatch.dataset.nome, desc: swatch.dataset.desc, link: swatch.dataset.link });
     });
   });
-  document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.classList.toggle('ativo', tab.dataset.cat === categoria); });
+
+  document.querySelectorAll('#colTabs .col-tab').forEach(tab => {
+    tab.classList.toggle('ativo', tab.dataset.cat === categoria);
+  });
 }
+
 function atualizarInfoCor(tom) {
   document.getElementById('colInfo').innerHTML = `
     <h3>${tom.nome}</h3>
@@ -1156,47 +1524,80 @@ function atualizarInfoCor(tom) {
     <a href="${tom.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Tinta</a>
   `;
 }
-document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderColoracao(tab.dataset.cat)); });
+
+document.querySelectorAll('#colTabs .col-tab').forEach(tab => {
+  tab.addEventListener('click', () => renderColoracao(tab.dataset.cat));
+});
 
 const makeData = {
-  pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego para um efeito "glass skin".', link: ML_LINKS.kerastase },
-  olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios alongadora. Ideal para noivas e formandas.', link: ML_LINKS.expert },
-  boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss para hidratação e volume natural.', link: ML_LINKS.moroccanoil }
+  pele: { 
+    nome: 'Foco: Pele', 
+    img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', 
+    desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego para um efeito "glass skin".', 
+    link: ML_LINKS.kerastase 
+  },
+  olhos: { 
+    nome: 'Foco: Olhos', 
+    img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', 
+    desc: 'Sombra cobre com delineado gatinho e máscara de cílios alongadora. Ideal para noivas e formandas.', 
+    link: ML_LINKS.expert 
+  },
+  boca: { 
+    nome: 'Foco: Boca', 
+    img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', 
+    desc: 'Batom nude com acabamento gloss para hidratação e volume natural.', 
+    link: ML_LINKS.moroccanoil 
+  }
 };
+
 function renderMake(categoria) {
   const data = makeData[categoria];
   if (!data) return;
+  
   document.getElementById('makeImagem').src = data.img;
-  document.getElementById('makeInfo').innerHTML = `
+  
+  const container = document.getElementById('makeInfo');
+  container.innerHTML = `
     <h3>${data.nome}</h3>
     <p>${data.desc}</p>
     <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Produtos</a>
   `;
+
   document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
 }
-document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
 
+document.querySelectorAll('#makeTabs .col-tab').forEach(tab => {
+  tab.addEventListener('click', () => renderMake(tab.dataset.cat));
+});
+
+/* ============ RENDER GRIDS ============ */
 function renderGrid(id, data, catLabel, linkDefault){
   const grid = document.getElementById(id);
   if (!grid) return;
   grid.innerHTML = '';
   data.forEach((item, idx) => {
     const card = document.createElement('button');
-    card.className = 'card' + (item.aspect === 'retrato' ? ' aspect-retrato' : item.aspect === 'vertical' ? ' aspect-vertical' : '');
+    card.className = 'card';
     card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
     const img = item.img || item.imgFrente || '';
+    
+    // NOVO LAYOUT: Texto fora da imagem
     card.innerHTML = `
-      <div class="card-inner">
+      <div class="card-img-wrap">
         <img src="${img}" alt="${item.title}" loading="lazy" onerror="this.style.opacity=0">
-        <div class="card-info">
-          <div class="card-nome">${item.title}</div>
-          ${item.sub ? '<div class="card-sub">' + item.sub + '</div>' : ''}
-        </div>
+      </div>
+      <div class="card-text-wrap">
+        <div class="card-nome">${item.title}</div>
+        ${item.sub ? '<div class="card-sub">' + item.sub + '</div>' : ''}
       </div>
     `;
+    
     card.addEventListener('click', () => {
-      if (catLabel === 'Corte' || catLabel === 'Noiva') { openModalCorte(item); }
-      else { openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img); }
+      if (catLabel === 'Corte' || catLabel === 'Noiva') {
+        openModalCorte(item);
+      } else {
+        openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img);
+      }
     });
     grid.appendChild(card);
   });
@@ -1210,13 +1611,17 @@ function renderEditorialScroll(id, data, catLabel, linkDefault){
     const card = document.createElement('div');
     card.className = 'editorial-card';
     card.innerHTML = `
-      <img src="${item.img}" alt="${item.title}" loading="lazy">
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" loading="lazy">
+      </div>
       <div class="editorial-card-txt">
         <h4>${item.title}</h4>
         <p>${item.desc}</p>
       </div>
     `;
-    card.addEventListener('click', () => { abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault); });
+    card.addEventListener('click', () => {
+      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault);
+    });
     container.appendChild(card);
   });
 }
@@ -1229,17 +1634,22 @@ function renderMiniGrid(id, data, catLabel, linkDefault){
     const card = document.createElement('div');
     card.className = 'mini-card-editorial';
     card.innerHTML = `
-      <img src="${item.img}" alt="${item.title}" loading="lazy">
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" loading="lazy">
+      </div>
       <div class="mini-card-editorial-txt">
         <strong>${item.title}</strong>
         <span>${item.sub || ''}</span>
       </div>
     `;
-    card.addEventListener('click', () => { abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault); });
+    card.addEventListener('click', () => {
+      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault);
+    });
     container.appendChild(card);
   });
 }
 
+/* ============ DADOS ============ */
 const franjasData = [
   {title:'Reta', sub:'Encurta o rosto', desc:'Encurta o rosto e destaca os olhos.', desc2:'Ideal para rostos longos.', lista:['Encurta o rosto','Destaca olhos'], img:'https://i.pinimg.com/736x/c7/83/c4/c783c422b3a1b9b4a980b2c3a472118f.jpg'},
   {title:'Cortina', sub:'Alonga o rosto', desc:'Alonga o rosto e suaviza traços.', desc2:'Ideal para rostos redondos e quadrados.', lista:['Alonga o rosto','Suaviza traços'], img:'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg'},
@@ -1249,9 +1659,9 @@ const franjasData = [
   {title:'Baby', sub:'Delicada', desc:'Delicada e alonga o rosto.', desc2:'Ideal para rostos redondos e ovais.', lista:['Delicada','Alonga o rosto'], img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg'}
 ];
 const comprimentosData = [
-  {title:'Curto', sub:'Praticidade', desc:'Praticidade e destaca os traços do rosto.', desc2:'Ideal para quem quer um visual moderno.', lista:['Praticidade','Destaca traços'], img:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', aspect:'retrato'},
-  {title:'Médio', sub:'Versatilidade', desc:'Versatilidade e equilíbrio.', desc2:'Ideal para quem quer mudar sem perder comprimento.', lista:['Versatilidade','Equilíbrio'], img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', aspect:'retrato'},
-  {title:'Longo', sub:'Elegância', desc:'Elegância e alonga a silhueta.', desc2:'Ideal para quem quer um visual sofisticado.', lista:['Elegância','Alonga silhueta'], img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', aspect:'retrato'}
+  {title:'Curto', sub:'Praticidade', desc:'Praticidade e destaca os traços do rosto.', desc2:'Ideal para quem quer um visual moderno.', lista:['Praticidade','Destaca traços'], img:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg'},
+  {title:'Médio', sub:'Versatilidade', desc:'Versatilidade e equilíbrio.', desc2:'Ideal para quem quer mudar sem perder comprimento.', lista:['Versatilidade','Equilíbrio'], img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg'},
+  {title:'Longo', sub:'Elegância', desc:'Elegância e alonga a silhueta.', desc2:'Ideal para quem quer um visual sofisticado.', lista:['Elegância','Alonga silhueta'], img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg'}
 ];
 const cortesData = [
   {title:'Velvet Bob', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Bob Texturizado. Camadas internas que dão volume sem peso.', descLado:'O corte lateral mostra a progressão das camadas.', descAtras:'A parte de trás é levemente mais curta para valorizar a nuca.'},
@@ -1268,6 +1678,7 @@ const cortesData = [
   {title:'Kitty Cut', imgFrente:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgLado:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgAtras:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', descFrente:'Bob-shag. Base reta com camadas no topo.', descLado:'A lateral revela a mistura do bob com shag.', descAtras:'A parte de trás tem repicado texturizado.'}
 ];
 
+/* DADOS DE NOIVAS */
 const noivasData = [
   {title:'Coque Clássico', sub:'Elegância atemporal', desc:'Coque baixo com detalhes trançados. Ideal para vestidos de princesa.', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgFrente:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgLado:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgAtras:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', descFrente:'Detalhe trançado na frente.', descLado:'Volume lateral controlado.', descAtras:'Coque perfeito e firme.', link:ML_LINKS.kerastase},
   {title:'Sem Presilhas', sub:'Solto e romântico', desc:'Ondas suaves com presilhas invisíveis. Para noivas modernas.', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgFrente:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente:'Ondas soltas.', descLado:'Volume natural.', descAtras:'Comprimento solto.', link:ML_LINKS.kerastase},
@@ -1275,6 +1686,7 @@ const noivasData = [
   {title:'Coque Despojado', sub:'Textura e volume', desc:'Fios soltos ao redor do rosto para um ar mais leve.', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Fios soltos.', descLado:'Textura despojada.', descAtras:'Coque texturizado.', link:ML_LINKS.kerastase}
 ];
 
+/* DADOS DE ACESSÓRIOS */
 const acessoriosData = [
   {title:'Presilhas Cravejadas', sub:'Brilho e sofisticação', desc:'Brilho e sofisticação para festas.', img:'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', link:ML_LINKS.ferramentas},
   {title:'Tiara de Pérolas', sub:'Toque clássico', desc:'O toque clássico para noivas.', img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', link:ML_LINKS.kerastase},
@@ -1328,6 +1740,7 @@ const ferramentasData = [
   {title:'Escova Térmica', sub:'Modelagem com Brilho', desc:'Escova redonda com cilindro cerâmico.', img:'https://i.pinimg.com/736x/f3/b8/14/f3b8140efec0fd25bee16ede2f9effb2.jpg'}
 ];
 
+/* ============ INDEXEDDB ============ */
 const DB_NAME = 'hairos';
 const DB_VERSION = 1;
 let _dbPromise = null;
@@ -1385,6 +1798,7 @@ async function dbLimparHistorico(){
   try { const db = await getDB(); await db.clear('buscas'); await dbSetEstado('ultimoTermo', ''); } catch {}
 }
 
+/* ============ BUSCA ============ */
 const normBusca = s => (s == null ? '' : String(s)).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 function montarIndiceBusca(){
   const push = (arr, cat, linkDefault) => arr.map(i => {
@@ -1431,9 +1845,11 @@ function renderBusca(q){
   const sugestoes = document.getElementById('buscaSugestoes');
   const clearBtn = document.getElementById('buscaClear');
   if (!grid) return;
+
   const termo = (q || '').trim();
   grid.innerHTML = '';
   if (clearBtn) clearBtn.hidden = !termo;
+
   if (!termo){
     document.body.classList.remove('buscando');
     meta.textContent = 'Digite algo para buscar';
@@ -1441,32 +1857,41 @@ function renderBusca(q){
     if (sugestoes) sugestoes.classList.remove('visivel');
     return;
   }
+
   document.body.classList.add('buscando');
   if (sugestoes) sugestoes.classList.remove('visivel');
+
   const resultados = buscarGlobal(termo);
   if (!resultados.length){
     meta.textContent = 'Nenhum resultado';
     vazia.hidden = false;
     return;
   }
+  
   vazia.hidden = true;
   meta.innerHTML = '<span class="gold">' + resultados.length + '</span> ' + (resultados.length === 1 ? 'resultado' : 'resultados') + ' para “' + termo.replace(/[<>&]/g, '') + '”';
+
   resultados.forEach((item, idx) => {
     const card = document.createElement('button');
-    card.className = 'card' + (item.aspect === 'retrato' ? ' aspect-retrato' : item.aspect === 'vertical' ? ' aspect-vertical' : '');
+    card.className = 'card';
     card.style.animationDelay = Math.min(idx * 0.025, 0.4) + 's';
+    
     card.innerHTML = `
-      <div class="card-inner">
+      <div class="card-img-wrap">
         <span class="card-badge">${item.cat}</span>
         <img src="${item.img || ''}" alt="${item.title}" loading="lazy" onerror="this.style.opacity=0">
-        <div class="card-info">
-          <div class="card-nome">${destacar(item.title, termo)}</div>
-          ${item.sub ? '<div class="card-sub">' + destacar(item.sub, termo) + '</div>' : ''}
-        </div>
+      </div>
+      <div class="card-text-wrap">
+        <div class="card-nome">${destacar(item.title, termo)}</div>
+        ${item.sub ? '<div class="card-sub">' + destacar(item.sub, termo) + '</div>' : ''}
       </div>`;
+      
     card.addEventListener('click', () => {
-      if (item.cat === 'Cortes' || item.cat === 'Noivas') { openModalCorte(item); }
-      else { openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img); }
+      if (item.cat === 'Cortes' || item.cat === 'Noivas') {
+        openModalCorte(item);
+      } else {
+        openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img);
+      }
     });
     grid.appendChild(card);
   });
@@ -1478,9 +1903,11 @@ async function initBusca(){
   const sugestoes = document.getElementById('buscaSugestoes');
   const clearBtn = document.getElementById('buscaClear');
   if (!input) return;
+
   const ultimo = await dbGetEstado('ultimoTermo', '');
   if (ultimo){ input.value = ultimo; renderBusca(ultimo); }
   await renderHistoricoChips();
+
   input.addEventListener('input', e => {
     clearTimeout(_buscaTmr);
     const val = e.target.value;
@@ -1491,22 +1918,27 @@ async function initBusca(){
       if (!val.trim()) await renderHistoricoChips();
     }, 150);
   });
+
   input.addEventListener('focus', () => {
     if (sugestoes && !document.body.classList.contains('buscando')) sugestoes.classList.add('visivel');
   });
+
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.header-unificado')) {
       if (sugestoes) sugestoes.classList.remove('visivel');
     }
   });
+
   input.addEventListener('keydown', e => {
     if (e.key === 'Escape'){ input.value = ''; renderBusca(''); dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.blur(); }
   });
+
   if (clearBtn){
     clearBtn.addEventListener('click', () => {
       input.value = ''; renderBusca(''); dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.focus();
     });
   }
+
   if (sugestoes){
     sugestoes.addEventListener('click', async e => {
       const chip = e.target.closest('.busca-chip');
@@ -1547,24 +1979,37 @@ async function renderHistoricoChips(){
   } finally { wrap.classList.remove('carregando'); }
 }
 
+/* ============ INIT ============ */
 document.addEventListener('DOMContentLoaded', () => {
   renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
   renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
   renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
+  
+  // Inicializa Aba Coloração (Novo Layout)
   renderColoracao('loiros');
   renderEditorialScroll('tecnicasScroll', tecnicasData, 'Técnica', ML_LINKS.inoa);
   renderMiniGrid('cuidadosGrid', cuidadosData, 'Cuidado', ML_LINKS.kerastase);
   renderMiniGrid('manutencaoGrid', manutencaoData, 'Manutenção', ML_LINKS.keune);
+
+  // Inicializa Aba Maquiagem
   renderMake('pele');
+
+  // Inicializa Aba Noivas
   renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kerastase);
+
+  // Inicializa Aba Kits & Acessórios
   renderGrid('grid-kits', kitsData, 'Kit', null);
   renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.ferramentas);
+
+  // Inicializa Ferramentas
   renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
+
   renderVisagismo('oval');
   renderPaleta('clara');
+
   initBusca();
   document.body.classList.add('app-pronta');
-  dock.style.setProperty('--i', 3);
+  dock.style.setProperty('--i', 3); // Abre na aba Kits por padrão
 });
 </script>
 
