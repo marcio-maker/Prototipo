@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- META TAG BLINDADA CONTRA ZOOM -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
 <title>HairOS — Beleza Completa</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
@@ -26,8 +27,46 @@
     --nav-space:calc(var(--header-h) + 20px + env(safe-area-inset-top,0px));
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;min-height:100vh;line-height:1.65;overflow-x:hidden}
-  body{padding:0 14px calc(112px + env(safe-area-inset-bottom,0px));max-width:1600px;margin:0 auto}
+  
+  /* ==========================================
+     CSS DE APP NATIVO (BLOQUEIO DE TELA SOLTA)
+     ========================================== */
+  html {
+    height: 100%;
+    overflow: hidden; /* Trava a rolagem no html */
+    background: var(--bg);
+  }
+  body {
+    height: 100%;
+    position: fixed; /* Impede o bounce effect do iOS */
+    inset: 0;
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.65;
+    overflow: hidden; /* Trava a rolagem no body */
+    width: 100%;
+  }
+  
+  /* O único elemento que rola é o main-content */
+  main.main-content {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Rolagem fluida no iOS */
+    padding: 0 14px calc(112px + env(safe-area-inset-bottom,0px));
+    padding-top: calc(var(--nav-space) + 8px);
+    max-width: 1600px;
+    margin: 0 auto;
+    transition: opacity .3s var(--ease-out);
+  }
+
+  /* Esconde a barra de rolagem do main */
+  main.main-content::-webkit-scrollbar { width: 0; display: none; }
+  main.main-content { scrollbar-width: none; }
+
   :focus-visible{outline:none;box-shadow:var(--focus-ring)}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   @keyframes fadeSection{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -164,10 +203,6 @@
   /* ==========================================
      CONTEÚDO E GRIDS
      ========================================== */
-  main.main-content{
-    padding-top:calc(var(--nav-space) + 8px);
-    transition:opacity .3s var(--ease-out);
-  }
   .secao{display:none;animation:fadeSection .4s var(--ease-out)}
   .secao.ativa{display:block}
   .page-title{text-align:center;padding:0 16px 8px;margin-bottom:24px}
@@ -841,6 +876,17 @@
 </div>
 
 <script>
+/* BLOQUEIO DE ZOOM POR GESTO (PINCH) */
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
+
+document.addEventListener('touchmove', function (e) {
+  if (e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
 /* ============ LINKS DE AFILIADO ============ */
 const ML_LINKS = {
   keune: "https://meli.la/1GbiW7M", inoa: "https://meli.la/28LpPj2",
@@ -890,27 +936,22 @@ function irParaSecao(nome){
   window.scrollTo({top:0, behavior:'auto'});
   
   if (!isMainDock) {
-    // Sincroniza o botão ativo dentro do Bottom Sheet
     document.querySelectorAll('.sheet-btn').forEach(b => {
       b.classList.toggle('ativo', b.dataset.secao === nome);
     });
   }
 }
 
-// Adiciona evento aos botões do dock principal
 dockBtns.forEach(btn => {
   if (btn.dataset.secao) {
     btn.addEventListener('click', () => irParaSecao(btn.dataset.secao));
   }
 });
 
-// Evento do botão "Mais" (Abre o Bottom Sheet)
 document.getElementById('btnMais').addEventListener('click', () => {
   document.getElementById('sheetOverlay').classList.add('ativo');
   document.getElementById('sheet').classList.add('aberto');
-  document.body.style.overflow = 'hidden';
   
-  // Marca qual aba secundária está ativa
   const secaoAtiva = document.querySelector('.secao.ativa');
   if (secaoAtiva) {
     const id = secaoAtiva.id.replace('secao-', '');
@@ -923,10 +964,8 @@ document.getElementById('btnMais').addEventListener('click', () => {
 function fecharSheet() {
   document.getElementById('sheetOverlay').classList.remove('ativo');
   document.getElementById('sheet').classList.remove('aberto');
-  document.body.style.overflow = '';
 }
 
-// Preenche o Bottom Sheet
 const sheetOpcoes = [
   { id: 'noivas', label: 'Noivas', icon: '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>' },
   { id: 'maquiagem', label: 'Maquiagem', icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="4"/>' },
@@ -950,13 +989,12 @@ const drawerFechar = document.getElementById('drawerFechar');
 function abrirDrawer(){
   drawer.classList.add('aberto'); drawer.setAttribute('aria-hidden','false');
   drawerOverlay.hidden = false; requestAnimationFrame(() => drawerOverlay.classList.add('ativo'));
-  menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow = 'hidden';
+  menuBtn.setAttribute('aria-expanded','true');
 }
 function fecharDrawer(){
   if (!drawer.classList.contains('aberto')) return;
   drawer.classList.remove('aberto'); drawer.setAttribute('aria-hidden','true');
   drawerOverlay.classList.remove('ativo'); menuBtn.setAttribute('aria-expanded','false');
-  document.body.style.overflow = '';
   setTimeout(() => { drawerOverlay.hidden = true; }, 350);
 }
 menuBtn.addEventListener('click', abrirDrawer);
@@ -993,14 +1031,10 @@ function abrirZoomEditorial(src, titulo, cat, desc, link) {
   `).join('');
 
   document.getElementById('zoomEditorialBg').classList.add('on');
-  document.body.style.overflow = 'hidden';
 }
 function fecharZoomEditorial(e) {
   if (e && e.target !== e.currentTarget) return;
   document.getElementById('zoomEditorialBg').classList.remove('on');
-  if (!document.getElementById('modalBg').classList.contains('on')) {
-    document.body.style.overflow = '';
-  }
 }
 
 /* ============ MODAL PADRÃO ============ */
@@ -1036,7 +1070,6 @@ function openModal(nome, categoria, texto1, texto2, lista, link, img){
     linkEl.style.display = 'none';
   }
   document.getElementById('modalBg').classList.add('on');
-  document.body.style.overflow = 'hidden';
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
@@ -1095,7 +1128,6 @@ function openModalCorte(item) {
   linkEl.style.display = 'inline-flex';
   
   document.getElementById('modalBg').classList.add('on');
-  document.body.style.overflow = 'hidden';
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
@@ -1109,16 +1141,13 @@ function abrirZoom(src) {
   const img = document.getElementById('zoomImg');
   img.src = src;
   overlay.classList.add('on');
-  document.body.style.overflow = 'hidden';
 }
 function fecharZoom() {
   document.getElementById('zoomOverlay').classList.remove('on');
-  if (!document.getElementById('modalBg').classList.contains('on')) { document.body.style.overflow = ''; }
 }
 function closeModal(){
   document.getElementById('modalBg').classList.remove('on');
   fecharZoom();
-  document.body.style.overflow = '';
   const modalImg = document.querySelector('.modal-img');
   if (modalImg) modalImg.style.display = 'block';
   const existingWrapper = document.querySelector('.modal-body .corte-carrossel-wrapper');
