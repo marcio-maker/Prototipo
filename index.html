@@ -2,14 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0808">
 <meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
 <title>HairOS — Beleza Completa</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/idb@8/build/umd.js"></script>
 <style>
   :root{
     --bg:#0a0808; --bg-card:#1a1612; --bg-elevated:#221d18;
@@ -22,18 +22,18 @@
     --ease-out:cubic-bezier(.22,1,.36,1);
     --tr-ui:background-color .3s var(--ease-out),border-color .3s var(--ease-out),color .3s var(--ease-out),box-shadow .3s var(--ease-out),transform .3s var(--ease-out),opacity .3s var(--ease-out);
     --focus-ring:0 0 0 3px rgba(217,187,144,.5);
-    --header-h:110px; 
+    --header-h:110px;
     --nav-space:calc(var(--header-h) + 20px + env(safe-area-inset-top,0px));
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  
+
   html { height: 100%; overflow: hidden; background: var(--bg); }
   body {
     height: 100%; position: fixed; inset: 0; background: var(--bg);
     font-family: 'Inter', sans-serif; color: var(--text);
     -webkit-font-smoothing: antialiased; line-height: 1.65; overflow: hidden; width: 100%;
   }
-  
+
   main.main-content {
     position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -41,6 +41,7 @@
     padding-top: calc(var(--nav-space) + 8px);
     max-width: 1600px; margin: 0 auto;
     transition: opacity .3s var(--ease-out);
+    touch-action: pan-y;
   }
   main.main-content::-webkit-scrollbar { width: 0; display: none; }
   main.main-content { scrollbar-width: none; }
@@ -61,15 +62,17 @@
     box-shadow:0 12px 32px rgba(0,0,0,.45), 0 2px 6px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,240,210,.06);
     opacity:0; transform:translateY(-16px);
     transition:transform .55s var(--ease-out), opacity .4s var(--ease-out);
+    will-change: transform;
   }
   body.app-pronta .header-unificado{opacity:1; transform:none;}
+  body.header-oculto .header-unificado{transform:translateY(-140%);}
 
   .header-top{ height:56px; padding:0 16px 0 22px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .brand{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1;cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;padding:0}
+  .brand{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1;cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;padding:0;touch-action:manipulation}
   .brand-h{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:-.03em;text-shadow:0 0 8px rgba(237,212,172,.4),0 0 18px rgba(206,175,132,.2)}
   .brand-rest{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;color:var(--text-sec);line-height:1;letter-spacing:.01em}
-  
-  .menu-btn{width:40px;height:40px;border-radius:50%;background:transparent;border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui)}
+
+  .menu-btn{width:44px;height:44px;border-radius:50%;background:transparent;border:1px solid var(--border-gold);color:var(--gold-light);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui);touch-action:manipulation}
   .menu-btn:hover{background:rgba(217,187,144,.08);border-color:var(--gold)}
   .menu-btn .bar{display:block;width:18px;height:1.5px;background:currentColor;border-radius:2px;transition:var(--tr-ui)}
   .menu-btn .bar + .bar{margin-top:4px}
@@ -81,21 +84,22 @@
     background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a89e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
   }
   .busca-input{
-    width:100%;height:42px;padding:0 40px 0 42px;
+    width:100%;height:42px;padding:0 44px 0 42px;
     background:rgba(0,0,0,.25); border:1px solid transparent; border-radius:999px;
-    color:var(--text);font-family:'Inter',sans-serif; font-size:.86rem;font-weight:400;
+    color:var(--text);font-family:'Inter',sans-serif; font-size:.9rem;font-weight:400;
     transition:var(--tr-ui);-webkit-appearance:none;appearance:none;
   }
   .busca-input::placeholder{color:var(--text-muted);font-weight:300}
   .busca-input:focus{ outline:none; border-color:var(--border-gold); background:rgba(0,0,0,.45); box-shadow:inset 0 2px 6px rgba(0,0,0,.4); }
   .busca-input::-webkit-search-cancel-button{-webkit-appearance:none;display:none;}
-  
+
   .busca-clear{
-    position:absolute;right:22px;top:calc(50% - 6px);transform:translateY(-50%);
-    width:24px;height:24px;border-radius:50%;
+    position:absolute;right:16px;top:calc(50% - 6px);transform:translateY(-50%);
+    width:32px;height:32px;border-radius:50%;
     background:rgba(217,187,144,.15); border:none;
-    color:var(--gold-light);font-size:.7rem;cursor:pointer;
+    color:var(--gold-light);font-size:.85rem;cursor:pointer;
     display:flex;align-items:center;justify-content:center; padding:0;transition:var(--tr-ui);
+    touch-action:manipulation;
   }
   .busca-clear:hover{background:rgba(184,58,74,.4);color:#f5c8ce}
 
@@ -106,15 +110,17 @@
     transition:max-height .4s var(--ease-out), opacity .3s var(--ease-out), padding .3s var(--ease-out);
     padding:0 12px;
   }
-  body.buscando .busca-sugestoes, .busca-sugestoes.visivel{ max-height:200px; opacity:1; padding:12px; }
-  
+  body.buscando .busca-sugestoes, .busca-sugestoes.visivel{ max-height:220px; opacity:1; padding:12px; }
+  .busca-sugestoes.carregando{opacity:.5;pointer-events:none}
+
   .busca-chip{
-    padding:6px 12px; border-radius:999px;
+    padding:8px 14px; border-radius:999px;
     background:rgba(26,22,18,.92); border:1px solid var(--border-gold);
     backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-    color:var(--gold-light); font-family:inherit; font-size:.7rem; font-weight:500;
+    color:var(--gold-light); font-family:inherit; font-size:.78rem; font-weight:500;
     cursor:pointer; transition:var(--tr-ui); letter-spacing:.02em;
     box-shadow:0 6px 16px rgba(0,0,0,.4);
+    touch-action:manipulation;
   }
   .busca-chip:hover{background:rgba(217,187,144,.16); color:var(--gold-hi); border-color:var(--gold)}
   .busca-chip:active{transform:scale(.96)}
@@ -126,39 +132,48 @@
   .drawer-overlay.ativo{opacity:1;visibility:visible}
   .drawer{position:fixed;top:0;right:0;bottom:0;width:min(320px,84vw);background:var(--bg-card);border-left:1px solid var(--border-gold);z-index:960;transform:translateX(100%);transition:transform .45s var(--ease-luxury);display:flex;flex-direction:column;padding:24px 0;overflow-y:auto;box-shadow:-18px 0 44px rgba(0,0,0,.5)}
   .drawer.aberto{transform:translateX(0)}
+  .drawer[aria-hidden="true"]{pointer-events:none}
   .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:0 24px 24px;border-bottom:1px solid var(--border)}
   .drawer-brand{display:flex;align-items:baseline;gap:2px;line-height:1}
   .drawer-brand .brand-h{font-size:1.5rem}
   .drawer-brand .brand-rest{font-size:.92rem}
-  .drawer-fechar{width:36px;height:36px;border-radius:50%;background:rgba(120,25,35,.55);border:1px solid rgba(184,58,74,.55);color:#e8a0a8;cursor:pointer;font-size:1.1rem;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui)}
-  .drawer-fechar:hover{background:rgba(150,35,48,.75);color:#f5c8ce}
+  .drawer-fechar{
+    width:38px;height:38px;border-radius:50%;
+    background:#D4AF37; border:2px solid #000; color:#000;
+    cursor:pointer;font-size:1.1rem;font-weight:700;line-height:1;
+    display:flex;align-items:center;justify-content:center;padding:0;
+    transition:var(--tr-ui);touch-action:manipulation;
+    box-shadow:0 0 0 3px rgba(212,175,55,.3), 0 4px 14px rgba(212,175,55,.5);
+  }
+  .drawer-fechar:hover{background:#000; color:#D4AF37; border-color:#D4AF37; transform:scale(1.08);}
   .drawer-nav{display:flex;flex-direction:column;padding:16px 0}
-  .drawer-nav button{display:block;width:100%;text-align:left;padding:16px 24px;background:none;border:none;color:var(--text);font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;font-weight:500;border-bottom:1px solid var(--border);transition:var(--tr-ui),padding-left .3s var(--ease-out);cursor:pointer}
+  .drawer-nav button{display:block;width:100%;text-align:left;padding:16px 24px;background:none;border:none;color:var(--text);font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;font-weight:500;border-bottom:1px solid var(--border);transition:var(--tr-ui),padding-left .3s var(--ease-out);cursor:pointer;touch-action:manipulation}
   .drawer-nav button:last-child{border-bottom:none}
   .drawer-nav button:hover{background:rgba(217,187,144,.05);color:var(--gold);padding-left:30px}
   .drawer-nav button.ativo{color:var(--gold)}
-  
+
   .drawer-contribuir { margin: 24px; padding: 20px; background: var(--bg-elevated); border: 1px solid var(--border-gold); border-radius: 12px; text-align: center; }
   .drawer-contribuir h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); margin-bottom: 8px; }
-  .drawer-contribuir p { font-size: 0.75rem; color: var(--text-sec); line-height: 1.5; margin-bottom: 16px; font-weight: 300; }
+  .drawer-contribuir p { font-size: 0.78rem; color: var(--text-sec); line-height: 1.5; margin-bottom: 16px; font-weight: 300; }
   .pix-box { background: rgba(0,0,0,.3); padding: 12px; border-radius: 8px; border: 1px dashed var(--border-gold); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .pix-box span { font-family: monospace; font-size: 0.75rem; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .btn-copiar { background: var(--gold); color: #1b1209; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 600; cursor: pointer; transition: var(--tr-ui); }
+  .pix-box span { font-family: monospace; font-size: 0.78rem; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .btn-copiar { background: var(--gold); color: #1b1209; border: none; padding: 10px 14px; border-radius: 8px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: var(--tr-ui); touch-action: manipulation; }
   .btn-copiar:hover { background: var(--gold-light); }
-  .drawer-footer{margin-top:auto;padding:24px;font-size:.62rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
+  .drawer-footer{margin-top:auto;padding:24px;font-size:.66rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
 
   /* BOTTOM SHEET */
   .sheet-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:970;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
   .sheet-overlay.ativo{opacity:1;visibility:visible}
   .sheet{position:fixed;bottom:0;left:0;right:0;margin-inline:auto;width:min(100%, 560px);background:var(--bg-card);border:1px solid var(--border-gold);border-bottom:none;border-radius:24px 24px 0 0;z-index:980;transform:translateY(100%);transition:transform .4s var(--ease-luxury);padding:12px 24px calc(24px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.5)}
   .sheet.aberto{transform:translateY(0)}
+  .sheet[inert]{pointer-events:none}
   .sheet-handle{width:40px;height:4px;background:rgba(217,187,144,.3);border-radius:2px;margin:0 auto 20px}
   .sheet-title{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;color:var(--gold);margin-bottom:20px}
   .sheet-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  .sheet-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--text);transition:var(--tr-ui);text-decoration:none}
+  .sheet-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--text);transition:var(--tr-ui);text-decoration:none;touch-action:manipulation}
   .sheet-btn:hover{background:rgba(217,187,144,.08);border-color:var(--border-gold);color:var(--gold)}
   .sheet-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.5}
-  .sheet-btn span{font-size:.75rem;font-weight:500;letter-spacing:.02em}
+  .sheet-btn span{font-size:.78rem;font-weight:500;letter-spacing:.02em}
   .sheet-btn.ativo{background:rgba(217,187,144,.15);border-color:var(--gold);color:var(--gold)}
 
   /* CONTEÚDO */
@@ -167,7 +182,7 @@
   .page-title{text-align:center;padding:0 16px 8px;margin-bottom:24px}
   .page-title h1{font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;font-weight:600;color:var(--text);letter-spacing:-.015em;line-height:1.2}
   .page-title .divider{display:block;width:20px;height:1px;margin:18px auto 14px;background:var(--border-gold)}
-  .page-title .sub{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:300;line-height:1.9}
+  .page-title .sub{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);font-weight:300;line-height:1.9}
   .page-title .sub .highlight{color:var(--gold);font-weight:400}
 
   .bloco{margin-bottom:56px}
@@ -175,204 +190,554 @@
   .bloco-head h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.25rem;color:var(--text);white-space:nowrap;letter-spacing:-.01em}
   .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
 
-  .grid{display:grid;gap:16px} 
-  .grid-2{grid-template-columns:repeat(2,1fr)}
-  .grid-3{grid-template-columns:repeat(3,1fr)}
-  .grid-4{grid-template-columns:repeat(4,1fr)}
+  /* ============================================================
+     GRID PADRONIZADO — 2 mobile / 3 tablet / 4 desktop
+     ============================================================ */
+  .grid,
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  #grid-tipos,
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (min-width:601px) and (max-width:1024px){
+    .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (min-width:1025px){
+    .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
 
-  /* CARDS (PORTFÓLIO) */
-  .card { position: relative; display: flex; flex-direction: column; width: 100%; cursor: pointer; background: transparent; border: none; padding: 0; box-shadow: none; transition: transform .3s var(--ease-out); -webkit-tap-highlight-color: transparent; animation: fadeInUp .55s var(--ease-out) backwards; text-align: left; font-family: inherit; color: inherit; }
+  /* ============================================================
+     REGRA ÚNICA — imagem 2:3 (nativa 1000×1500) + fallback
+     ============================================================ */
+  .card {
+    position: relative; display: flex; flex-direction: column;
+    width: 100%; cursor: pointer; background: transparent; border: none; padding: 0;
+    box-shadow: none; transition: transform .3s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    animation: fadeInUp .55s var(--ease-out) backwards;
+    text-align: left; font-family: inherit; color: inherit;
+    touch-action: manipulation;
+  }
   .card:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
 
-  .card-img-wrap { position: relative; width: 100%; aspect-ratio: 2 / 3; border-radius: var(--radius); overflow: hidden; background: var(--bg-elevated); box-shadow: 0 8px 24px rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.05); transition: border-color .3s var(--ease-out), transform .3s var(--ease-out); }
-  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .8s var(--ease-out); display: block; }
+  .card-img-wrap,
+  .editorial-card .card-img-wrap,
+  .mini-card-editorial .card-img-wrap,
+  .visagismo-painel img,
+  .col-display img,
+  .swatch-card img,
+  .mini-card img,
+  .corte-slide img,
+  .modal-img img,
+  .modal-mini-kit img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    background: var(--bg-elevated);
+  }
+
+  .card-img-wrap {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    border: 1px solid rgba(255,255,255,.05);
+    transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
+  }
+  .card-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform .8s var(--ease-out);
+    display: block;
+  }
+
+  /* fallback dourado com nome do item */
+  .img-erro {
+    background: var(--bg-elevated) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .img-erro::after {
+    content: attr(data-nome);
+    color: var(--gold-lo);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: .85rem;
+    text-align: center;
+    padding: 14px;
+    line-height: 1.3;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   @media (hover:hover) {
     .card:hover { transform: translateY(-4px); }
     .card:hover .card-img-wrap { border-color: var(--border-gold); box-shadow: 0 12px 32px rgba(0,0,0,.6); }
-    .card:hover img { transform: scale(1.04); }
+    .card:hover .card-img-wrap img { transform: scale(1.04); }
   }
   .card:active .card-img-wrap { transform: scale(.98); }
 
-  .card-badge { position: absolute; top: 8px; left: 8px; z-index: 2; padding: 3px 8px; border-radius: 999px; background: rgba(10,8,8,.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-gold); font-size: .52rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-weight: 500; line-height: 1.4; }
+  .card-badge {
+    position: absolute; top: 8px; left: 8px; z-index: 2;
+    padding: 3px 8px; border-radius: 999px;
+    background: rgba(10,8,8,.78);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-gold);
+    font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; line-height: 1.4;
+  }
 
-  .card-text-wrap { padding: 10px 2px 0 2px; display: flex; flex-direction: column; gap: 2px; }
-  .card-nome { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.9rem; font-weight: 600; color: var(--gold-light); line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
-  .card-sub { font-size: 0.7rem; color: var(--text-muted); font-weight: 300; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-text-wrap { padding: 10px 2px 0 2px; display: block; }
+  .card-nome {
+    display: block;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 0.9rem; font-weight: 600; color: var(--gold-light);
+    line-height: 1.2;
+    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .card-sub {
+    display: -webkit-box;
+    font-size: 0.72rem; color: var(--text-muted); font-weight: 300; line-height: 1.3;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .card-nome mark{background:rgba(217,187,144,.22);color:var(--gold-hi);padding:0 2px;border-radius:2px;font-weight:700}
 
-  .aviso-afiliado{max-width:720px;margin:0 auto 32px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);font-size:.74rem;color:var(--text-muted);font-weight:300;text-align:center;line-height:1.6}
+  .aviso-afiliado{max-width:720px;margin:0 auto 32px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);font-size:.78rem;color:var(--text-muted);font-weight:300;text-align:center;line-height:1.6}
   .aviso-afiliado .gold{color:var(--gold);font-weight:400}
 
   /* VISAGISMO */
   .visagismo-container { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
   .visagismo-nav { display: flex; gap: 12px; overflow-x: auto; padding: 4px 4px 16px 4px; scrollbar-width: none; -ms-overflow-style: none; }
   .visagismo-nav::-webkit-scrollbar { display: none; }
-  .visagismo-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-muted); transition: var(--tr-ui); flex-shrink: 0; }
+  .visagismo-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-muted); transition: var(--tr-ui); flex-shrink: 0; touch-action: manipulation; }
   .visagismo-btn svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; padding: 8px; border-radius: 50%; border: 1px solid transparent; transition: var(--tr-ui); }
-  .visagismo-btn span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+  .visagismo-btn span { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
   .visagismo-btn.ativo { color: var(--gold); }
   .visagismo-btn.ativo svg { border-color: var(--border-gold); background: rgba(217,187,144,.08); box-shadow: 0 0 12px rgba(217,187,144,.15); }
 
-  .visagismo-painel { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); overflow: hidden; animation: fadeInUp .4s var(--ease-out); max-width: 320px; margin: 0 auto; }
-  .visagismo-painel img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); cursor: zoom-in; }
+  .visagismo-painel {
+    background: var(--bg-card); border: 1px solid var(--border-gold);
+    border-radius: var(--radius); overflow: hidden;
+    animation: fadeInUp .4s var(--ease-out);
+    max-width: 280px; margin: 0 auto;
+  }
+  .visagismo-painel img {
+    border-bottom: 1px solid var(--border);
+    cursor: zoom-in;
+    margin: 0 auto;
+  }
+
   .visagismo-painel-txt { padding: 20px; }
   .visagismo-painel-txt h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 6px; }
   .visagismo-painel-txt p { font-size: 0.85rem; color: var(--text-sec); line-height: 1.5; font-weight: 300; margin-bottom: 12px; }
   .visagismo-painel-txt .recomendacao { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 500; display: block; margin-bottom: 4px; }
-  .btn-link { display: inline-block; margin-top: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(217,187,144,.1); border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; font-weight: 600; transition: var(--tr-ui); }
+  .btn-link { display: inline-block; margin-top: 8px; padding: 10px 16px; border-radius: 999px; background: rgba(217,187,144,.1); border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; font-weight: 600; transition: var(--tr-ui); touch-action: manipulation; }
   .btn-link:hover { background: rgba(217,187,144,.2); color: var(--gold-hi); }
 
   .cores-nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
-  .cor-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: var(--tr-ui); box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .cor-btn { width: 48px; height: 48px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: var(--tr-ui); box-shadow: 0 4px 12px rgba(0,0,0,.3); touch-action: manipulation; }
   .cor-btn.ativo { border-color: var(--gold); transform: scale(1.1); }
   .paleta-resultado { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 20px; text-align: center; }
   .paleta-titulo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); margin-bottom: 16px; }
-  
+
   .paleta-swatches { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-  .swatch-card { width: 80px; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; }
+  .swatch-card { width: 84px; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; touch-action: manipulation; }
   .swatch-card:hover { transform: translateY(-3px); }
   .swatch-card.ativo { border-color: var(--gold); box-shadow: 0 4px 12px rgba(217,187,144,.3); }
-  .swatch-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center top; display: block; }
+  .swatch-card img { cursor: zoom-in; }
+
   .swatch-card-info { padding: 6px; text-align: center; background: var(--bg-card); }
   .swatch-card-cor { width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 1px solid rgba(255,255,255,.2); }
-  .swatch-card-info span { display: block; font-size: 0.55rem; color: var(--text-sec); line-height: 1.2; font-weight: 500; }
+  .swatch-card-info span { display: block; font-size: 0.6rem; color: var(--text-sec); line-height: 1.2; font-weight: 500; }
   .paleta-resultado p { font-size: 0.85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; }
 
   .acordeao { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-card); }
   .acordeao-item { border-bottom: 1px solid var(--border); }
   .acordeao-item:last-child { border-bottom: none; }
-  .acordeao-header { width: 100%; padding: 16px 20px; background: none; border: none; display: flex; justify-content: space-between; align-items: center; color: var(--text); font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; cursor: pointer; transition: var(--tr-ui); }
+  .acordeao-header { width: 100%; padding: 16px 20px; background: none; border: none; display: flex; justify-content: space-between; align-items: center; color: var(--text); font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; cursor: pointer; transition: var(--tr-ui); touch-action: manipulation; }
   .acordeao-header:hover { background: rgba(217,187,144,.05); color: var(--gold); }
   .acordeao-header.active { color: var(--gold); }
   .acordeao-header::after { content: '+'; font-size: 1.2rem; transition: transform .3s; }
   .acordeao-header.active::after { content: '−'; transform: rotate(180deg); }
   .acordeao-body { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease-out); background: rgba(0,0,0,.2); }
-  .acordeao-body-inner { padding: 0 20px 20px; display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; }
+  .acordeao-body-inner { padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .acordeao-body-inner::-webkit-scrollbar { display: none; }
-  .mini-card { flex: 0 0 140px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; }
-  .mini-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center top; }
-  .mini-card-txt { padding: 10px; text-align: center; }
-  .mini-card-txt strong { display: block; font-size: 0.8rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
-  .mini-card-txt span { font-size: 0.65rem; color: var(--text-muted); }
+  .mini-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; display: flex; flex-direction: column; touch-action: manipulation; }
+  .mini-card img { cursor: zoom-in; }
+
+  .mini-card-txt { padding: 8px 6px; text-align: center; }
+  .mini-card-txt strong { display: block; font-size: 0.82rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
+  .mini-card-txt span { font-size: 0.68rem; color: var(--text-muted); }
 
   /* COLORAÇÃO E MAQUIAGEM (DISPLAY) */
   .col-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; -ms-overflow-style: none; margin-bottom: 16px; }
   .col-tabs::-webkit-scrollbar { display: none; }
-  .col-tab { background: transparent; border: 1px solid var(--border-gold); color: var(--text-muted); padding: 8px 16px; border-radius: 999px; font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: var(--tr-ui); white-space: nowrap; }
+  .col-tab { background: transparent; border: 1px solid var(--border-gold); color: var(--text-muted); padding: 10px 18px; border-radius: 999px; font-family: inherit; font-size: 0.82rem; cursor: pointer; transition: var(--tr-ui); white-space: nowrap; touch-action: manipulation; }
   .col-tab.ativo { background: var(--gold); color: #1b1209; border-color: var(--gold); font-weight: 600; }
 
   .col-display {
     background: var(--bg-card); border: 1px solid var(--border-gold);
     border-radius: var(--radius); overflow: hidden; margin-bottom: 24px;
     animation: fadeInUp .4s var(--ease-out);
-    max-width: 380px; margin-inline: auto; 
+    max-width: 320px; margin-inline: auto;
   }
   .col-display img {
-    width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top;
-    border-bottom: 1px solid var(--border); transition: opacity 0.3s;
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.3s;
+    margin: 0 auto;
+    cursor: zoom-in;
   }
+
   .col-paleta { display: flex; justify-content: center; gap: 12px; padding: 16px; overflow-x: auto; scrollbar-width: none; }
   .col-paleta::-webkit-scrollbar { display: none; }
-  .col-swatch { width: 44px; height: 44px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+  .col-swatch { width: 48px; height: 48px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); touch-action: manipulation; }
   .col-swatch:hover { transform: scale(1.1); }
   .col-swatch.ativo { border-color: var(--gold); transform: scale(1.15); }
   .col-info { padding: 0 20px 20px; text-align: center; }
   .col-info h3 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold); font-size: 1.1rem; margin-bottom: 4px; }
-  .col-info p { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
+  .col-info p { font-size: 0.82rem; color: var(--text-sec); font-weight: 300; }
   .col-info .btn-link { margin-top: 12px; }
 
   /* CARROSSEL E MINI GRIDS */
   .editorial-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .editorial-scroll::-webkit-scrollbar { display: none; }
-  .editorial-card { flex: 0 0 200px; scroll-snap-align: start; background: transparent; border: none; padding: 0; cursor: pointer; transition: transform .3s var(--ease-out); display: flex; flex-direction: column; }
+  .editorial-card { flex: 0 0 200px; scroll-snap-align: start; background: transparent; border: none; padding: 0; cursor: pointer; transition: transform .3s var(--ease-out); display: flex; flex-direction: column; touch-action: manipulation; }
   .editorial-card:hover { transform: translateY(-4px); }
-  .editorial-card .card-img-wrap { aspect-ratio: 2/3; } 
+
   .editorial-card-txt { padding: 10px 2px; text-align: left; }
-  .editorial-card-txt h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-light); font-size: 0.9rem; margin-bottom: 4px; }
-  .editorial-card-txt p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
+  .editorial-card-txt h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-light); font-size: 0.92rem; margin-bottom: 4px; }
+  .editorial-card-txt p { font-size: 0.72rem; color: var(--text-muted); line-height: 1.3; }
 
-  .mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .mini-card-editorial { background: transparent; border: none; padding: 0; cursor: pointer; transition: var(--tr-ui); display: flex; flex-direction: column; }
-  .mini-card-editorial .card-img-wrap { aspect-ratio: 2/3; }
+  .mini-card-editorial { background: transparent; border: none; padding: 0; cursor: pointer; transition: var(--tr-ui); display: flex; flex-direction: column; touch-action: manipulation; }
+
   .mini-card-editorial-txt { padding: 8px 2px; text-align: left; }
-  .mini-card-editorial-txt strong { display: block; font-size: 0.8rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
-  .mini-card-editorial-txt span { font-size: 0.65rem; color: var(--text-muted); }
+  .mini-card-editorial-txt strong { display: block; font-size: 0.82rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
+  .mini-card-editorial-txt span { font-size: 0.68rem; color: var(--text-muted); }
 
-  /* ZOOM E MODAIS */
-  .zoom-bg { position: fixed; inset: 0; background: rgba(10,8,8,.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .35s var(--ease-out), visibility .35s; padding: 20px; }
+  /* ============ ZOOM ============ */
+  .zoom-bg {
+    position: fixed; inset: 0;
+    background: rgba(10,8,8,.95);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    z-index: 1100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity .35s var(--ease-out), visibility .35s;
+    padding: 20px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .zoom-bg.on { opacity: 1; visibility: visible; }
-  .zoom-content { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 16px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; transform: scale(.95); transition: transform .4s var(--ease-luxury); box-shadow: 0 20px 60px rgba(0,0,0,.8); }
-  .zoom-bg.on .zoom-content { transform: scale(1); }
-  .zoom-content::-webkit-scrollbar { width: 0; display: none; }
-  .zoom-content { scrollbar-width: none; }
+  .zoom-bg img {
+    max-width: 95vw;
+    max-height: 90vh;
+    max-height: 90dvh;
+    width: auto; height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    cursor: zoom-in;
+    transition: transform .35s var(--ease-out);
+    touch-action: pinch-zoom;
+  }
+  .zoom-bg img.zoomed {
+    transform: scale(2);
+    cursor: zoom-out;
+    touch-action: pan-x pan-y;
+  }
 
-  .zoom-img-wrap { width: 100%; position: relative; background: var(--bg-elevated); border-radius: 16px 16px 0 0; overflow: hidden; }
-  .zoom-img-wrap img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+  .zoom-close {
+    position: fixed;
+    top: 20px; right: 20px;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: #D4AF37;
+    color: #000;
+    border: 3px solid #000;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    transition: background .2s, transform .15s, box-shadow .2s, color .2s;
+    z-index: 2100;
+    box-shadow:
+      0 0 0 4px rgba(212,175,55,.35),
+      0 6px 22px rgba(212,175,55,.55),
+      0 8px 28px rgba(0,0,0,.6);
+    animation: pulseGold 2s ease-in-out infinite;
+    touch-action: manipulation;
+  }
+  .zoom-close:hover {
+    background: #000;
+    color: #D4AF37;
+    border-color: #D4AF37;
+    transform: scale(1.12);
+    animation: none;
+  }
+  .zoom-close:active { transform: scale(.95); }
 
-  .zoom-text-wrap { padding: 24px; text-align: center; }
-  .zoom-text-wrap h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: var(--gold); margin-bottom: 8px; }
-  .zoom-text-wrap .zoom-cat { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 16px; display: block; }
-  .zoom-text-wrap p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; font-weight: 300; margin-bottom: 20px; }
-  
-  .btn-produto { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 10px; background: var(--gold); color: #1b1209; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; text-decoration: none; transition: var(--tr-ui); margin-bottom: 24px; }
-  .btn-produto:hover { background: var(--gold-light); transform: translateY(-2px); }
+  @keyframes pulseGold {
+    0%, 100% {
+      box-shadow:
+        0 0 0 4px rgba(212,175,55,.35),
+        0 6px 22px rgba(212,175,55,.55),
+        0 8px 28px rgba(0,0,0,.6);
+    }
+    50% {
+      box-shadow:
+        0 0 0 12px rgba(212,175,55,.12),
+        0 6px 30px rgba(212,175,55,.85),
+        0 8px 28px rgba(0,0,0,.6);
+    }
+  }
 
-  .zoom-sugestoes { border-top: 1px solid var(--border); padding-top: 20px; text-align: left; }
-  .zoom-sugestoes h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
-  .zoom-mini-kits { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 8px; }
-  .zoom-mini-kits::-webkit-scrollbar { display: none; }
-  .zoom-mini-kit { flex: 0 0 90px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: var(--tr-ui); }
-  .zoom-mini-kit:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .zoom-mini-kit img { width: 100%; aspect-ratio: 2/3; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); }
-  .zoom-mini-kit span { display: block; padding: 8px 4px; text-align: center; font-size: 0.55rem; color: var(--gold-light); font-weight: 500; line-height: 1.2; }
+  .zoom-hint {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    color: #D4AF37;
+    font-size: 12px;
+    opacity: .85;
+    background: rgba(0,0,0,.65);
+    border: 1px solid rgba(212,175,55,.4);
+    padding: 6px 14px;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 2100;
+  }
 
-  .zoom-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: rgba(120,25,35,.75); border: 1px solid rgba(184,58,74,.55); color: #e8a0a8; cursor: pointer; font-size: 1rem; line-height: 1; display: flex; align-items: center; justify-content: center; padding: 0; transition: var(--tr-ui); z-index: 5; backdrop-filter: blur(8px); }
-  .zoom-close:hover { background: rgba(150,35,48,.9); color: #f5c8ce; transform: scale(1.08); }
-
+  /* CARROSSEL DE CORTES (mantido desativado — religar quando tiver 36 fotos) */
   .corte-carrossel-wrapper { position: relative; width: 100%; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
   .corte-carrossel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; gap: 6px; border-radius: 10px; }
   .corte-carrossel::-webkit-scrollbar { display: none; }
   .corte-slide { flex: 0 0 100%; scroll-snap-align: center; width: 100%; display: flex; flex-direction: column; gap: 8px; }
-  .corte-slide img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; object-position: center top; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; cursor: zoom-in; transition: transform .4s var(--ease-out), opacity .3s; }
+  .corte-slide img {
+    max-width: 220px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: zoom-in;
+    margin: 0 auto;
+  }
   .corte-slide .slide-texto { text-align: center; font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; padding: 0 4px; min-height: 40px; }
   .corte-slide .slide-texto strong { color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; display: block; margin-bottom: 2px; font-size: .95rem; }
   .corte-indicadores { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
-  .corte-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-gold); transition: background .3s, transform .3s; cursor: pointer; }
+  .corte-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border-gold);
+    transition: background .3s, transform .3s;
+    cursor: pointer;
+    box-shadow: 0 0 0 8px transparent;
+    touch-action: manipulation;
+  }
   .corte-dot.ativo { background: var(--gold); transform: scale(1.3); }
-  
+
+  /* MODAL PADRÃO */
   .modal-bg{position:fixed;inset:0;background:rgba(10,8,8,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;transition:opacity .35s var(--ease-out)}
   .modal-bg.on{display:flex;opacity:1}
-  .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:16px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
+  .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:16px;max-width:340px;width:100%;max-height:85vh;max-height:85dvh;overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
   .modal-bg.on .modal{transform:translateY(0)}
   .modal::-webkit-scrollbar{width:0;display:none}
   .modal{scrollbar-width:none}
-  .modal-img{width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--bg-elevated);border-radius:16px 16px 0 0;position:relative}
-  .modal-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-  .modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(120,25,35,.75);border:1px solid rgba(184,58,74,.55);color:#e8a0a8;cursor:pointer;font-size:1rem;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:var(--tr-ui);z-index:5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-  .modal-close:hover{background:rgba(150,35,48,.9);color:#f5c8ce;transform:scale(1.08)}
-  .modal-body{padding:26px 24px 28px;animation:sheetIn .55s .1s var(--ease-out) backwards}
-  .modal-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.4rem;color:var(--text);letter-spacing:-.01em;margin-bottom:6px}
-  .modal-sub{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:16px;display:block}
-  .modal-text{font-size:.88rem;color:var(--text-sec);line-height:1.7;margin-bottom:20px;font-weight:300}
-  .modal-list{list-style:none;margin-bottom:22px}
-  .modal-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:.84rem;color:var(--text);display:flex;align-items:center;gap:10px}
+
+  .modal-img{width: 100%; padding: 20px; background: var(--bg-card); display: flex; justify-content: center; border-radius: 16px 16px 0 0; position: relative; cursor: zoom-in;}
+  .modal-img img{
+    max-width: 220px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    cursor: zoom-in;
+    transition: opacity .2s;
+    margin: 0 auto;
+  }
+  .modal-img img:hover { opacity: .9; }
+
+  .modal-close{
+    position:absolute; top:14px; right:14px;
+    width:40px; height:40px; border-radius:50%;
+    background:#D4AF37;
+    border:2px solid #000;
+    color:#000;
+    cursor:pointer; font-size:1.1rem; font-weight:700;
+    line-height:1; display:flex; align-items:center; justify-content:center;
+    padding:0; transition:var(--tr-ui); z-index:5;
+    box-shadow:0 0 0 3px rgba(212,175,55,.3), 0 4px 14px rgba(212,175,55,.5);
+    touch-action: manipulation;
+  }
+  .modal-close:hover{
+    background:#000; color:#D4AF37; border-color:#D4AF37;
+    transform:scale(1.08);
+    box-shadow:0 0 0 5px rgba(212,175,55,.4), 0 6px 18px rgba(212,175,55,.7);
+  }
+
+  .modal-body{padding:20px 20px 24px;animation:sheetIn .55s .1s var(--ease-out) backwards;text-align:center}
+  .modal-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.3rem;color:var(--gold-light);letter-spacing:-.01em;margin-bottom:4px}
+  .modal-sub{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:12px;display:block}
+  .modal-text{font-size:.85rem;color:var(--text-sec);line-height:1.6;margin-bottom:16px;font-weight:300}
+  .modal-list{list-style:none;margin-bottom:18px;text-align:left}
+  .modal-list li{padding:8px 0;border-bottom:1px solid var(--border);font-size:.82rem;color:var(--text);display:flex;align-items:center;gap:10px}
   .modal-list li:last-child{border-bottom:none}
   .modal-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 6px rgba(217,187,144,.5)}
-  .modal-actions{display:flex;gap:10px;margin-top:22px}
-  .modal-btn{flex:1;padding:14px;border:none;border-radius:10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;font-weight:600;transition:var(--tr-ui);text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-  .modal-btn.primary{background:var(--gold);color:#1b1209}
-  .modal-btn.primary:hover{background:var(--gold-light);transform:translateY(-1px)}
-  .modal-btn.secondary{background:transparent;color:var(--text-muted);border:1px solid var(--border-gold)}
-  .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
+  
+  /* --- BOTÕES E PRODUTOS NO MODAL SOFISTICADOS --- */
+  .modal-afiliado {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin: 0 0 12px;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .modal-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: var(--tr-ui);
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    touch-action: manipulation;
+  }
+
+  .modal-btn.primary {
+    background: rgba(217,187,144,0.08);
+    color: var(--gold-light);
+    border: 1px solid var(--border-gold);
+    font-weight: 600;
+  }
+
+  .modal-btn.primary:hover {
+    background: rgba(217,187,144,0.16);
+    border-color: var(--gold);
+    color: var(--gold-hi);
+    transform: translateY(-1px);
+  }
+
+  .modal-btn.primary svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .modal-btn.secondary {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    font-weight: 400;
+  }
+  .modal-btn.secondary:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .modal-recomendados { 
+    border-top: 1px solid rgba(217,187,144,0.15); 
+    padding-top: 20px; 
+    margin-top: 20px; 
+    text-align: left; 
+  }
+  .modal-recomendados h4 { 
+    font-size: 0.65rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.15em; 
+    color: var(--gold); 
+    margin-bottom: 14px; 
+    font-weight: 500; 
+    opacity: 0.8;
+  }
+  .modal-mini-kits { 
+    display: flex; 
+    gap: 12px; 
+    overflow-x: auto; 
+    scrollbar-width: none; 
+    padding-bottom: 8px; 
+    margin: 0 -20px;
+    padding-inline: 20px;
+  }
+  .modal-mini-kits::-webkit-scrollbar { display: none; }
+
+  .modal-mini-kit { 
+    flex: 0 0 90px; 
+    background: transparent; 
+    border: 1px solid transparent; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    text-decoration: none; 
+    color: inherit; 
+    display: flex;
+    flex-direction: column;
+    transition: var(--tr-ui);
+  }
+  .modal-mini-kit:hover { 
+    border-color: var(--border-gold); 
+    transform: translateY(-2px); 
+    background: rgba(217,187,144,0.04);
+  }
+  .modal-mini-kit img { 
+    width: 100%; 
+    aspect-ratio: 1/1; 
+    object-fit: cover; 
+    border-bottom: none; 
+    border-radius: 8px;
+  }
+  .modal-mini-kit span { 
+    display: block; 
+    padding: 8px 4px; 
+    text-align: center; 
+    font-size: 0.6rem; 
+    color: var(--text-sec); 
+    font-weight: 400; 
+    line-height: 1.3; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   /* DOCK */
   .dock{position:fixed;left:0;right:0;margin-inline:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(calc(100% - 28px),500px);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:999px;--i:0;background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);z-index:900;opacity:0;transform:translateY(16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
   body.app-pronta .dock{opacity:1;transform:none}
   .dock-ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px) / 5);border-radius:999px;background:rgba(217,187,144,.13);border:1px solid rgba(217,187,144,.22);transform:translateX(calc(var(--i) * 100%));transition:transform .55s var(--ease-out);pointer-events:none}
-  .dock-btn{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:52px;padding:0;border:none;border-radius:999px;background:none;color:var(--text-muted);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:color .3s var(--ease-out),transform .2s var(--ease-out)}
+  .dock-btn{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:56px;padding:0;border:none;border-radius:999px;background:none;color:var(--text-muted);cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:color .3s var(--ease-out),transform .2s var(--ease-out);touch-action:manipulation}
   .dock-btn svg{width:18px;height:18px;display:block;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .45s var(--ease-out)}
-  .dock-btn span{font-size:.54rem;font-weight:500;letter-spacing:.04em;line-height:1}
+  .dock-btn span{font-size:.62rem;font-weight:500;letter-spacing:.04em;line-height:1}
   .dock-btn.ativo{color:var(--gold)}
   .dock-btn.ativo svg{transform:translateY(-1px)}
   .dock-btn:active{transform:scale(.94)}
@@ -384,7 +749,7 @@
   #secao-busca .page-title{padding-top:0}
   .busca-meta-inline{color:var(--text-muted)}
   .busca-meta-inline .gold{color:var(--gold);font-weight:500}
-  .busca-vazia{text-align:center;color:var(--text-muted);font-size:.86rem;font-weight:300;padding:32px 16px;line-height:1.7}
+  .busca-vazia{text-align:center;color:var(--text-muted);font-size:.88rem;font-weight:300;padding:32px 16px;line-height:1.7}
   .busca-vazia .gold{color:var(--gold)}
 
   @media (max-width:600px){
@@ -393,47 +758,33 @@
     .header-top{padding:0 12px 0 18px}
     .busca-wrap{padding:0 10px 10px 10px}
     .busca-wrap::before{left:24px;width:15px;height:15px}
-    .busca-input{height:38px;font-size:.82rem;padding:0 36px 0 38px}
-    .busca-clear{right:18px;width:22px;height:22px}
-    
-    .grid{gap:12px}
-    .grid-2, .grid-3, .grid-4{grid-template-columns:repeat(2,1fr)}
-    #grid-tipos{grid-template-columns:repeat(3,1fr)}
-    
-    .card-img-wrap { aspect-ratio: 2/3; } 
-    
+    .busca-input{height:40px;font-size:.86rem;padding:0 40px 0 38px}
+    .busca-clear{right:14px;width:30px;height:30px}
+
+    .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid{gap:12px}
+
     .bloco{margin-bottom:36px}
     .bloco-head{margin-bottom:16px;gap:10px}
-    .bloco-head h2{font-size:.95rem}
+    .bloco-head h2{font-size:.98rem}
     .page-title h1{font-size:1.15rem}
-    .page-title .sub{font-size:.58rem}
-    .card-badge{font-size:.46rem;padding:2px 6px;top:6px;left:6px}
-    .dock-btn span{font-size:.5rem}
+    .page-title .sub{font-size:.62rem}
+    .card-badge{font-size:.56rem;padding:2px 6px;top:6px;left:6px}
+    .dock-btn span{font-size:.58rem}
     .dock-btn svg{width:16px;height:16px}
     .visagismo-btn svg { width: 40px; height: 40px; }
-    .visagismo-btn span { font-size: 0.55rem; }
-    .cor-btn { width: 36px; height: 36px; }
-    
+    .visagismo-btn span { font-size: 0.6rem; }
+    .cor-btn { width: 40px; height: 40px; }
+
     .editorial-card { flex: 0 0 160px; }
-    .mini-grid { gap: 12px; }
-    .swatch-card { width: 68px; }
-    
-    .card-nome { font-size: 0.8rem; }
-    .card-sub { font-size: 0.65rem; }
-  }
-  @media (min-width:601px) and (max-width:899px){
-    .grid-3, .grid-4{grid-template-columns:repeat(3,1fr)}
-    #grid-tipos{grid-template-columns:repeat(4,1fr)}
-  }
-  @media (min-width:900px){
-    .grid-3{grid-template-columns:repeat(4,1fr)}
-    .grid-4{grid-template-columns:repeat(5,1fr)}
-    #grid-tipos{grid-template-columns:repeat(6,1fr)}
-  }
-  @media (min-width:1200px){
-    .grid-3{grid-template-columns:repeat(5,1fr)}
-    .grid-4{grid-template-columns:repeat(6,1fr)}
-    #grid-tipos{grid-template-columns:repeat(6,1fr)}
+    .swatch-card { width: 72px; }
+
+    .card-nome { font-size: 0.82rem; }
+    .card-sub { font-size: 0.68rem; }
+
+    .modal-img { padding: 15px; }
+    .modal-img img { max-width: 180px; }
+    .corte-slide img { max-width: 180px; }
+    .zoom-close { top: 12px; right: 12px; width: 48px; height: 48px; font-size: 26px; }
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
@@ -454,7 +805,7 @@
   <div class="busca-wrap">
     <input id="buscaInput" class="busca-input" type="search"
            inputmode="search" enterkeyhint="search"
-           placeholder="Buscar corte, make, noiva…"
+           placeholder="Buscar corte, noiva, kit…"
            aria-label="Buscar no HairOS" autocomplete="off">
     <button type="button" class="busca-clear" id="buscaClear" aria-label="Limpar busca" hidden>✕</button>
   </div>
@@ -485,9 +836,8 @@
   </button>
 </nav>
 
-<!-- MENU DRAWER (Hambúrguer) -->
 <div class="drawer-overlay" id="drawerOverlay" hidden></div>
-<aside class="drawer" id="drawer" aria-hidden="true">
+<aside class="drawer" id="drawer" aria-hidden="true" inert>
   <div class="drawer-header">
     <span class="drawer-brand"><span class="brand-h">H</span><span class="brand-rest">airOS</span></span>
     <button type="button" class="drawer-fechar" id="drawerFechar" aria-label="Fechar menu">&times;</button>
@@ -501,8 +851,7 @@
     <button type="button" data-secao="kits" class="ativo">Kits & Acessórios</button>
     <button type="button" data-secao="ferramentas">Ferramentas</button>
   </nav>
-  
-  <!-- CONTRIBUIÇÃO VIA PIX -->
+
   <div class="drawer-contribuir">
     <h3>Apoie o HairOS</h3>
     <p>Este app é feito com carinho para você. Se ele te ajudou, considere apoiar o projeto com qualquer valor via PIX.</p>
@@ -511,18 +860,15 @@
       <button class="btn-copiar" onclick="copiarPix()">Copiar</button>
     </div>
   </div>
-  
+
   <div class="drawer-footer">HairOS · 2026</div>
 </aside>
 
-<!-- BOTTOM SHEET (Menu Mais) -->
 <div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheet()"></div>
-<div class="sheet" id="sheet">
+<div class="sheet" id="sheet" inert>
   <div class="sheet-handle"></div>
   <h3 class="sheet-title">Mais Opções</h3>
-  <div class="sheet-nav" id="sheetNav">
-    <!-- Injetado via JS -->
-  </div>
+  <div class="sheet-nav" id="sheetNav"></div>
 </div>
 
 <main class="main-content" id="mainContent">
@@ -535,7 +881,6 @@
     <div class="grid grid-3" id="grid-cortes"></div>
   </section>
 
-  <!-- VISAGISMO -->
   <section class="secao" id="secao-visagismo">
     <div class="page-title">
       <h1>Visagismo</h1><span class="divider"></span>
@@ -601,13 +946,12 @@
     </div>
   </section>
 
-  <!-- COLORAÇÃO -->
   <section class="secao" id="secao-coloracao">
     <div class="page-title">
       <h1>Coloração</h1><span class="divider"></span>
       <div class="sub">Tons e técnicas<br><span class="highlight">que transformam</span></div>
     </div>
-    
+
     <div class="aviso-afiliado"><span class="gold">Não vendemos produtos.</span> Indicamos os que fazem sentido, com link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão — <span class="gold">sem nenhum custo extra para você.</span></div>
 
     <div class="bloco">
@@ -619,7 +963,7 @@
         <button class="col-tab" data-cat="escuros">Escuros</button>
       </div>
       <div class="col-display">
-        <img id="colImagem" src="" alt="Modelo" onclick="abrirZoomEditorial(this.src, document.getElementById('colInfo').querySelector('h3').innerText, 'Coloração', document.getElementById('colInfo').querySelector('p').innerText, document.getElementById('colInfo').querySelector('.btn-link').href)">
+        <img id="colImagem" src="" alt="Modelo" onclick="abrirZoomEditorial(this.src)" onerror="this.style.opacity=0">
         <div class="col-paleta" id="colPaleta"></div>
         <div class="col-info" id="colInfo"></div>
       </div>
@@ -641,13 +985,12 @@
     </div>
   </section>
 
-  <!-- MAQUIAGEM -->
   <section class="secao" id="secao-maquiagem">
     <div class="page-title">
       <h1>Maquiagem</h1><span class="divider"></span>
       <div class="sub">Realce sua beleza<br><span class="highlight">com as cores certas</span></div>
     </div>
-    
+
     <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
 
     <div class="bloco">
@@ -658,19 +1001,18 @@
         <button class="col-tab" data-cat="boca">Boca</button>
       </div>
       <div class="col-display">
-        <img id="makeImagem" src="" alt="Maquiagem" onclick="abrirZoomEditorial(this.src, document.getElementById('makeInfo').querySelector('h3').innerText, 'Maquiagem', document.getElementById('makeInfo').querySelector('p').innerText, document.getElementById('makeInfo').querySelector('.btn-link').href)">
+        <img id="makeImagem" src="" alt="Maquiagem" onclick="abrirZoomEditorial(this.src)" onerror="this.style.opacity=0">
         <div class="col-info" id="makeInfo"></div>
       </div>
     </div>
   </section>
 
-  <!-- KITS & ACESSÓRIOS -->
   <section class="secao ativa" id="secao-kits">
     <div class="page-title">
       <h1>Kits & Acessórios</h1><span class="divider"></span>
       <div class="sub">Produtos para casa<br><span class="highlight">e para o grande dia</span></div>
     </div>
-    
+
     <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
 
     <div class="bloco">
@@ -684,14 +1026,13 @@
     </div>
   </section>
 
-  <!-- NOIVAS -->
   <section class="secao" id="secao-noivas">
     <div class="page-title">
       <h1>Noivas</h1><span class="divider"></span>
       <div class="sub">Penteados para<br><span class="highlight">o grande dia</span></div>
     </div>
-    
-    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> indique os produtos que você usa e ganhe comissão.</div>
+
+    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
 
     <div class="bloco">
       <div class="bloco-head"><h2>Penteados</h2><div class="linha"></div></div>
@@ -699,7 +1040,6 @@
     </div>
   </section>
 
-  <!-- FERRAMENTAS -->
   <section class="secao" id="secao-ferramentas">
     <div class="page-title">
       <h1>Ferramentas</h1><span class="divider"></span>
@@ -715,62 +1055,82 @@
       <div class="sub busca-meta-inline" id="buscaMeta" aria-live="polite">Digite algo para buscar</div>
     </div>
     <div class="grid grid-3" id="grid-busca"></div>
-    <p class="busca-vazia" id="buscaVazia" hidden>Nada encontrado. Tente <span class="gold">“bob”</span>, <span class="gold">“loiro”</span> ou <span class="gold">“hidratação”</span>.</p>
+    <p class="busca-vazia" id="buscaVazia" hidden>Nada encontrado. Tente <span class="gold">"bob"</span>, <span class="gold">"loiro"</span> ou <span class="gold">"hidratação"</span>.</p>
   </section>
 
 </main>
 
-<!-- MODAL DE ZOOM EDITORIAL -->
 <div class="zoom-bg" id="zoomEditorialBg" onclick="fecharZoomEditorial(event)">
-  <div class="zoom-content" id="zoomEditorialContent">
-    <button class="zoom-close" onclick="fecharZoomEditorial()" aria-label="Fechar">✕</button>
-    <div class="zoom-img-wrap">
-      <img id="zoomEditorialImg" src="" alt="">
-    </div>
-    <div class="zoom-text-wrap">
-      <h3 id="zoomEditorialTitulo"></h3>
-      <span class="zoom-cat" id="zoomEditorialCat"></span>
-      <p id="zoomEditorialDesc"></p>
-      
-      <a id="zoomEditorialBtn" href="#" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-produto" style="display:none;">Ver Tinta / Produto</a>
-
-      <div class="zoom-sugestoes">
-        <h4>Produtos Recomendados para este visual</h4>
-        <div class="zoom-mini-kits" id="zoomMiniKits"></div>
-      </div>
-    </div>
-  </div>
+  <button class="zoom-close" onclick="fecharZoomEditorial(event)" aria-label="Fechar">✕</button>
+  <img id="zoomEditorialImg" src="" alt="" onclick="toggleZoom(event)">
+  <span class="zoom-hint" id="zoomHint">Clique na imagem para ampliar • X dourado para fechar</span>
 </div>
 
 <div class="modal-bg" id="modalBg" onclick="closeModalBg(event)">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
-    <div class="modal-img" id="modalImgWrap" style="display:none;"><img id="mImg" src="" alt="" onerror="document.getElementById('modalImgWrap').style.display='none'"></div>
+
+    <div class="modal-img" id="modalImgWrap" style="display:none;">
+      <img id="mImg" src="" alt="" onclick="abrirZoomEditorial(this.src)" onerror="this.parentElement.style.display='none'">
+    </div>
+
     <div class="modal-body">
       <h3 class="modal-title" id="mTitle"></h3>
       <span class="modal-sub" id="mSub"></span>
       <p class="modal-text" id="mText"></p>
       <ul class="modal-list" id="mList"></ul>
-      <div class="modal-actions">
-        <a id="mLink" href="#" target="_blank" rel="nofollow sponsored noopener noreferrer" class="modal-btn primary">Ver produtos</a>
+
+      <p class="modal-afiliado">Link de afiliado — sem custo extra para você.</p>
+
+      <div class="modal-actions" id="modalActions">
+        <a id="mLink" href="#" target="_blank" rel="nofollow sponsored noopener noreferrer" class="modal-btn primary">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 10a4 4 0 0 1-8 0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Ver Sugestão</span>
+        </a>
         <button class="modal-btn secondary" onclick="closeModal()">Fechar</button>
+      </div>
+
+      <div class="modal-recomendados">
+        <h4>Produtos Recomendados</h4>
+        <div class="modal-mini-kits" id="modalMiniKits"></div>
       </div>
     </div>
   </div>
 </div>
 
+<script src="https://unpkg.com/idb@8/build/umd.js" defer></script>
 <script>
-document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
-document.addEventListener('touchmove', function (e) { if (e.touches.length > 1) { e.preventDefault(); } }, { passive: false });
+/* Fallback dourado global para imagens que falharem */
+function _imgErro(el){
+  try {
+    const wrap = el.parentElement;
+    if (!wrap) return;
+    const nome = el.getAttribute('alt') || el.getAttribute('data-nome') || 'Imagem';
+    wrap.classList.add('img-erro');
+    wrap.setAttribute('data-nome', nome);
+    el.remove();
+  } catch(e){}
+}
+window._imgErro = _imgErro;
 
+/* Toast ao copiar PIX */
 function copiarPix() {
   const pix = document.getElementById('pixKey').innerText;
-  navigator.clipboard.writeText(pix).then(() => {
+  const done = () => {
     const btn = document.querySelector('.btn-copiar');
     const original = btn.innerText;
     btn.innerText = 'Copiado!'; btn.style.background = '#4CAF50'; btn.style.color = '#fff';
     setTimeout(() => { btn.innerText = original; btn.style.background = ''; btn.style.color = ''; }, 2000);
-  }).catch(() => { alert('Erro ao copiar. Chave: ' + pix); });
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(pix).then(done).catch(() => alert('Chave PIX: ' + pix));
+  } else {
+    alert('Chave PIX: ' + pix);
+  }
 }
 
 const ML_LINKS = {
@@ -779,7 +1139,7 @@ const ML_LINKS = {
   joico: "https://meli.la/2x9xqBe", ferramentas: "https://meli.la/2H5F4mn",
   davines: "https://meli.la/2sHyDUk", igora: "https://meli.la/1MBhptD",
   moroccanoil: "https://meli.la/2djh4z5", schwarzkopf: "https://meli.la/2jyNSj5",
-  livingproof: "https://meli.la/34fZAEp"
+  livingproof: "https://meli.la/34fZAEp", kitNoiva: "https://meli.la/1H35KAT"
 };
 
 const secoes = document.querySelectorAll('.secao');
@@ -789,9 +1149,11 @@ const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits'];
 
 function irParaSecao(nome){
   document.body.classList.remove('buscando');
+  document.body.classList.remove('header-oculto');
   const inputBusca = document.getElementById('buscaInput');
   if (inputBusca && inputBusca.value.trim()){
-    inputBusca.value = ''; renderBusca(''); dbSetEstado('ultimoTermo', ''); renderHistoricoChips();
+    inputBusca.value = ''; renderBusca('');
+    dbSetEstado('ultimoTermo', ''); renderHistoricoChips();
   }
 
   secoes.forEach(s => s.classList.toggle('ativa', s.id === 'secao-' + nome));
@@ -813,7 +1175,7 @@ function irParaSecao(nome){
   if (idx === -1) idx = 4;
   dock.style.setProperty('--i', idx);
   document.getElementById('mainContent').scrollTo({top:0, behavior:'auto'});
-  
+
   if (!isMainDock) {
     document.querySelectorAll('.sheet-btn').forEach(b => {
       b.classList.toggle('ativo', b.dataset.secao === nome);
@@ -824,8 +1186,10 @@ function irParaSecao(nome){
 dockBtns.forEach(btn => { if (btn.dataset.secao) btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)); });
 
 document.getElementById('btnMais').addEventListener('click', () => {
+  const sheet = document.getElementById('sheet');
+  sheet.removeAttribute('inert');
   document.getElementById('sheetOverlay').classList.add('ativo');
-  document.getElementById('sheet').classList.add('aberto');
+  sheet.classList.add('aberto');
   const secaoAtiva = document.querySelector('.secao.ativa');
   if (secaoAtiva) {
     const id = secaoAtiva.id.replace('secao-', '');
@@ -836,6 +1200,7 @@ document.getElementById('btnMais').addEventListener('click', () => {
 function fecharSheet() {
   document.getElementById('sheetOverlay').classList.remove('ativo');
   document.getElementById('sheet').classList.remove('aberto');
+  document.getElementById('sheet').setAttribute('inert', '');
 }
 
 const sheetOpcoes = [
@@ -858,6 +1223,7 @@ const drawerOverlay = document.getElementById('drawerOverlay');
 const drawerFechar = document.getElementById('drawerFechar');
 
 function abrirDrawer(){
+  drawer.removeAttribute('inert');
   drawer.classList.add('aberto'); drawer.setAttribute('aria-hidden','false');
   drawerOverlay.hidden = false; requestAnimationFrame(() => drawerOverlay.classList.add('ativo'));
   menuBtn.setAttribute('aria-expanded','true');
@@ -865,6 +1231,7 @@ function abrirDrawer(){
 function fecharDrawer(){
   if (!drawer.classList.contains('aberto')) return;
   drawer.classList.remove('aberto'); drawer.setAttribute('aria-hidden','true');
+  drawer.setAttribute('inert', '');
   drawerOverlay.classList.remove('ativo'); menuBtn.setAttribute('aria-expanded','false');
   setTimeout(() => { drawerOverlay.hidden = true; }, 350);
 }
@@ -875,99 +1242,164 @@ document.querySelectorAll('.drawer-nav button').forEach(btn => {
   btn.addEventListener('click', () => { irParaSecao(btn.dataset.secao); fecharDrawer(); });
 });
 
-/* ============ FUNÇÕES DE MODAL (CORRIGIDAS E UNIFICADAS) ============ */
-function abrirZoomEditorial(src, titulo, cat, desc, link) {
-  document.getElementById('zoomEditorialImg').src = src || '';
-  document.getElementById('zoomEditorialTitulo').innerText = titulo || '';
-  document.getElementById('zoomEditorialCat').innerText = cat || '';
-  document.getElementById('zoomEditorialDesc').innerText = desc || '';
-  
-  const btn = document.getElementById('zoomEditorialBtn');
-  if (link) { btn.href = link; btn.style.display = 'inline-flex'; } else { btn.style.display = 'none'; }
-
-  const kitsWrap = document.getElementById('zoomMiniKits');
-  kitsWrap.innerHTML = kitsData.slice(0, 5).map(kit => `
-    <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="zoom-mini-kit">
-      <img src="${kit.img}" alt="${kit.title}">
-      <span>${kit.title}</span>
-    </a>
-  `).join('');
-
+/* ============ ZOOM ============ */
+function abrirZoomEditorial(src) {
+  const img = document.getElementById('zoomEditorialImg');
+  img.src = src || '';
+  img.classList.remove('zoomed');
   document.getElementById('zoomEditorialBg').classList.add('on');
 }
 function fecharZoomEditorial(e) {
-  if (e && e.target !== e.currentTarget) return;
+  if (e && e.target.tagName === 'IMG') return;
   document.getElementById('zoomEditorialBg').classList.remove('on');
+  document.getElementById('zoomEditorialBg').scrollTo({top:0,left:0});
+}
+function toggleZoom(e) {
+  e.stopPropagation();
+  e.target.classList.toggle('zoomed');
+}
+/* pan por arraste quando zoomed */
+(function(){
+  const bg = document.getElementById('zoomEditorialBg');
+  let isDown = false, sx = 0, sy = 0, sl = 0, st = 0;
+  bg.addEventListener('pointerdown', e => {
+    const img = e.target.closest('img.zoomed');
+    if (!img) return;
+    isDown = true; sx = e.clientX; sy = e.clientY; sl = bg.scrollLeft; st = bg.scrollTop;
+    try { img.setPointerCapture(e.pointerId); } catch(_) {}
+  });
+  bg.addEventListener('pointermove', e => {
+    if (!isDown) return;
+    bg.scrollLeft = sl - (e.clientX - sx);
+    bg.scrollTop  = st - (e.clientY - sy);
+  });
+  bg.addEventListener('pointerup', () => { isDown = false; });
+  bg.addEventListener('pointercancel', () => { isDown = false; });
+})();
+
+/* hint mobile */
+if (window.matchMedia('(pointer: coarse)').matches){
+  const h = document.getElementById('zoomHint');
+  if (h) h.textContent = 'Toque na imagem para ampliar • X dourado para fechar';
 }
 
+/* ============ MODAL ============ */
 let _focoAnterior = null;
+function trapFocus(container){
+  const sel = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
+  const els = container.querySelectorAll(sel);
+  if (!els.length) return;
+  const first = els[0], last = els[els.length - 1];
+  container.addEventListener('keydown', function(e){
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  });
+}
+
 function openModal(nome, categoria, texto1, texto2, lista, link, img){
   _focoAnterior = document.activeElement;
   document.getElementById('mTitle').innerHTML = nome;
   document.getElementById('mSub').textContent = categoria;
   document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
-  
+
   const imgWrap = document.getElementById('modalImgWrap');
   const imgEl = document.getElementById('mImg');
-  
+  imgWrap.classList.remove('img-erro');
+  imgWrap.removeAttribute('data-nome');
+
   if (img) {
     imgEl.src = img;
-    imgWrap.style.display = 'block';
+    imgWrap.style.display = 'flex';
   } else {
     imgWrap.style.display = 'none';
   }
-  
+
   const g = document.querySelector('.modal-body .corte-carrossel-wrapper');
   if (g) g.remove();
 
   const ul = document.getElementById('mList');
   ul.innerHTML = '';
   if (lista && lista.length){ lista.forEach(item => { const li = document.createElement('li'); li.textContent = item; ul.appendChild(li); }); }
-  
+
   const linkEl = document.getElementById('mLink');
-  if (link){ linkEl.href = link; linkEl.textContent = 'Ver produtos'; linkEl.style.display = 'inline-flex'; } else { linkEl.style.display = 'none'; }
-  
+  if (link){ 
+    linkEl.href = link; 
+    linkEl.style.display = 'flex'; 
+    const btnText = linkEl.querySelector('span');
+    if (btnText) {
+      btnText.textContent = (categoria === 'Cortes' || categoria === 'Noivas') 
+        ? 'Ver Produtos Recomendados' 
+        : 'Ver Sugestão';
+    }
+  } else { 
+    linkEl.style.display = 'none'; 
+  }
+
+  const kitsWrap = document.getElementById('modalMiniKits');
+  const sugeridos = kitsData.filter(k => k.title !== nome).slice(0, 5);
+  kitsWrap.innerHTML = sugeridos.map(kit => `
+    <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="modal-mini-kit">
+      <img src="${kit.img}" alt="${kit.title}" loading="lazy"
+           onerror="_imgErro(this)">
+      <span>${kit.title}</span>
+    </a>
+  `).join('');
+
   document.getElementById('modalBg').classList.add('on');
+  const modalEl = document.querySelector('.modal');
+  trapFocus(modalEl);
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
+/* Carrossel de cortes mantido no código, mas DESATIVADO.
+   Para religar: chame openModalCorte(item) no lugar de openModal(...) em renderGrid. */
 function openModalCorte(item) {
   _focoAnterior = document.activeElement;
   document.getElementById('mTitle').innerHTML = item.title;
   document.getElementById('mSub').textContent = item.sub || 'Corte';
-  document.getElementById('mText').innerHTML = ''; 
-  document.getElementById('mList').innerHTML = ''; 
-  
+  document.getElementById('mText').innerHTML = '';
+  document.getElementById('mList').innerHTML = '';
+
   const htmlCarrossel = `
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
         <div class="corte-slide">
-          <img src="${item.imgFrente || item.img}" alt="Frente" onclick="abrirZoom(this.src)">
+          <img src="${item.imgFrente || item.img}" alt="Frente" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
           <div class="slide-texto"><strong>Frente</strong>${item.descFrente || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgLado || item.img}" alt="Lado" onclick="abrirZoom(this.src)">
+          <img src="${item.imgLado || item.img}" alt="Lado" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
           <div class="slide-texto"><strong>Lado</strong>${item.descLado || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgAtras || item.img}" alt="Atrás" onclick="abrirZoom(this.src)">
+          <img src="${item.imgAtras || item.img}" alt="Atrás" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
           <div class="slide-texto"><strong>Atrás</strong>${item.descAtras || ''}</div>
         </div>
       </div>
       <div class="corte-indicadores" id="corteIndicadores">
-        <span class="corte-dot ativo" onclick="irParaSlide(0)"></span>
-        <span class="corte-dot" onclick="irParaSlide(1)"></span>
-        <span class="corte-dot" onclick="irParaSlide(2)"></span>
+        <span class="corte-dot ativo" data-idx="0"></span>
+        <span class="corte-dot" data-idx="1"></span>
+        <span class="corte-dot" data-idx="2"></span>
       </div>
     </div>
   `;
-  
+
   document.querySelector('.modal-img').style.display = 'none';
   const body = document.querySelector('.modal-body');
   const existingWrapper = body.querySelector('.corte-carrossel-wrapper');
   if (existingWrapper) existingWrapper.remove();
   document.getElementById('mSub').insertAdjacentHTML('afterend', htmlCarrossel);
-  
+
+  document.querySelectorAll('.corte-dot').forEach((dot, i) => {
+    dot.tabIndex = 0; dot.setAttribute('role', 'button');
+    dot.setAttribute('aria-label', 'Ir para slide ' + (i+1));
+    dot.addEventListener('click', () => irParaSlide(i));
+    dot.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); irParaSlide(i); }
+    });
+  });
+
   setTimeout(() => {
     const carrossel = document.getElementById('corteCarrossel');
     if (!carrossel) return;
@@ -979,11 +1411,13 @@ function openModalCorte(item) {
   }, 100);
 
   const linkEl = document.getElementById('mLink');
-  linkEl.href = item.link || ML_LINKS.kerastase;
-  linkEl.textContent = 'Ver Kits de Cuidados';
-  linkEl.style.display = 'inline-flex';
-  
+  linkEl.href = item.link || ML_LINKS.kitNoiva;
+  linkEl.style.display = 'flex';
+  const btnText = linkEl.querySelector('span');
+  if (btnText) btnText.textContent = 'Ver Produtos Recomendados';
+
   document.getElementById('modalBg').classList.add('on');
+  trapFocus(document.querySelector('.modal'));
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
@@ -992,15 +1426,8 @@ function irParaSlide(idx) {
   if (carrossel) { carrossel.scrollTo({ left: carrossel.offsetWidth * idx, behavior: 'smooth' }); }
 }
 
-function abrirZoom(src) {
-  const overlay = document.getElementById('zoomOverlay');
-  const img = document.getElementById('zoomImg');
-  img.src = src;
-  overlay.classList.add('on');
-}
-function fecharZoom() { document.getElementById('zoomOverlay').classList.remove('on'); }
 function closeModal(){
-  document.getElementById('modalBg').classList.remove('on'); fecharZoom();
+  document.getElementById('modalBg').classList.remove('on');
   const modalImg = document.querySelector('.modal-img'); if (modalImg) modalImg.style.display = 'block';
   const existingWrapper = document.querySelector('.modal-body .corte-carrossel-wrapper'); if (existingWrapper) existingWrapper.remove();
   if (_focoAnterior && _focoAnterior.focus) _focoAnterior.focus();
@@ -1010,14 +1437,13 @@ function closeModalBg(e){ if (e.target.id === 'modalBg') closeModal(); }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape'){
     if (document.getElementById('zoomEditorialBg').classList.contains('on')) { fecharZoomEditorial(); return; }
-    if (document.getElementById('zoomOverlay').classList.contains('on')) { fecharZoom(); return; }
     if (document.getElementById('modalBg').classList.contains('on')){ closeModal(); return; }
     if (drawer.classList.contains('aberto')){ fecharDrawer(); return; }
     if (document.getElementById('sheet').classList.contains('aberto')) { fecharSheet(); return; }
   }
 });
 
-/* VISAGISMO */
+/* ============ DADOS ============ */
 const visagismoData = {
   oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', produto: 'Spray Volume', link: ML_LINKS.kerastase },
   redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
@@ -1027,23 +1453,6 @@ const visagismoData = {
   triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Disfarce a base mais larga criando volume no topo.', produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas }
 };
 
-function renderVisagismo(formato) {
-  const data = visagismoData[formato];
-  const container = document.getElementById('visagismoResultado');
-  if (!container || !data) return;
-  container.innerHTML = `
-    <img src="${data.img}" alt="${data.nome}" onclick="abrirZoomEditorial(this.src, 'Formato: ${data.nome}', 'Visagismo', '${data.recomendacao} ${data.desc}', '${data.link}')">
-    <div class="visagismo-painel-txt">
-      <h3>Seu Formato: ${data.nome}</h3>
-      <span class="recomendacao">Recomendação</span>
-      <p>${data.recomendacao}</p>
-      <p>${data.desc}</p>
-      <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
-    </div>
-  `;
-  document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); });
-}
-
 const coresData = {
   clara: { nome: 'Pele Clara', cores: [{c:'#E6C280', n:'Loiro Dourado', img:'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg'}, {c:'#A87D5A', n:'Castanho Mel', img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg'}, {c:'#C4A484', n:'Loiro Acinzentado', img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg'}, {c:'#7D5A4F', n:'Castanho Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}] },
   media: { nome: 'Pele Média', cores: [{c:'#C4864D', n:'Caramelo', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}, {c:'#8A4F3A', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, {c:'#5C3A21', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, {c:'#D1A368', n:'Mel Acobreado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}] },
@@ -1051,230 +1460,54 @@ const coresData = {
   escura: { nome: 'Pele Escura', cores: [{c:'#2C1410', n:'Café Quente', img:'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg'}, {c:'#7A1E1E', n:'Borgonha', img:'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg'}, {c:'#3E241A', n:'Chocolate Frio', img:'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg'}, {c:'#BA6224', n:'Cobre Queimado', img:'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg'}] }
 };
 
-function renderPaleta(cor) {
-  const data = coresData[cor];
-  const container = document.getElementById('paletaResultado');
-  if (!container || !data) return;
-  
-  const swatches = data.cores.map((item, i) => `
-    <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}">
-      <img src="${item.img}" alt="${item.n}" onclick="event.stopPropagation(); abrirZoomEditorial(this.src, '${item.n}', 'Harmonização', 'Tom recomendado para ${data.nome}.', '${ML_LINKS.inoa}')">
-      <div class="swatch-card-info">
-        <div class="swatch-card-cor" style="background:${item.c}"></div>
-        <span>${item.n}</span>
-      </div>
-    </div>
-  `).join('');
-  
-  container.innerHTML = `
-    <div class="paleta-titulo">Paleta Recomendada: ${data.nome}</div>
-    <div class="paleta-swatches">${swatches}</div>
-    <p>Use essas cores para iluminar o rosto e harmonizar com o seu subtom natural.</p>
-  `;
-  
-  container.querySelectorAll('.swatch-card').forEach(card => {
-    card.addEventListener('click', () => { container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo')); card.classList.add('ativo'); });
-  });
-
-  document.querySelectorAll('.cor-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.cor === cor); });
-}
-
-document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato)); });
-document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => renderPaleta(btn.dataset.cor)); });
-
 const cabelosData = {
   liso: [{ title:'1A', sub:'Liso, sem volume', img:'https://i.pinimg.com/736x/96/ed/ba/96edbad796f6419dde511218d30b4a89.jpg' }, { title:'1B', sub:'Liso com leve volume', img:'https://i.pinimg.com/736x/97/12/55/971255981aaef5c19d234cbe7bb15b5b.jpg' }, { title:'1C', sub:'Liso com mais corpo', img:'https://i.pinimg.com/736x/20/e5/0e/20e50e3d7d91ea1c77739beef358253e.jpg' }],
-  ondulado: [{ title:'2A', sub:'Ondas suaves', img:'https://i.pinimg.com/736x/d2/3f/6c/d23f6cb6d4eba707e8af9dbd0365d7b3.jpg' }, { title:'2B', sub:'Ondas definidas', img:'https://i.pinimg.com/236x/5b/d6/67/5bd6678622f65f802a790f27193d2b43.jpg' }, { title:'2C', sub:'Ondas volumosas', img:'https://i.pinimg.com/736x/b3/23/38/b323381530d017a718dfd57ebb70f280.jpg' }],
+  ondulado: [{ title:'2A', sub:'Ondas suaves', img:'https://i.pinimg.com/736x/d2/3f/6c/d23f6cb6d4eba707e8af9dbd0365d7b3.jpg' }, { title:'2B', sub:'Ondas definidas', img:'https://i.pinimg.com/736x/5b/d6/67/5bd6678622f65f802a790f27193d2b43.jpg' }, { title:'2C', sub:'Ondas volumosas', img:'https://i.pinimg.com/736x/b3/23/38/b323381530d017a718dfd57ebb70f280.jpg' }],
   cacheado: [{ title:'3A', sub:'Cachos definidos', img:'https://i.pinimg.com/736x/f2/f4/09/f2f4094f58a52962676524bcc79dc511.jpg' }, { title:'3B', sub:'Cachos fechados', img:'https://i.pinimg.com/736x/a3/c2/a8/a3c2a82d52cb1f590ebbb7b6ba386229.jpg' }, { title:'3C', sub:'Cachos volumosos', img:'https://i.pinimg.com/736x/03/38/48/033848a08f6285b6473392e31710c7b5.jpg' }],
   crespo: [{ title:'4A', sub:'Crespos definidos', img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }, { title:'4B', sub:'Crespos ziguezague', img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }, { title:'4C', sub:'Crespos apertados', img:'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }]
 };
-Object.keys(cabelosData).forEach(tipo => {
-  const container = document.getElementById(`acordeao-${tipo}`);
-  if (!container) return;
-  container.innerHTML = cabelosData[tipo].map(item => `
-    <div class="mini-card" onclick="abrirZoomEditorial('${item.img}', 'Tipo ${item.title}', 'Tipos de Cabelo', '${item.sub}', null)">
-      <img src="${item.img}" alt="${item.title}">
-      <div class="mini-card-txt"><strong>${item.title}</strong><span>${item.sub}</span></div>
-    </div>
-  `).join('');
-});
-document.querySelectorAll('.acordeao-header').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const isActive = btn.classList.contains('active');
-    document.querySelectorAll('.acordeao-header').forEach(b => { b.classList.remove('active'); b.nextElementSibling.style.maxHeight = null; });
-    if (!isActive) { btn.classList.add('active'); const body = btn.nextElementSibling; body.style.maxHeight = body.scrollHeight + 'px'; }
-  });
-});
 
 const coloracaoData = {
-  loiros: { 
-    img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', 
+  loiros: {
     tons: [
       { cor: '#F5DEB3', nome: 'Loiro Platinado', desc: 'Ideal para peles frias.', img: 'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link: ML_LINKS.inoa },
       { cor: '#E6C280', nome: 'Loiro Dourado', desc: 'Ilumina peles quentes.', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link: ML_LINKS.keune },
       { cor: '#C49A6C', nome: 'Loiro Médio', desc: 'Clássico e versátil.', img: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', link: ML_LINKS.inoa },
       { cor: '#A37A4E', nome: 'Loiro Escuro', desc: 'Transição natural.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.keune }
-    ] 
+    ]
   },
-  castanhos: { 
-    img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', 
+  castanhos: {
     tons: [
       { cor: '#5C3A21', nome: 'Chocolate Frio', desc: 'Neutro e sofisticado.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa },
       { cor: '#7D5A4F', nome: 'Castanho Médio', desc: 'Coringa para todos os dias.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune },
-      { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link:ML_LINKS.inoa },
-      { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link:ML_LINKS.keune }
-    ] 
+      { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.inoa },
+      { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune }
+    ]
   },
-  ruivos: { 
-    img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', 
+  ruivos: {
     tons: [
-      { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link:ML_LINKS.inoa },
-      { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link:ML_LINKS.keune },
-      { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link:ML_LINKS.inoa },
-      { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link:ML_LINKS.keune }
-    ] 
+      { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.inoa },
+      { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.keune },
+      { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.inoa },
+      { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.keune }
+    ]
   },
-  escuros: { 
-    img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', 
+  escuros: {
     tons: [
-      { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', link:ML_LINKS.inoa },
-      { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link:ML_LINKS.keune },
-      { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link:ML_LINKS.inoa },
-      { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link:ML_LINKS.keune }
-    ] 
+      { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', link: ML_LINKS.inoa },
+      { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.keune },
+      { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa },
+      { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune }
+    ]
   }
 };
-
-function renderColoracao(categoria) {
-  const data = coloracaoData[categoria];
-  if (!data) return;
-
-  document.getElementById('colImagem').src = data.img;
-  
-  const paleta = document.getElementById('colPaleta');
-  paleta.innerHTML = data.tons.map((t, i) => 
-    `<div class="col-swatch ${i===0 ? 'ativo' : ''}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}" data-img="${t.img}"></div>`
-  ).join('');
-
-  atualizarInfoCor(data.tons[0]);
-
-  paleta.querySelectorAll('.col-swatch').forEach(swatch => {
-    swatch.addEventListener('click', () => {
-      paleta.querySelectorAll('.col-swatch').forEach(s => s.classList.remove('ativo'));
-      swatch.classList.add('ativo');
-      atualizarInfoCor({ nome: swatch.dataset.nome, desc: swatch.dataset.desc, link: swatch.dataset.link, img: swatch.dataset.img });
-    });
-  });
-
-  document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.classList.toggle('ativo', tab.dataset.cat === categoria); });
-}
-
-function atualizarInfoCor(tom) {
-  if (tom.img) {
-    document.getElementById('colImagem').src = tom.img;
-  }
-  
-  document.getElementById('colInfo').innerHTML = `
-    <h3>${tom.nome}</h3>
-    <p>${tom.desc}</p>
-    <a href="${tom.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Tinta</a>
-  `;
-}
-
-document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderColoracao(tab.dataset.cat)); });
 
 const makeData = {
-  pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.', link:ML_LINKS.kerastase },
-  olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios.', link:ML_LINKS.expert },
-  boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss.', link:ML_LINKS.moroccanoil }
+  pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.', link: ML_LINKS.kerastase },
+  olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios.', link: ML_LINKS.expert },
+  boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss.', link: ML_LINKS.moroccanoil }
 };
 
-function renderMake(categoria) {
-  const data = makeData[categoria];
-  if (!data) return;
-  
-  document.getElementById('makeImagem').src = data.img;
-  const container = document.getElementById('makeInfo');
-  container.innerHTML = `
-    <h3>${data.nome}</h3>
-    <p>${data.desc}</p>
-    <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Produtos</a>
-  `;
-  document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
-}
-document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
-
-function renderGrid(id, data, catLabel, linkDefault){
-  const grid = document.getElementById(id);
-  if (!grid) return;
-  grid.innerHTML = '';
-  data.forEach((item, idx) => {
-    const card = document.createElement('button');
-    card.className = 'card';
-    card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
-    const img = item.img || item.imgFrente || '';
-    
-    card.innerHTML = `
-      <div class="card-img-wrap">
-        <img src="${img}" alt="${item.title}" loading="lazy" onerror="this.style.opacity=0">
-      </div>
-      <div class="card-text-wrap">
-        <div class="card-nome">${item.title}</div>
-        ${item.sub ? '<div class="card-sub">' + item.sub + '</div>' : ''}
-      </div>
-    `;
-    
-    card.addEventListener('click', () => {
-      if (catLabel === 'Corte' || catLabel === 'Noiva') { openModalCorte(item); } 
-      else { openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img); }
-    });
-    grid.appendChild(card);
-  });
-}
-
-function renderEditorialScroll(id, data, catLabel, linkDefault){
-  const container = document.getElementById(id);
-  if (!container) return;
-  container.innerHTML = '';
-  data.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'editorial-card';
-    card.innerHTML = `
-      <div class="card-img-wrap">
-        <img src="${item.img}" alt="${item.title}" loading="lazy">
-      </div>
-      <div class="editorial-card-txt">
-        <h4>${item.title}</h4>
-        <p>${item.desc}</p>
-      </div>
-    `;
-    card.addEventListener('click', () => { abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault); });
-    container.appendChild(card);
-  });
-}
-
-function renderMiniGrid(id, data, catLabel, linkDefault){
-  const container = document.getElementById(id);
-  if (!container) return;
-  container.innerHTML = '';
-  data.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'mini-card-editorial';
-    card.innerHTML = `
-      <div class="card-img-wrap">
-        <img src="${item.img}" alt="${item.title}" loading="lazy">
-      </div>
-      <div class="mini-card-editorial-txt">
-        <strong>${item.title}</strong>
-        <span>${item.sub || ''}</span>
-      </div>
-    `;
-    card.addEventListener('click', () => { abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault); });
-    container.appendChild(card);
-  });
-}
-
-/* ============ DADOS COM IMAGENS DO UNSPLASH ============ */
 const franjasData = [
   {title:'Reta', sub:'Encurta o rosto', desc:'Encurta o rosto e destaca os olhos.', desc2:'Ideal para rostos longos.', lista:['Encurta o rosto','Destaca olhos'], img:'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80'},
   {title:'Cortina', sub:'Alonga o rosto', desc:'Alonga o rosto e suaviza traços.', desc2:'Ideal para rostos redondos e quadrados.', lista:['Alonga o rosto','Suaviza traços'], img:'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600&q=80'},
@@ -1289,32 +1522,32 @@ const comprimentosData = [
   {title:'Longo', sub:'Elegância', desc:'Elegância e alonga a silhueta.', desc2:'Ideal para quem quer um visual sofisticado.', lista:['Elegância','Alonga silhueta'], img:'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80'}
 ];
 const cortesData = [
-  {title:'Velvet Bob', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Bob Texturizado. Camadas internas que dão volume sem peso.', descLado:'O corte lateral mostra a progressão das camadas.', descAtras:'A parte de trás é levemente mais curta para valorizar a nuca.'},
-  {title:'Wolf Cut', imgFrente:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgLado:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgAtras:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', descFrente:'Topo volumoso. Um topo curto e rebelde com nuca longa.', descLado:'A lateral revela as camadas desconectadas.', descAtras:'Comprimento longo na nuca, criando o efeito wolf.'},
-  {title:'Pixie Cut', imgFrente:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgLado:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgAtras:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', descFrente:'Corte curto. Topo volumoso com laterais bem curtas.', descLado:'O perfil destaca a textura do topo.', descAtras:'Nuca bem desenhada e curta.'},
-  {title:'Butterfly Cut', imgFrente:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente:'Camadas em asa. Duas camadas marcadas e base pesada.', descLado:'A lateral mostra o movimento das camadas.', descAtras:'O volume se concentra no meio, afinando as pontas.'},
-  {title:'Blunt Cut', imgFrente:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgLado:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgAtras:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', descFrente:'Corte reto. Zero camadas e linha precisa.', descLado:'A lateral é reta e uniforme.', descAtras:'A parte de trás segue a mesma linha reta.'},
-  {title:'Shaggy Hair', imgFrente:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgLado:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgAtras:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', descFrente:'Camadas cruas. Desconectadas e cheias de atitude.', descLado:'O perfil destaca a textura e o volume lateral.', descAtras:'Nuca com camadas repicadas.'},
-  {title:'Long Bob', imgFrente:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgLado:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgAtras:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', descFrente:'Bob ombro. Base inclinada para frente.', descLado:'A lateral mostra o comprimento médio.', descAtras:'A parte de trás é levemente mais longa.'},
-  {title:'French Bob', imgFrente:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgLado:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgAtras:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', descFrente:'Chanel com franja. Curtíssimo no maxilar.', descLado:'A lateral evidencia a franja reta.', descAtras:'A nuca é acompanhada por um corte baixo.'},
-  {title:'Italian Bob', imgFrente:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgLado:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgAtras:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', descFrente:'Bob repicado. Repicados internos com volume.', descLado:'A lateral mostra a base trabalhada.', descAtras:'A base arredondada e volumosa.'},
-  {title:'Bixie Cut', imgFrente:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgLado:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgAtras:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', descFrente:'Pixie-Bob. Meio pixie, meio bob, desfiado.', descLado:'O perfil revela a fusão dos dois estilos.', descAtras:'Nuca curta com transição suave.'},
-  {title:'Soft Layers', imgFrente:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgLado:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgAtras:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', descFrente:'Camadas contínuas. Sem marcação e muito natural.', descLado:'A lateral mostra o caimento suave.', descAtras:'Comprimento uniforme com leve movimento.'},
-  {title:'Kitty Cut', imgFrente:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgLado:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgAtras:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', descFrente:'Bob-shag. Base reta com camadas no topo.', descLado:'A lateral revela a mistura do bob com shag.', descAtras:'A parte de trás tem repicado texturizado.'}
+  {title:'Velvet Bob', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Bob Texturizado. Camadas internas que dão volume sem peso.', descLado:'O corte lateral mostra a progressão das camadas.', descAtras:'A parte de trás é levemente mais curta para valorizar a nuca.'},
+  {title:'Wolf Cut', img:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgFrente:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgLado:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgAtras:'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', descFrente:'Topo volumoso. Um topo curto e rebelde com nuca longa.', descLado:'A lateral revela as camadas desconectadas.', descAtras:'Comprimento longo na nuca, criando o efeito wolf.'},
+  {title:'Pixie Cut', img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgFrente:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgLado:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgAtras:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', descFrente:'Corte curto. Topo volumoso com laterais bem curtas.', descLado:'O perfil destaca a textura do topo.', descAtras:'Nuca bem desenhada e curta.'},
+  {title:'Butterfly Cut', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgFrente:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente:'Camadas em asa. Duas camadas marcadas e base pesada.', descLado:'A lateral mostra o movimento das camadas.', descAtras:'O volume se concentra no meio, afinando as pontas.'},
+  {title:'Blunt Cut', img:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgFrente:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgLado:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgAtras:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', descFrente:'Corte reto. Zero camadas e linha precisa.', descLado:'A lateral é reta e uniforme.', descAtras:'A parte de trás segue a mesma linha reta.'},
+  {title:'Shaggy Hair', img:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgFrente:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgLado:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgAtras:'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', descFrente:'Camadas cruas. Desconectadas e cheias de atitude.', descLado:'O perfil destaca a textura e o volume lateral.', descAtras:'Nuca com camadas repicadas.'},
+  {title:'Long Bob', img:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgFrente:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgLado:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgAtras:'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', descFrente:'Bob ombro. Base inclinada para frente.', descLado:'A lateral mostra o comprimento médio.', descAtras:'A parte de trás é levemente mais longa.'},
+  {title:'French Bob', img:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgFrente:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgLado:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgAtras:'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', descFrente:'Chanel com franja. Curtíssimo no maxilar.', descLado:'A lateral evidencia a franja reta.', descAtras:'A nuca é acompanhada por um corte baixo.'},
+  {title:'Italian Bob', img:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgFrente:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgLado:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgAtras:'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', descFrente:'Bob repicado. Repicados internos com volume.', descLado:'A lateral mostra a base trabalhada.', descAtras:'A base arredondada e volumosa.'},
+  {title:'Bixie Cut', img:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgFrente:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgLado:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgAtras:'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', descFrente:'Pixie-Bob. Meio pixie, meio bob, desfiado.', descLado:'O perfil revela a fusão dos dois estilos.', descAtras:'Nuca curta com transição suave.'},
+  {title:'Soft Layers', img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgFrente:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgLado:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgAtras:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', descFrente:'Camadas contínuas. Sem marcação e muito natural.', descLado:'A lateral mostra o caimento suave.', descAtras:'Comprimento uniforme com leve movimento.'},
+  {title:'Kitty Cut', img:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgFrente:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgLado:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgAtras:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', descFrente:'Bob-shag. Base reta com camadas no topo.', descLado:'A lateral revela a mistura do bob com shag.', descAtras:'A parte de trás tem repicado texturizado.'}
 ];
 
 const noivasData = [
-  {title:'Coque Clássico', sub:'Elegância atemporal', desc:'Coque baixo com detalhes trançados. Ideal para vestidos de princesa.', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgFrente:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgLado:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgAtras:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', descFrente:'Detalhe trançado na frente.', descLado:'Volume lateral controlado.', descAtras:'Coque perfeito e firme.', link:ML_LINKS.kerastase},
-  {title:'Sem Presilhas', sub:'Solto e romântico', desc:'Ondas suaves com presilhas invisíveis. Para noivas modernas.', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgFrente:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente:'Ondas soltas.', descLado:'Volume natural.', descAtras:'Comprimento solto.', link:ML_LINKS.kerastase},
-  {title:'Trança Lateral', sub:'Boho Chic', desc:'Trança embutida com flores naturais. Ideal para casamentos na praia.', img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgFrente:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgLado:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgAtras:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', descFrente:'Franja solta.', descLado:'Trança embutida.', descAtras:'Textura boho.', link:ML_LINKS.kerastase},
-  {title:'Coque Despojado', sub:'Textura e volume', desc:'Fios soltos ao redor do rosto para um ar mais leve.', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Fios soltos.', descLado:'Textura despojada.', descAtras:'Coque texturizado.', link:ML_LINKS.kerastase}
+  {title:'Coque Clássico', sub:'Elegância atemporal', desc:'Coque baixo com detalhes trançados. Ideal para vestidos de princesa.', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', link:ML_LINKS.kitNoiva},
+  {title:'Sem Presilhas', sub:'Solto e romântico', desc:'Ondas suaves com presilhas invisíveis. Para noivas modernas.', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', link:ML_LINKS.kitNoiva},
+  {title:'Trança Lateral', sub:'Boho Chic', desc:'Trança embutida com flores naturais. Ideal para casamentos na praia.', img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', link:ML_LINKS.kitNoiva},
+  {title:'Coque Despojado', sub:'Textura e volume', desc:'Fios soltos ao redor do rosto para um ar mais leve.', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', link:ML_LINKS.kitNoiva}
 ];
 
 const acessoriosData = [
-  {title:'Presilhas Cravejadas', sub:'Brilho e sofisticação', desc:'Brilho e sofisticação para festas.', img:'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80', link:ML_LINKS.ferramentas},
-  {title:'Tiara de Pérolas', sub:'Toque clássico', desc:'O toque clássico para noivas.', img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80', link:ML_LINKS.kerastase},
-  {title:'Flor para Cabelo', sub:'Detalhe romântico', desc:'Detalhe romântico para convidadas.', img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80', link:ML_LINKS.keune},
-  {title:'Grampos Dourados', sub:'Fixação e estilo', desc:'Para prender fios e dar acabamento.', img:'https://images.unsplash.com/photo-1523264653568-d3d4032d1476?w=600&q=80', link:ML_LINKS.ferramentas}
+  {title:'Presilhas Cravejadas', sub:'Brilho e sofisticação', desc:'Brilho e sofisticação para festas.', img:'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600&q=80', link:ML_LINKS.kitNoiva},
+  {title:'Tiara de Pérolas', sub:'Toque clássico', desc:'O toque clássico para noivas.', img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80', link:ML_LINKS.kitNoiva},
+  {title:'Flor para Cabelo', sub:'Detalhe romântico', desc:'Detalhe romântico para convidadas.', img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80', link:ML_LINKS.kitNoiva},
+  {title:'Grampos Dourados', sub:'Fixação e estilo', desc:'Para prender fios e dar acabamento.', img:'https://images.unsplash.com/photo-1523264653568-d3d4032d1476?w=600&q=80', link:ML_LINKS.kitNoiva}
 ];
 
 const tecnicasData = [
@@ -1369,6 +1602,7 @@ const DB_VERSION = 1;
 let _dbPromise = null;
 function getDB(){
   if (!_dbPromise){
+    if (typeof idb === 'undefined') return Promise.reject(new Error('idb indisponível'));
     _dbPromise = idb.openDB(DB_NAME, DB_VERSION, {
       upgrade(db){
         if (!db.objectStoreNames.contains('buscas')){
@@ -1393,7 +1627,7 @@ const HIST_MAX = 50;
 const HIST_MOSTRAR = 8;
 async function dbAddBusca(termo){
   const t = (termo || '').trim();
-  if (!t || t.length < 2) return;
+  if (!t || t.length < 3) return;
   try {
     const db = await getDB();
     const tx = db.transaction('buscas', 'readwrite');
@@ -1426,18 +1660,36 @@ const normBusca = s => (s == null ? '' : String(s)).toLowerCase().normalize('NFD
 function montarIndiceBusca(){
   const push = (arr, cat, linkDefault) => arr.map(i => {
     const img = i.img || i.imgFrente || '';
-    const hay = normBusca([i.title, i.sub, i.desc, i.desc2, (i.lista || []).join(' ')].join(' '));
+    const hay = normBusca([i.title, i.sub, i.desc, i.desc2, (i.lista || []).join(' '), cat].join(' '));
     return { item: { ...i, img, cat, link: i.link || linkDefault || null }, hay, titleNorm: normBusca(i.title) };
   });
+  const visagismoIdx = Object.values(visagismoData).map(v => ({
+    title: v.nome, sub: v.recomendacao, desc: v.desc, img: v.img, link: v.link
+  }));
+  const paletaIdx = Object.values(coresData).flatMap(g =>
+    g.cores.map(c => ({ title: c.n, sub: g.nome, desc: 'Tom recomendado para ' + g.nome, img: c.img }))
+  );
+  const coloracaoIdx = Object.values(coloracaoData).flatMap(g =>
+    g.tons.map(t => ({ title: t.nome, sub: 'Coloração', desc: t.desc, img: t.img, link: t.link }))
+  );
+  const makeIdx = Object.values(makeData).map(m => ({
+    title: m.nome, sub: 'Maquiagem', desc: m.desc, img: m.img, link: m.link
+  }));
   return [
     ...push(cortesData, 'Cortes', ML_LINKS.kerastase),
-    ...push(noivasData, 'Noivas', ML_LINKS.kerastase),
-    ...push(acessoriosData, 'Acessórios', ML_LINKS.ferramentas),
+    ...push(noivasData, 'Noivas', ML_LINKS.kitNoiva),
+    ...push(acessoriosData, 'Acessórios', ML_LINKS.kitNoiva),
     ...push(tecnicasData, 'Técnicas', ML_LINKS.inoa),
     ...push(cuidadosData, 'Cuidados', ML_LINKS.kerastase),
     ...push(manutencaoData, 'Manutenção', ML_LINKS.keune),
     ...push(kitsData, 'Kits', null),
-    ...push(ferramentasData, 'Ferramentas', ML_LINKS.ferramentas)
+    ...push(ferramentasData, 'Ferramentas', ML_LINKS.ferramentas),
+    ...push(franjasData, 'Franjas', ML_LINKS.kerastase),
+    ...push(comprimentosData, 'Comprimentos', ML_LINKS.kerastase),
+    ...push(visagismoIdx, 'Visagismo', null),
+    ...push(paletaIdx, 'Paleta', null),
+    ...push(coloracaoIdx, 'Coloração', null),
+    ...push(makeIdx, 'Maquiagem', null)
   ];
 }
 let INDICE_BUSCA = null;
@@ -1482,6 +1734,8 @@ function renderBusca(q){
   }
 
   document.body.classList.add('buscando');
+  document.body.classList.remove('header-oculto');
+  document.getElementById('mainContent').scrollTo({ top: 0, behavior: 'smooth' });
   if (sugestoes) sugestoes.classList.remove('visivel');
 
   const resultados = buscarGlobal(termo);
@@ -1490,31 +1744,27 @@ function renderBusca(q){
     vazia.hidden = false;
     return;
   }
-  
+
   vazia.hidden = true;
-  meta.innerHTML = '<span class="gold">' + resultados.length + '</span> ' + (resultados.length === 1 ? 'resultado' : 'resultados') + ' para “' + termo.replace(/[<>&]/g, '') + '”';
+  meta.innerHTML = '<span class="gold">' + resultados.length + '</span> ' + (resultados.length === 1 ? 'resultado' : 'resultados') + ' para "' + termo.replace(/[<>&]/g, '') + '"';
 
   resultados.forEach((item, idx) => {
     const card = document.createElement('button');
     card.className = 'card';
     card.style.animationDelay = Math.min(idx * 0.025, 0.4) + 's';
-    
+
     card.innerHTML = `
-      <div class="card-img-wrap">
+      <span class="card-img-wrap">
         <span class="card-badge">${item.cat}</span>
-        <img src="${item.img || ''}" alt="${item.title}" loading="lazy" onerror="this.style.opacity=0">
-      </div>
-      <div class="card-text-wrap">
-        <div class="card-nome">${destacar(item.title, termo)}</div>
-        ${item.sub ? '<div class="card-sub">' + destacar(item.sub, termo) + '</div>' : ''}
-      </div>`;
-      
+        <img src="${item.img || ''}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </span>
+      <span class="card-text-wrap">
+        <span class="card-nome">${destacar(item.title, termo)}</span>
+        ${item.sub ? '<span class="card-sub">' + destacar(item.sub, termo) + '</span>' : ''}
+      </span>`;
+
     card.addEventListener('click', () => {
-      if (item.cat === 'Cortes' || item.cat === 'Noivas') {
-        openModalCorte(item);
-      } else {
-        openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img);
-      }
+      openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img);
     });
     grid.appendChild(card);
   });
@@ -1527,19 +1777,32 @@ async function initBusca(){
   const clearBtn = document.getElementById('buscaClear');
   if (!input) return;
 
-  const ultimo = await dbGetEstado('ultimoTermo', '');
-  if (ultimo){ input.value = ultimo; renderBusca(ultimo); }
   await renderHistoricoChips();
 
   input.addEventListener('input', e => {
     clearTimeout(_buscaTmr);
     const val = e.target.value;
-    _buscaTmr = setTimeout(async () => {
-      renderBusca(val);
-      await dbSetEstado('ultimoTermo', val.trim());
-      if (val.trim().length >= 2) await dbAddBusca(val);
-      if (!val.trim()) await renderHistoricoChips();
-    }, 150);
+    _buscaTmr = setTimeout(() => { renderBusca(val); }, 150);
+  });
+
+  input.addEventListener('change', async e => {
+    const val = e.target.value.trim();
+    await dbSetEstado('ultimoTermo', val);
+    if (val.length >= 3) await dbAddBusca(val);
+    await renderHistoricoChips();
+  });
+
+  input.addEventListener('keydown', async e => {
+    if (e.key === 'Enter') {
+      const val = input.value.trim();
+      await dbSetEstado('ultimoTermo', val);
+      if (val.length >= 3) await dbAddBusca(val);
+      await renderHistoricoChips();
+    }
+    if (e.key === 'Escape'){
+      input.value = ''; renderBusca('');
+      dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.blur();
+    }
   });
 
   input.addEventListener('focus', () => {
@@ -1552,13 +1815,10 @@ async function initBusca(){
     }
   });
 
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Escape'){ input.value = ''; renderBusca(''); dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.blur(); }
-  });
-
   if (clearBtn){
     clearBtn.addEventListener('click', () => {
-      input.value = ''; renderBusca(''); dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.focus();
+      input.value = ''; renderBusca('');
+      dbSetEstado('ultimoTermo', ''); renderHistoricoChips(); input.focus();
     });
   }
 
@@ -1580,34 +1840,257 @@ async function renderHistoricoChips(){
   wrap.classList.add('carregando');
   try {
     const hist = await dbGetHistorico(HIST_MOSTRAR);
+    wrap.innerHTML = '';
     if (!hist.length){
-      wrap.innerHTML = `
-        <button type="button" class="busca-chip" data-q="bob">bob</button>
-        <button type="button" class="busca-chip" data-q="make">make</button>
-        <button type="button" class="busca-chip" data-q="noiva">noiva</button>
-        <button type="button" class="busca-chip" data-q="loiro">loiro</button>
-        <button type="button" class="busca-chip" data-q="cachos">cachos</button>
-        <button type="button" class="busca-chip" data-q="hidratação">hidratação</button>`;
+      ['bob','maquiagem','noiva','loiro','cachos','hidratação'].forEach(t => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'busca-chip'; b.dataset.q = t; b.textContent = t;
+        wrap.appendChild(b);
+      });
       return;
     }
-    wrap.innerHTML = hist.map(t => `<button type="button" class="busca-chip" data-q="${t.replace(/"/g,'&quot;')}">${t}</button>`).join('') + `<button type="button" class="busca-chip busca-chip-limpar" id="limparHist">limpar</button>`;
-    const limpar = document.getElementById('limparHist');
-    if (limpar){
-      limpar.addEventListener('click', async (ev) => {
-        ev.stopPropagation();
-        await dbLimparHistorico();
-        await renderHistoricoChips();
-      });
-    }
+    hist.forEach(t => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'busca-chip'; b.dataset.q = t; b.textContent = t;
+      wrap.appendChild(b);
+    });
+    const limpar = document.createElement('button');
+    limpar.type = 'button'; limpar.className = 'busca-chip busca-chip-limpar';
+    limpar.id = 'limparHist'; limpar.textContent = 'limpar';
+    wrap.appendChild(limpar);
+    limpar.addEventListener('click', async (ev) => {
+      ev.stopPropagation();
+      await dbLimparHistorico();
+      await renderHistoricoChips();
+    });
   } finally { wrap.classList.remove('carregando'); }
 }
+
+/* ============ RENDER HELPERS ============ */
+function renderVisagismo(formato) {
+  const data = visagismoData[formato];
+  const container = document.getElementById('visagismoResultado');
+  if (!container || !data) return;
+  container.innerHTML = `
+    <img src="${data.img}" alt="${data.nome}" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+    <div class="visagismo-painel-txt">
+      <h3>Seu Formato: ${data.nome}</h3>
+      <span class="recomendacao">Recomendação</span>
+      <p>${data.recomendacao}</p>
+      <p>${data.desc}</p>
+      <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
+    </div>
+  `;
+  document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); });
+}
+
+function renderPaleta(cor) {
+  const data = coresData[cor];
+  const container = document.getElementById('paletaResultado');
+  if (!container || !data) return;
+
+  const swatches = data.cores.map((item, i) => `
+    <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}" tabindex="0" role="button" aria-label="${item.n}">
+      <img src="${item.img}" alt="${item.n}" onclick="event.stopPropagation(); abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+      <div class="swatch-card-info">
+        <div class="swatch-card-cor" style="background:${item.c}"></div>
+        <span>${item.n}</span>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="paleta-titulo">Paleta Recomendada: ${data.nome}</div>
+    <div class="paleta-swatches">${swatches}</div>
+    <p>Use essas cores para iluminar o rosto e harmonizar com o seu subtom natural.</p>
+  `;
+
+  container.querySelectorAll('.swatch-card').forEach(card => {
+    card.addEventListener('click', () => { container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo')); card.classList.add('ativo'); });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+  });
+
+  document.querySelectorAll('.cor-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.cor === cor); });
+}
+
+document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato)); });
+document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => renderPaleta(btn.dataset.cor)); });
+
+Object.keys(cabelosData).forEach(tipo => {
+  const container = document.getElementById(`acordeao-${tipo}`);
+  if (!container) return;
+  container.innerHTML = cabelosData[tipo].map(item => `
+    <div class="mini-card" tabindex="0" role="button" onclick="abrirZoomEditorial('${item.img}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirZoomEditorial('${item.img}')}">
+      <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      <div class="mini-card-txt"><strong>${item.title}</strong><span>${item.sub}</span></div>
+    </div>
+  `).join('');
+});
+document.querySelectorAll('.acordeao-header').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isActive = btn.classList.contains('active');
+    document.querySelectorAll('.acordeao-header').forEach(b => { b.classList.remove('active'); b.nextElementSibling.style.maxHeight = null; });
+    if (!isActive) { btn.classList.add('active'); const body = btn.nextElementSibling; body.style.maxHeight = body.scrollHeight + 'px'; }
+  });
+});
+
+function renderColoracao(categoria) {
+  const data = coloracaoData[categoria];
+  if (!data) return;
+
+  const paleta = document.getElementById('colPaleta');
+  paleta.innerHTML = data.tons.map((t, i) =>
+    `<div class="col-swatch ${i===0 ? 'ativo' : ''}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}" data-img="${t.img}" tabindex="0" role="button" aria-label="${t.nome}"></div>`
+  ).join('');
+
+  atualizarInfoCor(data.tons[0]);
+
+  paleta.querySelectorAll('.col-swatch').forEach(swatch => {
+    const ativar = () => {
+      paleta.querySelectorAll('.col-swatch').forEach(s => s.classList.remove('ativo'));
+      swatch.classList.add('ativo');
+      atualizarInfoCor({ nome: swatch.dataset.nome, desc: swatch.dataset.desc, link: swatch.dataset.link, img: swatch.dataset.img });
+    };
+    swatch.addEventListener('click', ativar);
+    swatch.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ativar(); }
+    });
+  });
+
+  document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.classList.toggle('ativo', tab.dataset.cat === categoria); });
+}
+
+function atualizarInfoCor(tom) {
+  const imgEl = document.getElementById('colImagem');
+  imgEl.style.opacity = '1';
+  if (tom.img) { imgEl.src = tom.img; }
+
+  document.getElementById('colInfo').innerHTML = `
+    <h3>${tom.nome}</h3>
+    <p>${tom.desc}</p>
+    <a href="${tom.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Tinta</a>
+  `;
+}
+
+document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderColoracao(tab.dataset.cat)); });
+
+function renderMake(categoria) {
+  const data = makeData[categoria];
+  if (!data) return;
+
+  const imgEl = document.getElementById('makeImagem');
+  imgEl.style.opacity = '1';
+  imgEl.src = data.img;
+  const container = document.getElementById('makeInfo');
+  container.innerHTML = `
+    <h3>${data.nome}</h3>
+    <p>${data.desc}</p>
+    <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Produtos</a>
+  `;
+  document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
+}
+document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
+
+function renderGrid(id, data, catLabel, linkDefault){
+  const grid = document.getElementById(id);
+  if (!grid) return;
+  grid.innerHTML = '';
+  data.forEach((item, idx) => {
+    const card = document.createElement('button');
+    card.className = 'card';
+    card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
+    const img = item.img || item.imgFrente || '';
+
+    card.innerHTML = `
+      <span class="card-img-wrap">
+        <img src="${img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </span>
+      <span class="card-text-wrap">
+        <span class="card-nome">${item.title}</span>
+        ${item.sub ? '<span class="card-sub">' + item.sub + '</span>' : ''}
+      </span>
+    `;
+
+    card.addEventListener('click', () => {
+      openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img);
+    });
+    grid.appendChild(card);
+  });
+}
+
+function renderEditorialScroll(id, data, catLabel, linkDefault){
+  const container = document.getElementById(id);
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'editorial-card';
+    card.tabIndex = 0; card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', item.title);
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </div>
+      <div class="editorial-card-txt">
+        <h4>${item.title}</h4>
+        <p>${item.desc}</p>
+      </div>
+    `;
+    card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+    });
+    container.appendChild(card);
+  });
+}
+
+function renderMiniGrid(id, data, catLabel, linkDefault){
+  const container = document.getElementById(id);
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'mini-card-editorial';
+    card.tabIndex = 0; card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', item.title);
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </div>
+      <div class="mini-card-editorial-txt">
+        <strong>${item.title}</strong>
+        <span>${item.sub || ''}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+    });
+    container.appendChild(card);
+  });
+}
+
+/* ============ HEADER ESCONDE AO ROLAR ============ */
+(function(){
+  const main = document.getElementById('mainContent');
+  if (!main) return;
+  let lastY = 0;
+  main.addEventListener('scroll', () => {
+    const y = main.scrollTop;
+    if (y > 80 && y > lastY) document.body.classList.add('header-oculto');
+    else document.body.classList.remove('header-oculto');
+    lastY = y;
+  }, { passive: true });
+})();
 
 /* ============ INIT ============ */
 document.addEventListener('DOMContentLoaded', () => {
   renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
   renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
   renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
-  
+
   renderColoracao('loiros');
   renderEditorialScroll('tecnicasScroll', tecnicasData, 'Técnica', ML_LINKS.inoa);
   renderMiniGrid('cuidadosGrid', cuidadosData, 'Cuidado', ML_LINKS.kerastase);
@@ -1615,10 +2098,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderMake('pele');
 
-  renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kerastase);
+  renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kitNoiva);
 
   renderGrid('grid-kits', kitsData, 'Kit', null);
-  renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.ferramentas);
+  renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.kitNoiva);
 
   renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
 
@@ -1627,7 +2110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initBusca();
   document.body.classList.add('app-pronta');
-  dock.style.setProperty('--i', 3); 
+  irParaSecao('kits');
 });
 </script>
 
