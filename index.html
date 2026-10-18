@@ -126,7 +126,7 @@
   .busca-chip-limpar:hover{color:#e8a0a8; border-color:rgba(184,58,74,.55); background:rgba(120,25,35,.15)}
 
   /* ==========================================
-     DRAWER (Agora com todos os links)
+     DRAWER (Menu Hambúrguer)
      ========================================== */
   .drawer-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:950;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
   .drawer-overlay.ativo{opacity:1;visibility:visible}
@@ -144,6 +144,22 @@
   .drawer-nav button:hover{background:rgba(217,187,144,.05);color:var(--gold);padding-left:30px}
   .drawer-nav button.ativo{color:var(--gold)}
   .drawer-footer{margin-top:auto;padding:24px;font-size:.62rem;color:var(--text-muted);letter-spacing:.25em;text-transform:uppercase;font-weight:300;opacity:.5;text-align:center}
+
+  /* ==========================================
+     BOTTOM SHEET (Menu Mais)
+     ========================================== */
+  .sheet-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:970;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
+  .sheet-overlay.ativo{opacity:1;visibility:visible}
+  .sheet{position:fixed;bottom:0;left:0;right:0;margin-inline:auto;width:min(100%, 560px);background:var(--bg-card);border:1px solid var(--border-gold);border-bottom:none;border-radius:24px 24px 0 0;z-index:980;transform:translateY(100%);transition:transform .4s var(--ease-luxury);padding:12px 24px calc(24px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgba(0,0,0,.5)}
+  .sheet.aberto{transform:translateY(0)}
+  .sheet-handle{width:40px;height:4px;background:rgba(217,187,144,.3);border-radius:2px;margin:0 auto 20px}
+  .sheet-title{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:1.2rem;color:var(--gold);margin-bottom:20px}
+  .sheet-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .sheet-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px 8px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;cursor:pointer;color:var(--text);transition:var(--tr-ui);text-decoration:none}
+  .sheet-btn:hover{background:rgba(217,187,144,.08);border-color:var(--border-gold);color:var(--gold)}
+  .sheet-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.5}
+  .sheet-btn span{font-size:.75rem;font-weight:500;letter-spacing:.02em}
+  .sheet-btn.ativo{background:rgba(217,187,144,.15);border-color:var(--gold);color:var(--gold)}
 
   /* ==========================================
      CONTEÚDO E GRIDS
@@ -432,7 +448,7 @@
   .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
 
   /* ==========================================
-     DOCK (5 Abas principais)
+     DOCK (5 Abas - A última é "Mais")
      ========================================== */
   .dock{position:fixed;left:0;right:0;margin-inline:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(calc(100% - 28px),500px);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:999px;--i:0;background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);z-index:900;opacity:0;transform:translateY(16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
   body.app-pronta .dock{opacity:1;transform:none}
@@ -555,12 +571,13 @@
     <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span>Kits</span>
   </button>
-  <button type="button" class="dock-btn" data-secao="maquiagem">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="4"/></svg>
-    <span>Make</span>
+  <button type="button" class="dock-btn" id="btnMais" aria-label="Mais opções">
+    <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+    <span>Mais</span>
   </button>
 </nav>
 
+<!-- MENU DRAWER (Hambúrguer) -->
 <div class="drawer-overlay" id="drawerOverlay" hidden></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer-header">
@@ -578,6 +595,16 @@
   </nav>
   <div class="drawer-footer">HairOS · 2026</div>
 </aside>
+
+<!-- BOTTOM SHEET (Menu Mais) -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <h3 class="sheet-title">Mais Opções</h3>
+  <div class="sheet-nav" id="sheetNav">
+    <!-- Injetado via JS -->
+  </div>
+</div>
 
 <main class="main-content" id="mainContent">
 
@@ -826,9 +853,9 @@ const ML_LINKS = {
 
 /* ============ NAVEGAÇÃO ============ */
 const secoes = document.querySelectorAll('.secao');
-const dockBtns = document.querySelectorAll('.dock-btn');
+const dockBtns = document.querySelectorAll('.dock-btn:not(#btnMais)');
 const dock = document.getElementById('dock');
-const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits','maquiagem'];
+const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits'];
 
 function irParaSecao(nome){
   document.body.classList.remove('buscando');
@@ -841,23 +868,78 @@ function irParaSecao(nome){
   }
 
   secoes.forEach(s => s.classList.toggle('ativa', s.id === 'secao-' + nome));
+  
   dockBtns.forEach(b => {
     const on = b.dataset.secao === nome;
     b.classList.toggle('ativo', on);
     if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
   });
+
+  const isMainDock = ORDEM_SECOES.includes(nome);
+  const btnMais = document.getElementById('btnMais');
+  if (btnMais) btnMais.classList.toggle('ativo', !isMainDock);
+
   document.querySelectorAll('.drawer-nav button').forEach(b => {
     b.classList.toggle('ativo', b.dataset.secao === nome);
   });
-  
-  // Se a seção não estiver no dock (ex: noivas, ferramentas), o indicador fica no último
+
   let idx = ORDEM_SECOES.indexOf(nome);
-  if (idx === -1) idx = 0; 
+  if (idx === -1) idx = 4; // Fica no "Mais"
   
   dock.style.setProperty('--i', idx);
   window.scrollTo({top:0, behavior:'auto'});
+  
+  if (!isMainDock) {
+    // Sincroniza o botão ativo dentro do Bottom Sheet
+    document.querySelectorAll('.sheet-btn').forEach(b => {
+      b.classList.toggle('ativo', b.dataset.secao === nome);
+    });
+  }
 }
-dockBtns.forEach(btn => btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)));
+
+// Adiciona evento aos botões do dock principal
+dockBtns.forEach(btn => {
+  if (btn.dataset.secao) {
+    btn.addEventListener('click', () => irParaSecao(btn.dataset.secao));
+  }
+});
+
+// Evento do botão "Mais" (Abre o Bottom Sheet)
+document.getElementById('btnMais').addEventListener('click', () => {
+  document.getElementById('sheetOverlay').classList.add('ativo');
+  document.getElementById('sheet').classList.add('aberto');
+  document.body.style.overflow = 'hidden';
+  
+  // Marca qual aba secundária está ativa
+  const secaoAtiva = document.querySelector('.secao.ativa');
+  if (secaoAtiva) {
+    const id = secaoAtiva.id.replace('secao-', '');
+    document.querySelectorAll('.sheet-btn').forEach(b => {
+      b.classList.toggle('ativo', b.dataset.secao === id);
+    });
+  }
+});
+
+function fecharSheet() {
+  document.getElementById('sheetOverlay').classList.remove('ativo');
+  document.getElementById('sheet').classList.remove('aberto');
+  document.body.style.overflow = '';
+}
+
+// Preenche o Bottom Sheet
+const sheetOpcoes = [
+  { id: 'noivas', label: 'Noivas', icon: '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>' },
+  { id: 'maquiagem', label: 'Maquiagem', icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="4"/>' },
+  { id: 'ferramentas', label: 'Ferramentas', icon: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>' }
+];
+
+const sheetNav = document.getElementById('sheetNav');
+sheetNav.innerHTML = sheetOpcoes.map(op => `
+  <button class="sheet-btn" data-secao="${op.id}" onclick="irParaSecao('${op.id}'); fecharSheet();">
+    <svg viewBox="0 0 24 24">${op.icon}</svg>
+    <span>${op.label}</span>
+  </button>
+`).join('');
 
 /* DRAWER */
 const menuBtn = document.getElementById('menuBtn');
@@ -1051,6 +1133,7 @@ document.addEventListener('keydown', e => {
     if (document.getElementById('zoomOverlay').classList.contains('on')) { fecharZoom(); return; }
     if (document.getElementById('modalBg').classList.contains('on')){ closeModal(); return; }
     if (drawer.classList.contains('aberto')){ fecharDrawer(); return; }
+    if (document.getElementById('sheet').classList.contains('aberto')) { fecharSheet(); return; }
   }
 });
 
