@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="HairOS — cortes, visagismo, coloração, kits e ferramentas.">
-<title>HairOS — Cortes, Visagismo, Coloração, Kits & Ferramentas</title>
+<meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
+<title>HairOS — Beleza Completa</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,7 +126,7 @@
   .busca-chip-limpar:hover{color:#e8a0a8; border-color:rgba(184,58,74,.55); background:rgba(120,25,35,.15)}
 
   /* ==========================================
-     DRAWER
+     DRAWER (Agora com todos os links)
      ========================================== */
   .drawer-overlay{position:fixed;inset:0;background:rgba(10,8,8,.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:950;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s}
   .drawer-overlay.ativo{opacity:1;visibility:visible}
@@ -263,7 +263,7 @@
   .mini-card-txt span { font-size: 0.65rem; color: var(--text-muted); }
 
   /* ==========================================
-     COLORAÇÃO (MAGAZINE)
+     COLORAÇÃO / MAQUIAGEM / KITS (MAGAZINE)
      ========================================== */
   .col-tabs {
     display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px;
@@ -305,7 +305,7 @@
   .col-info p { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
   .col-info .btn-link { margin-top: 12px; }
 
-  /* Carrossel Editorial (Técnicas e Tons) */
+  /* Carrossel Editorial (Técnicas, Noivas, Acessórios) */
   .editorial-scroll {
     display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px;
     scroll-snap-type: x mandatory; scrollbar-width: none;
@@ -390,7 +390,7 @@
   .zoom-close:hover { background: rgba(150,35,48,.9); color: #f5c8ce; transform: scale(1.08); }
 
   /* ==========================================
-     MODAL DE CORTES (MANTIDO)
+     MODAL DE CORTES/NOIVAS (MANTIDO)
      ========================================== */
   .corte-carrossel-wrapper { position: relative; width: 100%; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
   .corte-carrossel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; gap: 6px; border-radius: 10px; }
@@ -432,7 +432,7 @@
   .modal-btn.secondary:hover{color:var(--text);border-color:var(--gold)}
 
   /* ==========================================
-     DOCK (5 Abas)
+     DOCK (5 Abas principais)
      ========================================== */
   .dock{position:fixed;left:0;right:0;margin-inline:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(calc(100% - 28px),500px);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:999px;--i:0;background:rgba(26,22,18,.66);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--border-gold);box-shadow:0 12px 32px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,240,210,.06);z-index:900;opacity:0;transform:translateY(16px);transition:transform .55s var(--ease-out),opacity .4s var(--ease-out)}
   body.app-pronta .dock{opacity:1;transform:none}
@@ -514,265 +514,23 @@
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
   }
-
-  /* ==========================================================
-     v2 — RESPONSIVO + UX + NOVAS PÁGINAS
-     (sobrescreve regras anteriores; mantém a identidade visual)
-     Breakpoints: 600 (tablet) · 900 (desktop) · 1200 (wide)
-     ========================================================== */
-  [hidden]{display:none !important}
-  html,body{min-height:100vh;min-height:100dvh;overflow-x:hidden;overflow-x:clip}
-  html{scroll-padding-top:var(--nav-space)}
-  body{padding-inline:clamp(14px,3vw,40px)}
-  main.main-content{max-width:1440px;margin-inline:auto}
-  main.main-content:focus{outline:none}
-  .page-title h1:focus{outline:none}
-
-  /* --- Acessibilidade: pular para o conteúdo --- */
-  .skip-link{position:fixed;left:12px;top:-64px;z-index:2000;padding:12px 18px;background:var(--gold);color:#1b1209;border-radius:10px;font-weight:600;font-size:.9rem;text-decoration:none;transition:top .2s var(--ease-out)}
-  .skip-link:focus{top:calc(env(safe-area-inset-top,0px) + 12px)}
-
-  /* --- Alvos de toque >= 44px --- */
-  .menu-btn{width:auto;min-width:44px;height:44px;padding:0 13px;border-radius:999px;gap:10px}
-  .menu-icon{display:block;width:18px}
-  .menu-label{display:none;font-size:.85rem;font-weight:500;letter-spacing:.02em}
-  .drawer-fechar,.zoom-close,.modal-close{width:44px;height:44px}
-  .busca-clear{width:32px;height:32px;font-size:.8rem}
-  .busca-clear::after{content:'';position:absolute;inset:-6px}
-  .col-swatch{width:44px;height:44px}
-  .visagismo-btn{min-width:56px;min-height:44px}
-  .col-tab{min-height:44px}
-  .acordeao-header{min-height:52px}
-
-  /* --- Tamanhos mínimos de texto e escala fluida --- */
-  .page-title h1{font-size:clamp(1.45rem,1.05rem + 1.6vw,2.4rem)}
-  .page-title .sub{font-size:.7rem}
-  .bloco-head h2{font-size:clamp(1.05rem,.95rem + .6vw,1.5rem)}
-  .card-badge{font-size:.6rem}
-  .swatch-card-info span{font-size:.68rem}
-  .mini-card-txt span,.mini-card-editorial-txt span{font-size:.7rem}
-  .zoom-mini-kit span{font-size:.68rem}
-  .dock-btn span{font-size:.66rem}
-  .dock-btn .t-longo{display:none}
-  .drawer-footer{font-size:.7rem;opacity:.75}
-  @media (max-width:600px){
-    .page-title h1{font-size:clamp(1.45rem,6.4vw,1.8rem)}
-    .page-title .sub{font-size:.66rem}
-    .bloco-head h2{font-size:1.05rem}
-    .card-badge{font-size:.58rem}
-    .card-nome{font-size:.78rem}
-    .card-sub{font-size:.68rem}
-    .dock-btn span{font-size:.64rem}
-    .busca-clear{right:16px;width:32px;height:32px}
-  }
-  @media (min-width:420px){
-    .dock-btn .t-curto{display:none}
-    .dock-btn .t-longo{display:inline}
-  }
-
-  /* --- Botões e campos reutilizáveis --- */
-  .btn-solid,.btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:12px;font-family:inherit;font-size:.9rem;font-weight:600;letter-spacing:.02em;cursor:pointer;text-decoration:none;transition:var(--tr-ui)}
-  .btn-solid{background:var(--gold);color:#1b1209;border:1px solid var(--gold)}
-  .btn-solid:hover{background:var(--gold-light);transform:translateY(-1px)}
-  .btn-solid:active{transform:scale(.98)}
-  .btn-ghost{background:transparent;color:var(--gold-light);border:1px solid var(--border-gold)}
-  .btn-ghost:hover{background:rgba(217,187,144,.08);border-color:var(--gold)}
-  .campo{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
-  .campo label{font-size:.88rem;color:var(--text-sec);font-weight:500}
-  .campo .opcional{color:var(--text-muted);font-weight:300}
-  .campo input,.campo select,.campo textarea{width:100%;min-height:48px;padding:12px 14px;background:rgba(0,0,0,.3);border:1px solid var(--border-gold);border-radius:12px;color:var(--text);font-family:inherit;font-size:1rem;line-height:1.5;transition:var(--tr-ui);color-scheme:dark}
-  .campo textarea{resize:vertical;min-height:132px}
-  .campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--gold);box-shadow:var(--focus-ring)}
-  .campo [aria-invalid="true"]{border-color:#e8a0a8}
-  .erro{min-height:1.2em;font-size:.84rem;color:#f0a3ab}
-  .ajuda{font-size:.82rem;color:var(--text-muted);line-height:1.6;margin-top:14px}
-
-  /* --- Páginas de texto: Sobre / Contato / Apoie --- */
-  .pagina-texto{max-width:720px;margin-inline:auto}
-  .pagina-texto p{font-size:1rem;line-height:1.75;color:var(--text-sec);font-weight:300;margin-bottom:16px;max-width:68ch}
-  .pagina-texto .bloco{margin-bottom:40px}
-  .lista-links{list-style:none;display:grid;gap:0;margin-bottom:8px}
-  .lista-links a{display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:12px 4px;border-bottom:1px solid var(--border);color:var(--text);text-decoration:none;font-size:1rem;transition:var(--tr-ui)}
-  .lista-links a span{color:var(--text-muted);font-size:.85rem;font-weight:300}
-  .lista-links a:hover{color:var(--gold);padding-left:10px}
-  .duas-colunas{display:grid;gap:24px;max-width:1000px;margin-inline:auto}
-  .cartao,.pix-card{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);padding:clamp(20px,4vw,32px)}
-  .cartao h2,.pix-card h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.3rem;color:var(--gold-light);margin-bottom:12px}
-  .cartao p{font-size:.95rem;line-height:1.7;color:var(--text-sec);font-weight:300;margin-bottom:14px}
-  .email-link{display:block;margin:4px 0 18px;font-size:clamp(1rem,.9rem + .8vw,1.25rem);color:var(--gold);text-decoration:none;overflow-wrap:anywhere;font-weight:500}
-  .email-link:hover{color:var(--gold-hi);text-decoration:underline}
-  .pix-card{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(160deg,var(--bg-elevated),var(--bg-card))}
-  .pix-tipo{font-size:.85rem;color:var(--text-muted)}
-  .pix-chave{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,.9rem + 1.2vw,1.5rem);color:var(--gold-hi);overflow-wrap:anywhere;margin:6px 0 18px;user-select:all;-webkit-user-select:all}
-  .pix-card .btn-solid{width:100%;max-width:320px}
-  .passos{counter-reset:p;list-style:none;margin:0 0 16px}
-  .passos li{counter-increment:p;position:relative;padding:10px 0 10px 44px;font-size:.95rem;line-height:1.6;color:var(--text-sec);font-weight:300;border-bottom:1px solid var(--border)}
-  .passos li:last-child{border-bottom:none}
-  .passos li::before{content:counter(p);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border-gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:500}
-
-  /* --- Magazine (edição de teste) --- */
-  .mag{display:grid;gap:36px;max-width:1120px;margin-inline:auto}
-  .mag-capa{display:grid;gap:20px;align-items:center}
-  .mag-capa figure{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border-gold);background:var(--bg-elevated)}
-  .mag-capa img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top}
-  .mag-capa figcaption{padding:10px 14px;font-size:.78rem;color:var(--text-muted);background:var(--bg-card)}
-  .mag-categoria{font-size:.8rem;color:var(--gold);font-weight:500;margin-bottom:10px}
-  .mag-capa h2{font-family:'Playfair Display',serif;font-weight:600;font-style:italic;font-size:clamp(1.8rem,1.2rem + 3vw,3.2rem);line-height:1.12;letter-spacing:-.015em;color:var(--text);margin-bottom:16px}
-  .mag-lide{font-size:clamp(1.02rem,.95rem + .4vw,1.2rem);line-height:1.65;color:var(--text-sec);font-weight:300;max-width:52ch}
-  .mag-artigo{max-width:66ch}
-  .mag-artigo h3{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:clamp(1.25rem,1.1rem + .6vw,1.6rem);color:var(--gold-light);margin:36px 0 12px;line-height:1.25}
-  .mag-artigo h3:first-child{margin-top:0}
-  .mag-artigo p,.mag-artigo li{font-size:1.02rem;line-height:1.8;color:var(--text-sec);font-weight:300}
-  .mag-artigo p{margin-bottom:14px}
-  .mag-artigo strong{color:var(--text);font-weight:500}
-  .mag-artigo a{color:var(--gold);text-underline-offset:3px}
-  .mag-artigo a:hover{color:var(--gold-hi)}
-  .mag-artigo ul{padding-left:1.2em;margin-bottom:14px}
-  .mag-artigo ul li{margin-bottom:6px}
-  .mag-artigo .passos li{font-size:1.02rem;line-height:1.7}
-  .mag-destaque{margin:24px 0;padding:18px 20px;border-left:2px solid var(--gold);background:var(--bg-card);border-radius:0 var(--radius) var(--radius) 0}
-  .mag-destaque p{margin:0;font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;line-height:1.6;color:var(--gold-light)}
-  .mag-lateral{display:grid;gap:24px;align-content:start}
-  .mag-caixa{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:var(--radius);padding:20px}
-  .mag-caixa h3{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.15rem;color:var(--gold-light);margin-bottom:12px}
-  .mag-caixa dt{font-size:.92rem;color:var(--text);font-weight:500;margin-top:12px}
-  .mag-caixa dt:first-of-type{margin-top:0}
-  .mag-caixa dd{font-size:.9rem;line-height:1.6;color:var(--text-sec);font-weight:300}
-  .mag-mais a{display:flex;flex-direction:column;gap:2px;min-height:56px;padding:12px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:var(--tr-ui)}
-  .mag-mais a:last-child{border-bottom:none}
-  .mag-mais a strong{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.02rem;color:var(--gold-light)}
-  .mag-mais a span{font-size:.84rem;color:var(--text-muted);font-weight:300}
-  .mag-mais a:hover strong{color:var(--gold-hi)}
-  .mag-nota{text-align:center;font-size:.82rem;color:var(--text-muted);padding-top:8px}
-
-  /* --- Rodapé compartilhado --- */
-  .site-footer{max-width:1120px;margin:32px auto 0;padding:24px 0 8px;border-top:1px solid var(--border);text-align:center;color:var(--text-muted);font-size:.82rem;line-height:1.7}
-  .site-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0 12px;margin-bottom:8px}
-  .site-footer nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:var(--gold-light);text-decoration:none;font-size:.9rem}
-  .site-footer nav a:hover{color:var(--gold-hi);text-decoration:underline}
-  .site-footer p{max-width:60ch;margin-inline:auto}
-
-  /* --- Aviso rápido (toast) --- */
-  .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 98px);transform:translate(-50%,12px);max-width:min(92vw,420px);padding:12px 20px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border-gold);color:var(--text);font-size:.88rem;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s var(--ease-out),transform .3s var(--ease-out);z-index:1300}
-  .toast.on{opacity:1;transform:translate(-50%,0)}
-
-  /* --- Imagem ampliada dos cortes (elemento que faltava) --- */
-  .zoom-overlay{position:fixed;inset:0;z-index:1200;background:rgba(10,8,8,.96);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .3s var(--ease-out),visibility .3s;cursor:zoom-out}
-  .zoom-overlay.on{opacity:1;visibility:visible}
-  .zoom-overlay img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px}
-
-  /* --- Drawer: grupos, links e tag --- */
-  .drawer{width:min(360px,88vw);padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));overscroll-behavior:contain}
-  .drawer-nav{padding:4px 0 12px}
-  .drawer-grupo{padding:18px 24px 6px;font-size:.78rem;color:var(--text-muted);font-weight:500}
-  .drawer-nav a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:14px 24px;color:var(--text);text-decoration:none;font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;font-weight:500;border-bottom:1px solid var(--border);transition:var(--tr-ui),padding-left .3s var(--ease-out)}
-  .drawer-nav a:hover{background:rgba(217,187,144,.05);color:var(--gold);padding-left:30px}
-  .drawer-nav a.ativo{color:var(--gold)}
-  .drawer-nav a:focus-visible{box-shadow:inset 0 0 0 3px rgba(217,187,144,.5)}
-  .drawer-nav a.destaque{color:var(--gold)}
-  .drawer-tag{font-family:'Inter',sans-serif;font-style:normal;font-size:.7rem;font-weight:500;padding:2px 9px;border-radius:999px;border:1px solid var(--border-gold);color:var(--gold)}
-
-  /* --- Dock: indicador some nas páginas fora da dock --- */
-  .dock-ind{transition:transform .55s var(--ease-out),opacity .3s var(--ease-out)}
-  .dock.sem-ativo .dock-ind{opacity:0}
-
-  /* --- Modais com altura segura em celulares --- */
-  .modal,.zoom-content{max-height:90vh;max-height:90dvh}
-
-  /* ==========================================================
-     TABLET  ≥ 600px
-     ========================================================== */
-  @media (min-width:600px){
-    .menu-btn{padding:0 18px 0 15px}
-    .menu-label{display:inline}
-    .header-unificado{width:min(640px,calc(100% - 48px))}
-    .mini-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-    .editorial-card{flex-basis:280px}
-    .mag-capa{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
-    .mag-capa img{aspect-ratio:4/5}
-  }
-  @media (min-width:768px){
-    .modal{max-width:560px}
-    .zoom-content{max-width:760px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-    .zoom-img-wrap{position:relative;min-height:340px;border-radius:16px 0 0 16px}
-    .zoom-img-wrap img{position:absolute;inset:0;height:100%;aspect-ratio:auto}
-    .zoom-text-wrap{display:flex;flex-direction:column;justify-content:center;padding:32px 28px}
-    .corte-slide img{width:auto;max-width:100%;height:min(62vh,640px);aspect-ratio:2/3;align-self:center}
-    .duas-colunas{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
-  }
-
-  /* ==========================================================
-     DESKTOP  ≥ 900px
-     ========================================================== */
-  @media (min-width:900px){
-    :root{--header-h:64px}
-    .grid{gap:16px}
-
-    /* Cabeçalho em linha única: marca · busca · menu */
-    .header-unificado{flex-direction:row;align-items:center;gap:8px;width:min(1120px,calc(100% - 48px));padding:10px 10px 10px 0;border-radius:999px}
-    .header-top{display:contents}
-    .brand{order:1;padding-left:26px}
-    .busca-wrap{order:2;flex:1;padding:0 8px}
-    .busca-wrap::before{top:50%;left:24px}
-    .busca-input{height:44px;font-size:.92rem;padding-left:44px}
-    .busca-clear{top:50%;right:20px}
-    .menu-btn{order:3}
-    .busca-sugestoes{top:calc(100% + 6px)}
-
-    /* Dock com rótulos ao lado do ícone */
-    .dock{width:min(calc(100% - 48px),640px)}
-    .dock-btn{flex-direction:row;gap:8px;height:48px}
-    .dock-btn span{font-size:.82rem}
-    .dock-btn svg{width:18px;height:18px}
-
-    /* Visagismo em duas colunas */
-    .visagismo-container{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 40px;max-width:1120px}
-    .visagismo-container > .bloco:nth-child(n+3){grid-column:1/-1}
-    .visagismo-nav{justify-content:center}
-    .acordeao-body-inner{flex-wrap:wrap}
-
-    /* Coloração: imagem ao lado da paleta */
-    .col-display{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-rows:auto 1fr}
-    .col-display img{grid-row:1/3;grid-column:1;height:100%;min-height:380px;aspect-ratio:auto;border-bottom:none;border-right:1px solid var(--border)}
-    .col-paleta{grid-column:2;grid-row:1;justify-content:flex-start;flex-wrap:wrap;align-self:end;padding:28px 28px 8px}
-    .col-info{grid-column:2;grid-row:2;text-align:left;padding:8px 28px 28px;align-self:start}
-    .editorial-card{flex-basis:300px}
-
-    /* Magazine em duas colunas */
-    .mag{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:48px}
-    .mag-capa{grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px}
-    .mag-lateral{position:sticky;top:calc(var(--nav-space) + 8px)}
-
-    /* Menu lateral um pouco mais largo */
-    .drawer{width:min(380px,88vw)}
-  }
-  @media (min-width:1200px){
-    .editorial-card{flex-basis:320px}
-  }
-  @media (max-height:520px) and (orientation:landscape){
-    .header-unificado{top:calc(env(safe-area-inset-top,0px) + 6px)}
-    .zoom-img-wrap img,.corte-slide img{max-height:70vh}
-  }
 </style>
 </head>
 <body>
-
-<a class="skip-link" href="#mainContent">Ir para o conteúdo</a>
 
 <header class="header-unificado" id="headerPrincipal">
   <div class="header-top">
     <button class="brand" id="brandHome" aria-label="HairOS — início">
       <span class="brand-h">H</span><span class="brand-rest">airOS</span>
     </button>
-    <button type="button" class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer">
-      <span class="menu-icon" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
-      <span class="menu-label">Menu</span>
+    <button type="button" class="menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+      <span><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
     </button>
   </div>
   <div class="busca-wrap">
     <input id="buscaInput" class="busca-input" type="search"
            inputmode="search" enterkeyhint="search"
-           placeholder="Buscar corte, tom, técnica, kit…"
+           placeholder="Buscar corte, make, noiva…"
            aria-label="Buscar no HairOS" autocomplete="off">
     <button type="button" class="busca-clear" id="buscaClear" aria-label="Limpar busca" hidden>✕</button>
   </div>
@@ -797,36 +555,31 @@
     <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
     <span>Kits</span>
   </button>
-  <button type="button" class="dock-btn" data-secao="ferramentas">
-    <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-    <span><span class="t-curto">Ferram.</span><span class="t-longo">Ferramentas</span></span>
+  <button type="button" class="dock-btn" data-secao="maquiagem">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="4"/></svg>
+    <span>Make</span>
   </button>
 </nav>
 
 <div class="drawer-overlay" id="drawerOverlay" hidden></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu principal" aria-hidden="true" inert>
+<aside class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer-header">
     <span class="drawer-brand"><span class="brand-h">H</span><span class="brand-rest">airOS</span></span>
     <button type="button" class="drawer-fechar" id="drawerFechar" aria-label="Fechar menu">&times;</button>
   </div>
-  <nav class="drawer-nav" aria-label="Menu">
-    <p class="drawer-grupo">Explorar</p>
-    <a href="#cortes" data-secao="cortes">Cortes</a>
-    <a href="#visagismo" data-secao="visagismo">Visagismo</a>
-    <a href="#coloracao" data-secao="coloracao">Coloração</a>
-    <a href="#kits" data-secao="kits">Kits</a>
-    <a href="#ferramentas" data-secao="ferramentas">Ferramentas</a>
-    <p class="drawer-grupo">Revista</p>
-    <a href="#magazine" data-secao="magazine">Magazine <span class="drawer-tag">teste</span></a>
-    <p class="drawer-grupo">HairOS</p>
-    <a href="#sobre" data-secao="sobre">Sobre</a>
-    <a href="#contato" data-secao="contato">Contato</a>
-    <a href="#apoie" data-secao="apoie" class="destaque">Apoie com Pix</a>
+  <nav class="drawer-nav">
+    <button type="button" data-secao="cortes">Cortes</button>
+    <button type="button" data-secao="visagismo">Visagismo</button>
+    <button type="button" data-secao="coloracao">Coloração</button>
+    <button type="button" data-secao="noivas">Noivas</button>
+    <button type="button" data-secao="maquiagem">Maquiagem</button>
+    <button type="button" data-secao="kits" class="ativo">Kits & Acessórios</button>
+    <button type="button" data-secao="ferramentas">Ferramentas</button>
   </nav>
   <div class="drawer-footer">HairOS · 2026</div>
 </aside>
 
-<main class="main-content" id="mainContent" tabindex="-1">
+<main class="main-content" id="mainContent">
 
   <section class="secao" id="secao-cortes">
     <div class="page-title">
@@ -844,7 +597,6 @@
     </div>
 
     <div class="visagismo-container">
-      <!-- Formatos de Rosto -->
       <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Formatos de Rosto</h2><div class="linha"></div></div>
         <div class="visagismo-nav" id="visagismoNav">
@@ -858,7 +610,6 @@
         <div class="visagismo-painel" id="visagismoResultado"></div>
       </div>
 
-      <!-- Harmonização -->
       <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Harmonização de Cores</h2><div class="linha"></div></div>
         <div class="cores-nav" id="coresNav">
@@ -870,7 +621,6 @@
         <div class="paleta-resultado" id="paletaResultado"></div>
       </div>
 
-      <!-- Tipos de Cabelo -->
       <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Tipos de Cabelo</h2><div class="linha"></div></div>
         <div class="acordeao" id="acordeaoCabelos">
@@ -893,13 +643,11 @@
         </div>
       </div>
 
-      <!-- Franjas -->
       <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Franjas</h2><div class="linha"></div></div>
         <div class="grid grid-3" id="grid-franjas"></div>
       </div>
 
-      <!-- Comprimentos -->
       <div class="bloco" style="margin-bottom:0">
         <div class="bloco-head"><h2>Comprimentos</h2><div class="linha"></div></div>
         <div class="grid grid-3" id="grid-comprimentos"></div>
@@ -907,7 +655,7 @@
     </div>
   </section>
 
-  <!-- COLORAÇÃO (NOVO LAYOUT MAGAZINE) -->
+  <!-- COLORAÇÃO -->
   <section class="secao" id="secao-coloracao">
     <div class="page-title">
       <h1>Coloração</h1><span class="divider"></span>
@@ -916,7 +664,6 @@
     
     <div class="aviso-afiliado"><span class="gold">Não vendemos produtos.</span> Indicamos os que fazem sentido, com link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão — <span class="gold">sem nenhum custo extra para você.</span></div>
 
-    <!-- Paleta de Cores Interativa -->
     <div class="bloco">
       <div class="bloco-head"><h2>Paleta de Cores</h2><div class="linha"></div></div>
       <div class="col-tabs" id="colTabs">
@@ -926,40 +673,87 @@
         <button class="col-tab" data-cat="escuros">Escuros</button>
       </div>
       <div class="col-display">
-        <img id="colImagem" src="" alt="Modelo de coloração. Ampliar" role="button" tabindex="0" onclick="abrirZoomEditorial(this.src, document.getElementById('colInfo').querySelector('h3').innerText, 'Coloração', document.getElementById('colInfo').querySelector('p').innerText, document.getElementById('colInfo').querySelector('.btn-link').href)">
+        <img id="colImagem" src="" alt="Modelo" onclick="abrirZoomEditorial(this.src, document.getElementById('colInfo').querySelector('h3').innerText, 'Coloração', document.getElementById('colInfo').querySelector('p').innerText, document.getElementById('colInfo').querySelector('.btn-link').href)">
         <div class="col-paleta" id="colPaleta"></div>
         <div class="col-info" id="colInfo"></div>
       </div>
     </div>
 
-    <!-- Técnicas (Carrossel Editorial) -->
     <div class="bloco">
       <div class="bloco-head"><h2>Técnicas</h2><div class="linha"></div></div>
       <div class="editorial-scroll" id="tecnicasScroll"></div>
     </div>
 
-    <!-- Cuidados (Mini Grid) -->
     <div class="bloco">
       <div class="bloco-head"><h2>Cuidados</h2><div class="linha"></div></div>
       <div class="mini-grid" id="cuidadosGrid"></div>
     </div>
 
-    <!-- Manutenção (Mini Grid) -->
     <div class="bloco">
       <div class="bloco-head"><h2>Manutenção</h2><div class="linha"></div></div>
       <div class="mini-grid" id="manutencaoGrid"></div>
     </div>
   </section>
 
-  <section class="secao ativa" id="secao-kits">
+  <!-- MAQUIAGEM -->
+  <section class="secao" id="secao-maquiagem">
     <div class="page-title">
-      <h1>Kits</h1><span class="divider"></span>
-      <div class="sub">Produtos selecionados<br><span class="highlight">para manter em casa</span></div>
+      <h1>Maquiagem</h1><span class="divider"></span>
+      <div class="sub">Realce sua beleza<br><span class="highlight">com as cores certas</span></div>
     </div>
+    
     <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
-    <div class="grid grid-3" id="grid-kits"></div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Looks</h2><div class="linha"></div></div>
+      <div class="col-tabs" id="makeTabs">
+        <button class="col-tab ativo" data-cat="pele">Pele</button>
+        <button class="col-tab" data-cat="olhos">Olhos</button>
+        <button class="col-tab" data-cat="boca">Boca</button>
+      </div>
+      <div class="col-display">
+        <img id="makeImagem" src="" alt="Maquiagem" onclick="abrirZoomEditorial(this.src, document.getElementById('makeInfo').querySelector('h3').innerText, 'Maquiagem', document.getElementById('makeInfo').querySelector('p').innerText, document.getElementById('makeInfo').querySelector('.btn-link').href)">
+        <div class="col-info" id="makeInfo"></div>
+      </div>
+    </div>
   </section>
 
+  <!-- KITS & ACESSÓRIOS -->
+  <section class="secao ativa" id="secao-kits">
+    <div class="page-title">
+      <h1>Kits & Acessórios</h1><span class="divider"></span>
+      <div class="sub">Produtos para casa<br><span class="highlight">e para o grande dia</span></div>
+    </div>
+    
+    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Kits de Tratamento</h2><div class="linha"></div></div>
+      <div class="grid grid-3" id="grid-kits"></div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Acessórios</h2><div class="linha"></div></div>
+      <div class="mini-grid" id="acessoriosGrid"></div>
+    </div>
+  </section>
+
+  <!-- NOIVAS -->
+  <section class="secao" id="secao-noivas">
+    <div class="page-title">
+      <h1>Noivas</h1><span class="divider"></span>
+      <div class="sub">Penteados para<br><span class="highlight">o grande dia</span></div>
+    </div>
+    
+    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> indique os produtos que você usa e ganhe comissão.</div>
+
+    <div class="bloco">
+      <div class="bloco-head"><h2>Penteados</h2><div class="linha"></div></div>
+      <div class="editorial-scroll" id="noivasScroll"></div>
+    </div>
+  </section>
+
+  <!-- FERRAMENTAS -->
   <section class="secao" id="secao-ferramentas">
     <div class="page-title">
       <h1>Ferramentas</h1><span class="divider"></span>
@@ -967,178 +761,6 @@
     </div>
     <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
     <div class="grid grid-3" id="grid-ferramentas"></div>
-  </section>
-
-  <!-- MAGAZINE (EDIÇÃO DE TESTE) -->
-  <section class="secao" id="secao-magazine">
-    <div class="page-title">
-      <h1>Magazine</h1><span class="divider"></span>
-      <div class="sub">Revista digital do HairOS<br><span class="highlight">edição de teste</span></div>
-    </div>
-
-    <div class="mag">
-      <header class="mag-capa">
-        <figure>
-          <img src="https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg" alt="Cabelo castanho com mechas em tom de mel" loading="lazy" onerror="this.style.opacity=0">
-          <figcaption>Balayage com reflexo dourado: a base do tom mel.</figcaption>
-        </figure>
-        <div>
-          <p class="mag-categoria">Matéria de capa · Outono/Inverno 2026</p>
-          <h2>Mel &amp; Avelã: o castanho dourado que ilumina sem exagero</h2>
-          <p class="mag-lide">A paleta da estação vai do castanho-claro ao louro médio, sempre com reflexo dourado. Entenda como o tom é construído, para quem funciona e como fazê-lo durar.</p>
-        </div>
-      </header>
-
-      <article class="mag-artigo" aria-label="Matéria de capa: Mel e Avelã">
-        <h3>O que é o Mel &amp; Avelã</h3>
-        <p>É uma família de tons que vai do castanho-claro ao louro médio, com reflexo dourado suave. O <strong>avelã</strong> fica no lado mais escuro e levemente acobreado; o <strong>mel</strong>, no lado mais claro e luminoso.</p>
-
-        <h3>Para quem funciona</h3>
-        <p>Costuma harmonizar com subtons de pele quentes e neutros e com olhos castanhos, mel ou verdes. Em subtons frios, vale reduzir o dourado e pedir um reflexo mais neutro. Para decidir com critério, comece pela <a href="#visagismo" data-secao="visagismo">harmonização por tom de pele</a>.</p>
-
-        <h3>Passo a passo na cadeira</h3>
-        <ol class="passos">
-          <li><strong>Diagnóstico.</strong> O profissional avalia o nível da base, o histórico de química e a porosidade dos fios. Isso define quanto clarear com segurança.</li>
-          <li><strong>Clareamento localizado.</strong> Balayage ou babylights abrem o fundo de clareamento só onde o tom precisa de luz, e a raiz natural é preservada.</li>
-          <li><strong>Tonalização dourada.</strong> Um tonalizante com reflexo dourado define o mel ou o avelã. Em muitas linhas profissionais, o número depois do ponto indica o reflexo, e o .3 costuma ser dourado.</li>
-          <li><strong>Tratamento.</strong> Hidratação ou reconstrução, conforme o diagnóstico, para devolver brilho e alinhar as cutículas.</li>
-          <li><strong>Manutenção.</strong> Retoque de tom a cada 6 a 8 semanas, em média. A raiz cresce sem marcar.</li>
-        </ol>
-
-        <h3>Por que funciona</h3>
-        <p>Fios escuros guardam pigmentos de fundo vermelho-alaranjado. Quando o cabelo é clareado, esse fundo aparece como um amarelo dourado.</p>
-        <div class="mag-destaque"><p>Em vez de lutar contra o fundo quente, o Mel &amp; Avelã trabalha com ele.</p></div>
-        <p>Chegar a um louro frio exige neutralizar esse fundo com mais descoloração e mais manutenção. O caminho dourado clareia menos, agride menos e deixa o desbotar menos perceptível.</p>
-
-        <h3>Como manter</h3>
-        <ul>
-          <li>Lave com água morna e shampoo para cabelos coloridos.</li>
-          <li>Faça hidratação uma vez por semana.</li>
-          <li>Use protetor térmico antes de secador e prancha.</li>
-          <li>Use matizador roxo só se o dourado amarelar demais: ele neutraliza o amarelo e esfria o tom.</li>
-        </ul>
-        <p>Veja as <a href="#coloracao" data-secao="coloracao">técnicas, cuidados e manutenção</a> na página de Coloração.</p>
-      </article>
-
-      <aside class="mag-lateral" aria-label="Complementos da edição">
-        <div class="mag-caixa">
-          <h3>Glossário rápido</h3>
-          <dl>
-            <dt>Nível</dt><dd>Escala de 1 (preto) a 10 (louro claríssimo) que mede a profundidade do tom.</dd>
-            <dt>Reflexo</dt><dd>A cor secundária do tom, como dourado, acobreado ou cinza.</dd>
-            <dt>Balayage</dt><dd>Mechas pintadas à mão, com degradê natural.</dd>
-            <dt>Oxidante</dt><dd>Ativa a coloração. Volumes maiores clareiam mais e agridem mais.</dd>
-          </dl>
-        </div>
-        <nav class="mag-caixa mag-mais" aria-label="Mais no HairOS">
-          <h3>Mais no HairOS</h3>
-          <a href="#visagismo" data-secao="visagismo"><strong>Visagismo</strong><span>Descubra o formato do seu rosto</span></a>
-          <a href="#cortes" data-secao="cortes"><strong>Cortes</strong><span>Inspiração em três ângulos</span></a>
-          <a href="#coloracao" data-secao="coloracao"><strong>Coloração</strong><span>Tons, técnicas e cuidados</span></a>
-        </nav>
-      </aside>
-
-      <p class="mag-nota" style="grid-column:1/-1">Edição de teste: textos e imagens de exemplo para validar o layout da revista.</p>
-    </div>
-  </section>
-
-  <!-- SOBRE -->
-  <section class="secao" id="secao-sobre">
-    <div class="page-title">
-      <h1>Sobre o HairOS</h1><span class="divider"></span>
-      <div class="sub">Inspiração e informação<br><span class="highlight">para mudar o cabelo com segurança</span></div>
-    </div>
-    <div class="pagina-texto">
-      <div class="bloco">
-        <div class="bloco-head"><h2>O que é</h2><div class="linha"></div></div>
-        <p>O HairOS reúne cortes em três ângulos, visagismo por formato de rosto e tom de pele, técnicas de coloração e os produtos que ajudam a manter o resultado em casa.</p>
-      </div>
-      <div class="bloco">
-        <div class="bloco-head"><h2>O que você encontra</h2><div class="linha"></div></div>
-        <ul class="lista-links">
-          <li><a href="#cortes" data-secao="cortes">Cortes <span>inspiração em 3 ângulos</span></a></li>
-          <li><a href="#visagismo" data-secao="visagismo">Visagismo <span>rosto, pele e cabelo</span></a></li>
-          <li><a href="#coloracao" data-secao="coloracao">Coloração <span>tons e técnicas</span></a></li>
-          <li><a href="#kits" data-secao="kits">Kits e Ferramentas <span>produtos selecionados</span></a></li>
-          <li><a href="#magazine" data-secao="magazine">Magazine <span>revista digital</span></a></li>
-        </ul>
-      </div>
-      <div class="bloco">
-        <div class="bloco-head"><h2>Como o HairOS se mantém</h2><div class="linha"></div></div>
-        <p>Não vendemos produtos. Alguns links levam ao Mercado Livre e são de afiliado: se você comprar por eles, podemos receber uma comissão, sem custo extra para você.</p>
-        <p>Se o conteúdo ajudou, você pode contribuir com qualquer valor.</p>
-        <a class="btn-link" href="#apoie" data-secao="apoie">Contribuir com Pix</a>
-      </div>
-      <div class="bloco">
-        <div class="bloco-head"><h2>Quem faz</h2><div class="linha"></div></div>
-        <p>O HairOS é feito de forma independente, em São Paulo. Quer sugerir um corte, corrigir uma informação ou propor uma parceria?</p>
-        <a class="btn-link" href="#contato" data-secao="contato">Falar com o HairOS</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTATO -->
-  <section class="secao" id="secao-contato">
-    <div class="page-title">
-      <h1>Contato</h1><span class="divider"></span>
-      <div class="sub">Sugestões, dúvidas e parcerias<br><span class="highlight">por e-mail</span></div>
-    </div>
-    <div class="duas-colunas">
-      <div class="cartao">
-        <h2>Escreva para o HairOS</h2>
-        <p>Prefere usar o seu app de e-mail? Envie direto para o endereço abaixo.</p>
-        <a class="email-link" id="emailLink" href="mailto:hairbymarciostylist@gmail.com">hairbymarciostylist@gmail.com</a>
-        <button type="button" class="btn-ghost" id="emailCopiar">Copiar e-mail</button>
-      </div>
-      <form class="cartao" id="formContato" novalidate>
-        <h2>Ou preencha aqui</h2>
-        <div class="campo">
-          <label for="cNome">Seu nome <span class="opcional">(opcional)</span></label>
-          <input id="cNome" name="nome" type="text" autocomplete="name">
-        </div>
-        <div class="campo">
-          <label for="cAssunto">Assunto</label>
-          <select id="cAssunto" name="assunto">
-            <option>Sugestão</option>
-            <option>Dúvida</option>
-            <option>Parceria</option>
-            <option>Erro no site</option>
-          </select>
-        </div>
-        <div class="campo">
-          <label for="cMsg">Mensagem</label>
-          <textarea id="cMsg" name="mensagem" rows="5" required aria-describedby="erroMensagem"></textarea>
-          <p class="erro" id="erroMensagem" role="alert"></p>
-        </div>
-        <button type="submit" class="btn-solid">Abrir no app de e-mail</button>
-        <p class="ajuda">Ao enviar, abrimos o seu app de e-mail com a mensagem pronta. Nada fica guardado neste site.</p>
-      </form>
-    </div>
-  </section>
-
-  <!-- APOIE (PIX) -->
-  <section class="secao" id="secao-apoie">
-    <div class="page-title">
-      <h1>Apoie o HairOS</h1><span class="divider"></span>
-      <div class="sub">Contribua com qualquer valor<br><span class="highlight">via Pix</span></div>
-    </div>
-    <div class="duas-colunas">
-      <div class="pix-card">
-        <p class="pix-tipo">Chave Pix (e-mail)</p>
-        <p class="pix-chave" id="pixChave">hairbymarciostylist@gmail.com</p>
-        <button type="button" class="btn-solid" id="pixCopiar">Copiar chave Pix</button>
-        <p class="ajuda">Você escolhe o valor no app do seu banco.</p>
-      </div>
-      <div class="cartao">
-        <h2>Como contribuir</h2>
-        <ol class="passos">
-          <li>Copie a chave Pix.</li>
-          <li>No app do seu banco, abra o Pix e escolha pagar com chave.</li>
-          <li>Cole a chave, informe o valor que quiser e confira o nome do destinatário antes de confirmar.</li>
-        </ol>
-        <p>A contribuição é voluntária. O conteúdo do HairOS continua aberto para todos.</p>
-      </div>
-    </div>
   </section>
 
   <section class="secao" id="secao-busca">
@@ -1152,23 +774,6 @@
 
 </main>
 
-<footer class="site-footer" id="rodape">
-  <nav aria-label="Rodapé">
-    <a href="#magazine" data-secao="magazine">Magazine</a>
-    <a href="#sobre" data-secao="sobre">Sobre</a>
-    <a href="#contato" data-secao="contato">Contato</a>
-    <a href="#apoie" data-secao="apoie">Apoie com Pix</a>
-  </nav>
-  <p>HairOS · 2026. Alguns links são de afiliado: podemos receber uma comissão, sem custo extra para você.</p>
-</footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<div class="zoom-overlay" id="zoomOverlay" role="dialog" aria-modal="true" aria-label="Imagem ampliada" onclick="fecharZoom()">
-  <button class="zoom-close" type="button" aria-label="Fechar imagem" onclick="fecharZoom()">✕</button>
-  <img id="zoomImg" src="" alt="">
-</div>
-
 <!-- MODAL DE ZOOM EDITORIAL -->
 <div class="zoom-bg" id="zoomEditorialBg" onclick="fecharZoomEditorial(event)">
   <div class="zoom-content" id="zoomEditorialContent">
@@ -1181,10 +786,8 @@
       <span class="zoom-cat" id="zoomEditorialCat"></span>
       <p id="zoomEditorialDesc"></p>
       
-      <!-- Botão de Compra (se houver) -->
       <a id="zoomEditorialBtn" href="#" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-produto" style="display:none;">Ver Tinta / Produto</a>
 
-      <!-- Produtos Recomendados -->
       <div class="zoom-sugestoes">
         <h4>Produtos Recomendados para este visual</h4>
         <div class="zoom-mini-kits" id="zoomMiniKits"></div>
@@ -1225,16 +828,9 @@ const ML_LINKS = {
 const secoes = document.querySelectorAll('.secao');
 const dockBtns = document.querySelectorAll('.dock-btn');
 const dock = document.getElementById('dock');
-const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits','ferramentas'];
-const SECOES_VALIDAS = [...ORDEM_SECOES, 'magazine', 'sobre', 'contato', 'apoie'];
-const SECAO_INICIAL = 'kits'; // página aberta quando não há #endereço
-const TITULOS_SECAO = {
-  cortes:'Cortes', visagismo:'Visagismo', coloracao:'Coloração', kits:'Kits',
-  ferramentas:'Ferramentas', magazine:'Magazine', sobre:'Sobre', contato:'Contato', apoie:'Apoie com Pix'
-};
+const ORDEM_SECOES = ['cortes','visagismo','coloracao','kits','maquiagem'];
 
-function irParaSecao(nome, opts = {}){
-  if (!SECOES_VALIDAS.includes(nome)) nome = SECAO_INICIAL;
+function irParaSecao(nome){
   document.body.classList.remove('buscando');
   const inputBusca = document.getElementById('buscaInput');
   if (inputBusca && inputBusca.value.trim()){
@@ -1250,70 +846,46 @@ function irParaSecao(nome, opts = {}){
     b.classList.toggle('ativo', on);
     if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
   });
-  document.querySelectorAll('.drawer-nav a').forEach(a => {
-    const on = a.dataset.secao === nome;
-    a.classList.toggle('ativo', on);
-    if (on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+  document.querySelectorAll('.drawer-nav button').forEach(b => {
+    b.classList.toggle('ativo', b.dataset.secao === nome);
   });
-  const idx = ORDEM_SECOES.indexOf(nome);
-  dock.classList.toggle('sem-ativo', idx < 0);
-  if (idx >= 0) dock.style.setProperty('--i', idx);
-  document.title = 'HairOS — ' + TITULOS_SECAO[nome];
+  
+  // Se a seção não estiver no dock (ex: noivas, ferramentas), o indicador fica no último
+  let idx = ORDEM_SECOES.indexOf(nome);
+  if (idx === -1) idx = 0; 
+  
+  dock.style.setProperty('--i', idx);
   window.scrollTo({top:0, behavior:'auto'});
-
-  if (!opts.semFoco){
-    const h1 = document.querySelector('#secao-' + nome + ' h1');
-    if (h1){ h1.tabIndex = -1; h1.focus({preventScroll:true}); }
-  }
 }
-function navegar(nome){
-  if (location.hash.slice(1) === nome) irParaSecao(nome);
-  else location.hash = nome;
-}
-window.addEventListener('hashchange', () => irParaSecao(location.hash.slice(1)));
-dockBtns.forEach(btn => btn.addEventListener('click', () => navegar(btn.dataset.secao)));
-document.getElementById('brandHome').addEventListener('click', () => { fecharDrawer(false); navegar(SECAO_INICIAL); });
+dockBtns.forEach(btn => btn.addEventListener('click', () => irParaSecao(btn.dataset.secao)));
 
-/* Qualquer link com data-secao (menu, rodapé, revista, páginas) navega sem recarregar */
-document.addEventListener('click', e => {
-  const a = e.target.closest('a[data-secao]');
-  if (!a) return;
-  e.preventDefault();
-  fecharDrawer(false);
-  navegar(a.dataset.secao);
-});
-
-/* DRAWER (menu hambúrguer) */
+/* DRAWER */
 const menuBtn = document.getElementById('menuBtn');
 const drawer = document.getElementById('drawer');
 const drawerOverlay = document.getElementById('drawerOverlay');
 const drawerFechar = document.getElementById('drawerFechar');
-const FUNDO_IDS = ['headerPrincipal','mainContent','dock','rodape'];
 
-function definirFundoInerte(valor){
-  FUNDO_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.inert = valor; });
-}
 function abrirDrawer(){
-  drawer.inert = false;
   drawer.classList.add('aberto'); drawer.setAttribute('aria-hidden','false');
   drawerOverlay.hidden = false; requestAnimationFrame(() => drawerOverlay.classList.add('ativo'));
   menuBtn.setAttribute('aria-expanded','true'); document.body.style.overflow = 'hidden';
-  definirFundoInerte(true);
-  drawerFechar.focus();
 }
-function fecharDrawer(devolverFoco = true){
+function fecharDrawer(){
   if (!drawer.classList.contains('aberto')) return;
   drawer.classList.remove('aberto'); drawer.setAttribute('aria-hidden','true');
   drawerOverlay.classList.remove('ativo'); menuBtn.setAttribute('aria-expanded','false');
   document.body.style.overflow = '';
-  drawer.inert = true;
-  definirFundoInerte(false);
-  if (devolverFoco) menuBtn.focus();
-  setTimeout(() => { if (!drawer.classList.contains('aberto')) drawerOverlay.hidden = true; }, 350);
+  setTimeout(() => { drawerOverlay.hidden = true; }, 350);
 }
 menuBtn.addEventListener('click', abrirDrawer);
-drawerFechar.addEventListener('click', () => fecharDrawer());
-drawerOverlay.addEventListener('click', () => fecharDrawer());
+drawerFechar.addEventListener('click', fecharDrawer);
+drawerOverlay.addEventListener('click', fecharDrawer);
+document.querySelectorAll('.drawer-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    irParaSecao(btn.dataset.secao);
+    fecharDrawer();
+  });
+});
 
 /* ============ MODAL DE ZOOM EDITORIAL ============ */
 function abrirZoomEditorial(src, titulo, cat, desc, link) {
@@ -1330,7 +902,6 @@ function abrirZoomEditorial(src, titulo, cat, desc, link) {
     btn.style.display = 'none';
   }
 
-  // Adiciona os Kits recomendados
   const kitsWrap = document.getElementById('zoomMiniKits');
   kitsWrap.innerHTML = kitsData.slice(0, 5).map(kit => `
     <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="zoom-mini-kit">
@@ -1387,11 +958,11 @@ function openModal(nome, categoria, texto1, texto2, lista, link, img){
   setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
 }
 
-/* ============ MODAL EXCLUSIVO PARA CORTES ============ */
+/* ============ MODAL EXCLUSIVO PARA CORTES/NOIVAS ============ */
 function openModalCorte(item) {
   _focoAnterior = document.activeElement;
   document.getElementById('mTitle').innerHTML = item.title;
-  document.getElementById('mSub').textContent = 'Corte';
+  document.getElementById('mSub').textContent = item.sub || 'Corte';
   document.getElementById('mText').innerHTML = ''; 
   document.getElementById('mList').innerHTML = ''; 
   
@@ -1399,22 +970,22 @@ function openModalCorte(item) {
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
         <div class="corte-slide">
-          <img src="${item.imgFrente}" alt="Frente. Ampliar" role="button" tabindex="0" onclick="abrirZoom(this.src)">
+          <img src="${item.imgFrente}" alt="Frente" onclick="abrirZoom(this.src)">
           <div class="slide-texto"><strong>Frente</strong>${item.descFrente}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgLado}" alt="Lado. Ampliar" role="button" tabindex="0" onclick="abrirZoom(this.src)">
+          <img src="${item.imgLado}" alt="Lado" onclick="abrirZoom(this.src)">
           <div class="slide-texto"><strong>Lado</strong>${item.descLado}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgAtras}" alt="Atrás. Ampliar" role="button" tabindex="0" onclick="abrirZoom(this.src)">
+          <img src="${item.imgAtras}" alt="Atrás" onclick="abrirZoom(this.src)">
           <div class="slide-texto"><strong>Atrás</strong>${item.descAtras}</div>
         </div>
       </div>
       <div class="corte-indicadores" id="corteIndicadores">
-        <button type="button" class="corte-dot ativo" aria-label="Ver foto 1 de 3" onclick="irParaSlide(0)"></button>
-        <button type="button" class="corte-dot" aria-label="Ver foto 2 de 3" onclick="irParaSlide(1)"></button>
-        <button type="button" class="corte-dot" aria-label="Ver foto 3 de 3" onclick="irParaSlide(2)"></button>
+        <span class="corte-dot ativo" onclick="irParaSlide(0)"></span>
+        <span class="corte-dot" onclick="irParaSlide(1)"></span>
+        <span class="corte-dot" onclick="irParaSlide(2)"></span>
       </div>
     </div>
   `;
@@ -1437,7 +1008,7 @@ function openModalCorte(item) {
   }, 100);
 
   const linkEl = document.getElementById('mLink');
-  linkEl.href = ML_LINKS.kerastase;
+  linkEl.href = item.link || ML_LINKS.kerastase;
   linkEl.textContent = 'Ver Kits de Cuidados';
   linkEl.style.display = 'inline-flex';
   
@@ -1497,7 +1068,7 @@ function renderVisagismo(formato) {
   const container = document.getElementById('visagismoResultado');
   if (!container || !data) return;
   container.innerHTML = `
-    <img src="${data.img}" alt="Formato ${data.nome}. Ampliar" role="button" tabindex="0" onclick="abrirZoomEditorial(this.src, 'Formato: ${data.nome}', 'Visagismo', '${data.recomendacao} ${data.desc}', '${data.link}')">
+    <img src="${data.img}" alt="${data.nome}" onclick="abrirZoomEditorial(this.src, 'Formato: ${data.nome}', 'Visagismo', '${data.recomendacao} ${data.desc}', '${data.link}')">
     <div class="visagismo-painel-txt">
       <h3>Seu Formato: ${data.nome}</h3>
       <span class="recomendacao">Recomendação</span>
@@ -1506,7 +1077,7 @@ function renderVisagismo(formato) {
       <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
     </div>
   `;
-  document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); btn.setAttribute('aria-pressed', btn.dataset.formato === formato); });
+  document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); });
 }
 
 const coresData = {
@@ -1554,7 +1125,7 @@ function renderPaleta(cor) {
   if (!container || !data) return;
   
   const swatches = data.cores.map((item, i) => `
-    <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}" role="button" tabindex="0">
+    <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}">
       <img src="${item.img}" alt="${item.n}" onclick="event.stopPropagation(); abrirZoomEditorial(this.src, '${item.n}', 'Harmonização', 'Tom recomendado para ${data.nome}.', '${ML_LINKS.inoa}')">
       <div class="swatch-card-info">
         <div class="swatch-card-cor" style="background:${item.c}"></div>
@@ -1577,7 +1148,7 @@ function renderPaleta(cor) {
   });
 
   document.querySelectorAll('.cor-btn').forEach(btn => { 
-    btn.classList.toggle('ativo', btn.dataset.cor === cor); btn.setAttribute('aria-pressed', btn.dataset.cor === cor); 
+    btn.classList.toggle('ativo', btn.dataset.cor === cor); 
   });
 }
 
@@ -1611,7 +1182,7 @@ Object.keys(cabelosData).forEach(tipo => {
   const container = document.getElementById(`acordeao-${tipo}`);
   if (!container) return;
   container.innerHTML = cabelosData[tipo].map(item => `
-    <div class="mini-card" role="button" tabindex="0" onclick="abrirZoomEditorial('${item.img}', 'Tipo ${item.title}', 'Tipos de Cabelo', '${item.sub}', null)">
+    <div class="mini-card" onclick="abrirZoomEditorial('${item.img}', 'Tipo ${item.title}', 'Tipos de Cabelo', '${item.sub}', null)">
       <img src="${item.img}" alt="${item.title}">
       <div class="mini-card-txt">
         <strong>${item.title}</strong>
@@ -1624,18 +1195,18 @@ document.querySelectorAll('.acordeao-header').forEach(btn => {
   btn.addEventListener('click', () => {
     const isActive = btn.classList.contains('active');
     document.querySelectorAll('.acordeao-header').forEach(b => {
-      b.classList.remove('active'); b.setAttribute('aria-expanded','false');
+      b.classList.remove('active');
       b.nextElementSibling.style.maxHeight = null;
     });
     if (!isActive) {
-      btn.classList.add('active'); btn.setAttribute('aria-expanded','true');
+      btn.classList.add('active');
       const body = btn.nextElementSibling;
       body.style.maxHeight = body.scrollHeight + 'px';
     }
   });
 });
 
-/* ============ COLORAÇÃO (MAGAZINE) ============ */
+/* ============ COLORAÇÃO E MAQUIAGEM ============ */
 const coloracaoData = {
   loiros: {
     img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
@@ -1682,7 +1253,7 @@ function renderColoracao(categoria) {
   document.getElementById('colImagem').src = data.img;
   const paleta = document.getElementById('colPaleta');
   paleta.innerHTML = data.tons.map((t, i) => 
-    `<div class="col-swatch ${i===0 ? 'ativo' : ''}" role="button" tabindex="0" aria-label="${t.nome}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}"></div>`
+    `<div class="col-swatch ${i===0 ? 'ativo' : ''}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}"></div>`
   ).join('');
 
   atualizarInfoCor(data.tons[0]);
@@ -1695,8 +1266,8 @@ function renderColoracao(categoria) {
     });
   });
 
-  document.querySelectorAll('.col-tab').forEach(tab => {
-    tab.classList.toggle('ativo', tab.dataset.cat === categoria); tab.setAttribute('aria-pressed', tab.dataset.cat === categoria);
+  document.querySelectorAll('#colTabs .col-tab').forEach(tab => {
+    tab.classList.toggle('ativo', tab.dataset.cat === categoria);
   });
 }
 
@@ -1708,8 +1279,49 @@ function atualizarInfoCor(tom) {
   `;
 }
 
-document.querySelectorAll('.col-tab').forEach(tab => {
+document.querySelectorAll('#colTabs .col-tab').forEach(tab => {
   tab.addEventListener('click', () => renderColoracao(tab.dataset.cat));
+});
+
+const makeData = {
+  pele: { 
+    nome: 'Foco: Pele', 
+    img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', 
+    desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego para um efeito "glass skin".', 
+    link: ML_LINKS.kerastase 
+  },
+  olhos: { 
+    nome: 'Foco: Olhos', 
+    img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', 
+    desc: 'Sombra cobre com delineado gatinho e máscara de cílios alongadora. Ideal para noivas e formandas.', 
+    link: ML_LINKS.expert 
+  },
+  boca: { 
+    nome: 'Foco: Boca', 
+    img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', 
+    desc: 'Batom nude com acabamento gloss para hidratação e volume natural.', 
+    link: ML_LINKS.moroccanoil 
+  }
+};
+
+function renderMake(categoria) {
+  const data = makeData[categoria];
+  if (!data) return;
+  
+  document.getElementById('makeImagem').src = data.img;
+  
+  const container = document.getElementById('makeInfo');
+  container.innerHTML = `
+    <h3>${data.nome}</h3>
+    <p>${data.desc}</p>
+    <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Produtos</a>
+  `;
+
+  document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
+}
+
+document.querySelectorAll('#makeTabs .col-tab').forEach(tab => {
+  tab.addEventListener('click', () => renderMake(tab.dataset.cat));
 });
 
 /* ============ RENDER GRIDS ============ */
@@ -1732,7 +1344,7 @@ function renderGrid(id, data, catLabel, linkDefault){
       </div>
     `;
     card.addEventListener('click', () => {
-      if (catLabel === 'Corte') {
+      if (catLabel === 'Corte' || catLabel === 'Noiva') {
         openModalCorte(item);
       } else {
         openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img);
@@ -1748,7 +1360,7 @@ function renderEditorialScroll(id, data, catLabel, linkDefault){
   container.innerHTML = '';
   data.forEach(item => {
     const card = document.createElement('div');
-    card.className = 'editorial-card'; card.setAttribute('role','button'); card.tabIndex = 0;
+    card.className = 'editorial-card';
     card.innerHTML = `
       <img src="${item.img}" alt="${item.title}" loading="lazy">
       <div class="editorial-card-txt">
@@ -1757,7 +1369,7 @@ function renderEditorialScroll(id, data, catLabel, linkDefault){
       </div>
     `;
     card.addEventListener('click', () => {
-      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link);
+      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault);
     });
     container.appendChild(card);
   });
@@ -1769,7 +1381,7 @@ function renderMiniGrid(id, data, catLabel, linkDefault){
   container.innerHTML = '';
   data.forEach(item => {
     const card = document.createElement('div');
-    card.className = 'mini-card-editorial'; card.setAttribute('role','button'); card.tabIndex = 0;
+    card.className = 'mini-card-editorial';
     card.innerHTML = `
       <img src="${item.img}" alt="${item.title}" loading="lazy">
       <div class="mini-card-editorial-txt">
@@ -1778,7 +1390,7 @@ function renderMiniGrid(id, data, catLabel, linkDefault){
       </div>
     `;
     card.addEventListener('click', () => {
-      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link);
+      abrirZoomEditorial(item.img, item.title, catLabel, item.desc, item.link || linkDefault);
     });
     container.appendChild(card);
   });
@@ -1812,6 +1424,23 @@ const cortesData = [
   {title:'Soft Layers', imgFrente:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgLado:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgAtras:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', descFrente:'Camadas contínuas. Sem marcação e muito natural.', descLado:'A lateral mostra o caimento suave.', descAtras:'Comprimento uniforme com leve movimento.'},
   {title:'Kitty Cut', imgFrente:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgLado:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgAtras:'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', descFrente:'Bob-shag. Base reta com camadas no topo.', descLado:'A lateral revela a mistura do bob com shag.', descAtras:'A parte de trás tem repicado texturizado.'}
 ];
+
+/* DADOS DE NOIVAS */
+const noivasData = [
+  {title:'Coque Clássico', sub:'Elegância atemporal', desc:'Coque baixo com detalhes trançados. Ideal para vestidos de princesa.', img:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgFrente:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgLado:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', imgAtras:'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', descFrente:'Detalhe trançado na frente.', descLado:'Volume lateral controlado.', descAtras:'Coque perfeito e firme.', link:ML_LINKS.kerastase},
+  {title:'Sem Presilhas', sub:'Solto e romântico', desc:'Ondas suaves com presilhas invisíveis. Para noivas modernas.', img:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgFrente:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras:'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente:'Ondas soltas.', descLado:'Volume natural.', descAtras:'Comprimento solto.', link:ML_LINKS.kerastase},
+  {title:'Trança Lateral', sub:'Boho Chic', desc:'Trança embutida com flores naturais. Ideal para casamentos na praia.', img:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgFrente:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgLado:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgAtras:'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', descFrente:'Franja solta.', descLado:'Trança embutida.', descAtras:'Textura boho.', link:ML_LINKS.kerastase},
+  {title:'Coque Despojado', sub:'Textura e volume', desc:'Fios soltos ao redor do rosto para um ar mais leve.', img:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgFrente:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras:'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente:'Fios soltos.', descLado:'Textura despojada.', descAtras:'Coque texturizado.', link:ML_LINKS.kerastase}
+];
+
+/* DADOS DE ACESSÓRIOS */
+const acessoriosData = [
+  {title:'Presilhas Cravejadas', sub:'Brilho e sofisticação', desc:'Brilho e sofisticação para festas.', img:'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', link:ML_LINKS.ferramentas},
+  {title:'Tiara de Pérolas', sub:'Toque clássico', desc:'O toque clássico para noivas.', img:'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', link:ML_LINKS.kerastase},
+  {title:'Flor para Cabelo', sub:'Detalhe romântico', desc:'Detalhe romântico para convidadas.', img:'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', link:ML_LINKS.keune},
+  {title:'Grampos Dourados', sub:'Fixação e estilo', desc:'Para prender fios e dar acabamento.', img:'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', link:ML_LINKS.ferramentas}
+];
+
 const tecnicasData = [
   {title:'Balayage', desc:'Pintura manual que cria degradê natural.', desc2:'Ideal para loiro iluminado sem raiz marcada.', lista:['Degradê natural','Sem raiz marcada'], img:'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link:ML_LINKS.inoa},
   {title:'Babylights', desc:'Mechas finíssimas que imitam o sol.', desc2:'Ideal para loiros delicados.', lista:['Mechas finas','Clareamento natural'], img:'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link:ML_LINKS.inoa},
@@ -1926,6 +1555,8 @@ function montarIndiceBusca(){
   });
   return [
     ...push(cortesData, 'Cortes', ML_LINKS.kerastase),
+    ...push(noivasData, 'Noivas', ML_LINKS.kerastase),
+    ...push(acessoriosData, 'Acessórios', ML_LINKS.ferramentas),
     ...push(tecnicasData, 'Técnicas', ML_LINKS.inoa),
     ...push(cuidadosData, 'Cuidados', ML_LINKS.kerastase),
     ...push(manutencaoData, 'Manutenção', ML_LINKS.keune),
@@ -2001,7 +1632,7 @@ function renderBusca(q){
         </div>
       </div>`;
     card.addEventListener('click', () => {
-      if (item.cat === 'Cortes') {
+      if (item.cat === 'Cortes' || item.cat === 'Noivas') {
         openModalCorte(item);
       } else {
         openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img);
@@ -2019,7 +1650,7 @@ async function initBusca(){
   if (!input) return;
 
   const ultimo = await dbGetEstado('ultimoTermo', '');
-  if (ultimo && !location.hash){ input.value = ultimo; renderBusca(ultimo); }
+  if (ultimo){ input.value = ultimo; renderBusca(ultimo); }
   await renderHistoricoChips();
 
   input.addEventListener('input', e => {
@@ -2074,13 +1705,11 @@ async function renderHistoricoChips(){
     if (!hist.length){
       wrap.innerHTML = `
         <button type="button" class="busca-chip" data-q="bob">bob</button>
-        <button type="button" class="busca-chip" data-q="balayage">balayage</button>
+        <button type="button" class="busca-chip" data-q="make">make</button>
+        <button type="button" class="busca-chip" data-q="noiva">noiva</button>
         <button type="button" class="busca-chip" data-q="loiro">loiro</button>
         <button type="button" class="busca-chip" data-q="cachos">cachos</button>
-        <button type="button" class="busca-chip" data-q="franja">franja</button>
-        <button type="button" class="busca-chip" data-q="hidratação">hidratação</button>
-        <button type="button" class="busca-chip" data-q="matizador">matizador</button>
-        <button type="button" class="busca-chip" data-q="secador">secador</button>`;
+        <button type="button" class="busca-chip" data-q="hidratação">hidratação</button>`;
       return;
     }
     wrap.innerHTML = hist.map(t => `<button type="button" class="busca-chip" data-q="${t.replace(/"/g,'&quot;')}">${t}</button>`).join('') + `<button type="button" class="busca-chip busca-chip-limpar" id="limparHist">limpar</button>`;
@@ -2095,128 +1724,37 @@ async function renderHistoricoChips(){
   } finally { wrap.classList.remove('carregando'); }
 }
 
-/* ============ UX: AVISOS, COPIAR, FORMULÁRIO, TECLADO ============ */
-let _toastTmr = null;
-function mostrarToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('on');
-  clearTimeout(_toastTmr);
-  _toastTmr = setTimeout(() => t.classList.remove('on'), 2800);
-}
-
-async function copiarTexto(texto){
-  try { await navigator.clipboard.writeText(texto); return true; } catch (_) {}
-  try {
-    const ta = document.createElement('textarea');
-    ta.value = texto; ta.setAttribute('readonly','');
-    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-    document.body.appendChild(ta); ta.select();
-    const ok = document.execCommand('copy');
-    ta.remove();
-    return ok;
-  } catch (_) { return false; }
-}
-
-function ligarBotaoCopiar(btnId, textoFn, rotuloOk, msgOk, alvoSelecaoId){
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  const rotuloOriginal = btn.textContent;
-  btn.addEventListener('click', async () => {
-    const ok = await copiarTexto(textoFn());
-    if (ok){
-      btn.textContent = rotuloOk;
-      mostrarToast(msgOk);
-      setTimeout(() => { btn.textContent = rotuloOriginal; }, 2200);
-    } else {
-      const alvo = document.getElementById(alvoSelecaoId);
-      if (alvo){ const r = document.createRange(); r.selectNodeContents(alvo); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
-      mostrarToast('Não foi possível copiar. Toque e segure para copiar o texto selecionado.');
-    }
-  });
-}
-ligarBotaoCopiar('pixCopiar', () => document.getElementById('pixChave').textContent.trim(), 'Chave copiada', 'Chave Pix copiada', 'pixChave');
-ligarBotaoCopiar('emailCopiar', () => document.getElementById('emailLink').textContent.trim(), 'E-mail copiado', 'E-mail copiado', 'emailLink');
-
-/* Formulário de contato → abre o app de e-mail com a mensagem pronta */
-const formContato = document.getElementById('formContato');
-if (formContato){
-  const campoMsg = formContato.elements.mensagem;
-  const erroMsg = document.getElementById('erroMensagem');
-  campoMsg.addEventListener('input', () => {
-    if (campoMsg.value.trim().length >= 10){ erroMsg.textContent = ''; campoMsg.removeAttribute('aria-invalid'); }
-  });
-  formContato.addEventListener('submit', e => {
-    e.preventDefault();
-    const msg = campoMsg.value.trim();
-    if (msg.length < 10){
-      erroMsg.textContent = 'Escreva pelo menos 10 caracteres para entendermos o que você precisa.';
-      campoMsg.setAttribute('aria-invalid','true');
-      campoMsg.focus();
-      return;
-    }
-    const nome = formContato.elements.nome.value.trim();
-    const assunto = formContato.elements.assunto.value;
-    const email = document.getElementById('emailLink').textContent.trim();
-    const corpo = (nome ? 'Nome: ' + nome + '\n\n' : '') + msg;
-    mostrarToast('Abrindo o seu app de e-mail…');
-    location.href = 'mailto:' + email + '?subject=' + encodeURIComponent('HairOS — ' + assunto) + '&body=' + encodeURIComponent(corpo);
-  });
-}
-
-/* Elementos clicáveis que não são <button>/<a> também respondem a Enter e Espaço */
-document.addEventListener('keydown', e => {
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[role="button"]:not(button)')){
-    e.preventDefault();
-    e.target.click();
-  }
-});
-
-/* Estado dos controles de abas/acordeão para leitores de tela */
-document.querySelectorAll('.acordeao-header').forEach(b => b.setAttribute('aria-expanded','false'));
-
-/* Janelas (modais): fundo inerte enquanto abertas, foco para dentro e de volta ao fechar */
-(function(){
-  const janelas = [
-    { el: document.getElementById('modalBg'), foco: '.modal-close' },
-    { el: document.getElementById('zoomEditorialBg'), foco: '.zoom-close' },
-    { el: document.getElementById('zoomOverlay'), foco: '.zoom-close' }
-  ];
-  const abertas = () => janelas.some(j => j.el && j.el.classList.contains('on'));
-  let abridor = null, haviaAberta = false;
-  janelas.forEach(j => {
-    if (!j.el) return;
-    new MutationObserver(() => {
-      const aberta = abertas();
-      if (aberta && !haviaAberta) abridor = document.activeElement;
-      if (!drawer.classList.contains('aberto')) definirFundoInerte(aberta);
-      if (j.el.classList.contains('on')) setTimeout(() => { const f = j.el.querySelector(j.foco); if (f) f.focus(); }, 60);
-      if (!aberta && haviaAberta && abridor && abridor.isConnected && abridor.focus && !drawer.classList.contains('aberto')) abridor.focus();
-      haviaAberta = aberta;
-    }).observe(j.el, { attributes:true, attributeFilter:['class'] });
-  });
-})();
-
 /* ============ INIT ============ */
 document.addEventListener('DOMContentLoaded', () => {
   renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
   renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
   renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
-  renderGrid('grid-kits', kitsData, 'Kit', null);
-  renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
-
+  
   // Inicializa Aba Coloração (Novo Layout)
   renderColoracao('loiros');
   renderEditorialScroll('tecnicasScroll', tecnicasData, 'Técnica', ML_LINKS.inoa);
   renderMiniGrid('cuidadosGrid', cuidadosData, 'Cuidado', ML_LINKS.kerastase);
   renderMiniGrid('manutencaoGrid', manutencaoData, 'Manutenção', ML_LINKS.keune);
 
+  // Inicializa Aba Maquiagem
+  renderMake('pele');
+
+  // Inicializa Aba Noivas
+  renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kerastase);
+
+  // Inicializa Aba Kits & Acessórios
+  renderGrid('grid-kits', kitsData, 'Kit', null);
+  renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.ferramentas);
+
+  // Inicializa Ferramentas
+  renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
+
   renderVisagismo('oval');
   renderPaleta('clara');
 
   initBusca();
   document.body.classList.add('app-pronta');
-  irParaSecao(location.hash.slice(1), { semFoco:true });
+  dock.style.setProperty('--i', 3); // Abre na aba Kits por padrão
 });
 </script>
 
