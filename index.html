@@ -50,6 +50,7 @@
   @keyframes fadeSection{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @keyframes sheetIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
+  /* HEADER */
   .header-unificado{
     position:fixed; top:calc(env(safe-area-inset-top,0px) + 12px);
     left:0; right:0; margin-inline:auto; width:min(calc(100% - 28px), 560px);
@@ -874,11 +875,12 @@ document.querySelectorAll('.drawer-nav button').forEach(btn => {
   btn.addEventListener('click', () => { irParaSecao(btn.dataset.secao); fecharDrawer(); });
 });
 
+/* ============ FUNÇÕES DE MODAL (CORRIGIDAS) ============ */
 function abrirZoomEditorial(src, titulo, cat, desc, link) {
-  document.getElementById('zoomEditorialImg').src = src;
-  document.getElementById('zoomEditorialTitulo').innerText = titulo;
-  document.getElementById('zoomEditorialCat').innerText = cat;
-  document.getElementById('zoomEditorialDesc').innerText = desc;
+  document.getElementById('zoomEditorialImg').src = src || '';
+  document.getElementById('zoomEditorialTitulo').innerText = titulo || '';
+  document.getElementById('zoomEditorialCat').innerText = cat || '';
+  document.getElementById('zoomEditorialDesc').innerText = desc || '';
   
   const btn = document.getElementById('zoomEditorialBtn');
   if (link) { btn.href = link; btn.style.display = 'inline-flex'; } else { btn.style.display = 'none'; }
@@ -906,9 +908,11 @@ function openModal(nome, categoria, texto1, texto2, lista, link, img){
   document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
   
   const imgEl = document.getElementById('mImg');
+  // CORREÇÃO: Garante que se a imagem não vier, usa um fallback ou limpa
   imgEl.src = img || '';
   document.querySelector('.modal-img').style.display = 'block';
   
+  // Remove o carrossel se ele existir de um modal anterior
   const g = document.querySelector('.modal-body .corte-carrossel-wrapper');
   if (g) g.remove();
 
@@ -934,16 +938,16 @@ function openModalCorte(item) {
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
         <div class="corte-slide">
-          <img src="${item.imgFrente}" alt="Frente" onclick="abrirZoom(this.src)">
-          <div class="slide-texto"><strong>Frente</strong>${item.descFrente}</div>
+          <img src="${item.imgFrente || item.img}" alt="Frente" onclick="abrirZoom(this.src)">
+          <div class="slide-texto"><strong>Frente</strong>${item.descFrente || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgLado}" alt="Lado" onclick="abrirZoom(this.src)">
-          <div class="slide-texto"><strong>Lado</strong>${item.descLado}</div>
+          <img src="${item.imgLado || item.img}" alt="Lado" onclick="abrirZoom(this.src)">
+          <div class="slide-texto"><strong>Lado</strong>${item.descLado || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgAtras}" alt="Atrás" onclick="abrirZoom(this.src)">
-          <div class="slide-texto"><strong>Atrás</strong>${item.descAtras}</div>
+          <img src="${item.imgAtras || item.img}" alt="Atrás" onclick="abrirZoom(this.src)">
+          <div class="slide-texto"><strong>Atrás</strong>${item.descAtras || ''}</div>
         </div>
       </div>
       <div class="corte-indicadores" id="corteIndicadores">
@@ -1141,7 +1145,6 @@ function renderColoracao(categoria) {
   const data = coloracaoData[categoria];
   if (!data) return;
 
-  // Define a imagem da categoria como fallback inicial
   document.getElementById('colImagem').src = data.img;
   
   const paleta = document.getElementById('colPaleta');
@@ -1163,7 +1166,6 @@ function renderColoracao(categoria) {
 }
 
 function atualizarInfoCor(tom) {
-  // AQUI ESTAVA O ERRO: Agora atualizamos a imagem principal!
   if (tom.img) {
     document.getElementById('colImagem').src = tom.img;
   }
