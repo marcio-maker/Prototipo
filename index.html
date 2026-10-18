@@ -234,10 +234,31 @@
   .bloco-head h2{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:1.25rem;color:var(--text);white-space:nowrap;letter-spacing:-.01em}
   .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
 
+  /* ==========================================
+     GRIDS — 2 MOBILE / 4 TABLET / 6 DESKTOP
+     ========================================== */
   .grid{display:grid;gap:12px}
-  .grid-2{grid-template-columns:repeat(2,1fr)}
-  .grid-3{grid-template-columns:repeat(3,1fr)}
-  .grid-4{grid-template-columns:repeat(4,1fr)}
+
+  /* MOBILE (padrão): 2 colunas em TODOS os grids */
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  #grid-tipos,
+  #grid-cortes,
+  #grid-franjas,
+  #grid-comprimentos,
+  #grid-kits,
+  #grid-ferramentas,
+  #grid-busca {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Harmonia e Manutenção (mini cards compactos) — 3 no mobile */
+  #grid-harmonizacao,
+  #grid-manutencao {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+  }
 
   .card{position:relative;display:block;width:100%;cursor:pointer;padding:1.5px;background:var(--gold-grad);border-radius:calc(var(--radius) + 1.5px);box-shadow:0 0 10px rgba(217,187,144,.08);transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);-webkit-tap-highlight-color:transparent;animation:fadeInUp .55s var(--ease-out) backwards;text-align:left;border:none;font-family:inherit;color:inherit}
   .card:focus-visible{outline:2px solid rgba(253,241,212,.7);outline-offset:4px}
@@ -526,7 +547,7 @@
   .busca-vazia .gold{color:var(--gold)}
 
   /* ==========================================
-     RESPONSIVO
+     RESPONSIVO — GRIDS 2 / 4 / 6
      ========================================== */
   @media (max-width:600px){
     :root{ --header-h:104px; }
@@ -538,9 +559,6 @@
     .busca-clear{right:18px;width:22px;height:22px}
     
     .grid{gap:8px}
-    .grid-2, .grid-3, .grid-4{grid-template-columns:repeat(2,1fr)}
-    #grid-tipos{grid-template-columns:repeat(3,1fr)}
-    #grid-harmonizacao, #grid-manutencao{grid-template-columns:repeat(3,1fr) !important;gap:6px !important}
     #grid-harmonizacao .card-info, #grid-manutencao .card-info{padding:6px 4px !important;min-height:50px !important}
     #grid-harmonizacao .card-nome, #grid-manutencao .card-nome{font-size:0.65rem !important}
     #grid-harmonizacao .card-sub, #grid-manutencao .card-sub{display:none !important}
@@ -566,20 +584,45 @@
     .mini-grid { gap: 8px; }
     .swatch-card { width: 68px; }
   }
-  @media (min-width:601px) and (max-width:899px){
-    .grid-3, .grid-4{grid-template-columns:repeat(3,1fr)}
-    #grid-tipos{grid-template-columns:repeat(4,1fr)}
+
+  /* TABLET (601px – 1023px): 4 colunas em TODOS os grids */
+  @media (min-width:601px) and (max-width:1023px){
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    #grid-tipos,
+    #grid-cortes,
+    #grid-franjas,
+    #grid-comprimentos,
+    #grid-kits,
+    #grid-ferramentas,
+    #grid-busca,
+    #grid-harmonizacao,
+    #grid-manutencao {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
+    .mini-grid{grid-template-columns: repeat(4, 1fr);}
   }
-  @media (min-width:900px){
-    .grid-3{grid-template-columns:repeat(4,1fr)}
-    .grid-4{grid-template-columns:repeat(5,1fr)}
-    #grid-tipos{grid-template-columns:repeat(6,1fr)}
+
+  /* DESKTOP (1024px+): 6 colunas em TODOS os grids */
+  @media (min-width:1024px){
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    #grid-tipos,
+    #grid-cortes,
+    #grid-franjas,
+    #grid-comprimentos,
+    #grid-kits,
+    #grid-ferramentas,
+    #grid-busca,
+    #grid-harmonizacao,
+    #grid-manutencao {
+      grid-template-columns: repeat(6, 1fr) !important;
+    }
+    .mini-grid{grid-template-columns: repeat(6, 1fr);}
   }
-  @media (min-width:1200px){
-    .grid-3{grid-template-columns:repeat(5,1fr)}
-    .grid-4{grid-template-columns:repeat(6,1fr)}
-    #grid-tipos{grid-template-columns:repeat(6,1fr)}
-  }
+
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
   }
@@ -1890,23 +1933,15 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
   renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
   
-  // Inicializa Aba Coloração (Novo Layout)
   renderColoracao('loiros');
   renderEditorialScroll('tecnicasScroll', tecnicasData, 'Técnica', ML_LINKS.inoa);
   renderMiniGrid('cuidadosGrid', cuidadosData, 'Cuidado', ML_LINKS.kerastase);
   renderMiniGrid('manutencaoGrid', manutencaoData, 'Manutenção', ML_LINKS.keune);
 
-  // Inicializa Aba Maquiagem
   renderMake('pele');
-
-  // Inicializa Aba Noivas
   renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kerastase);
-
-  // Inicializa Aba Kits & Acessórios
   renderGrid('grid-kits', kitsData, 'Kit', null);
   renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.ferramentas);
-
-  // Inicializa Ferramentas
   renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
 
   renderVisagismo('oval');
@@ -1914,7 +1949,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initBusca();
   document.body.classList.add('app-pronta');
-  dock.style.setProperty('--i', 3); // Abre na aba Kits por padrão
+  dock.style.setProperty('--i', 3);
 });
 </script>
 
