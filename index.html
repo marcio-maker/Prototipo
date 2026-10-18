@@ -145,35 +145,11 @@
   .bloco-head .linha{flex:1;height:1px;background:var(--border-gold)}
 
   /* ==========================================
-     GRIDS UNIVERSAIS — 2 / 4 / 6
+     GRIDS UNIVERSAIS — 2 MOBILE / 3 TABLET / 4 DESKTOP
      ========================================== */
-  .grid{display:grid;gap:12px}
-
-  /* Mobile (padrão): 2 colunas em TODOS */
-  .grid,
-  .grid-2,
-  .grid-3,
-  .grid-4,
-  #grid-tipos,
-  #grid-cortes,
-  #grid-franjas,
-  #grid-comprimentos,
-  #grid-kits,
-  #grid-ferramentas,
-  #grid-busca,
-  #grid-harmonizacao,
-  #grid-manutencao,
-  #grid-acessorios,
-  #grid-cuidados,
-  #grid-manutencao-mini {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Harmonia/Manutenção do visagismo — 2 mobile (mesmo padrão) */
-  #grid-harmonizacao,
-  #grid-manutencao {
-    gap: 8px;
-  }
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
+  .mini-grid{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
+  .editorial-scroll{display:grid;gap:12px;grid-template-columns:repeat(2, 1fr)}
 
   .card{position:relative;display:block;width:100%;cursor:pointer;padding:1.5px;background:var(--gold-grad);border-radius:calc(var(--radius) + 1.5px);box-shadow:0 0 10px rgba(217,187,144,.08);transition:transform .5s var(--ease-out),box-shadow .5s var(--ease-out);-webkit-tap-highlight-color:transparent;animation:fadeInUp .55s var(--ease-out) backwards;text-align:left;border:none;font-family:inherit;color:inherit}
   .card:focus-visible{outline:2px solid rgba(253,241,212,.7);outline-offset:4px}
@@ -197,36 +173,49 @@
   .aviso-afiliado .gold{color:var(--gold);font-weight:400}
 
   /* VISAGISMO */
-  .visagismo-container { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
-  .visagismo-nav { display: flex; gap: 12px; overflow-x: auto; padding: 4px 4px 16px 4px; scrollbar-width: none; -ms-overflow-style: none; }
-  .visagismo-nav::-webkit-scrollbar { display: none; }
-  .visagismo-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; color: var(--text-muted); transition: var(--tr-ui); flex-shrink: 0; }
-  .visagismo-btn svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; padding: 8px; border-radius: 50%; border: 1px solid transparent; transition: var(--tr-ui); }
-  .visagismo-btn span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
-  .visagismo-btn.ativo { color: var(--gold); }
-  .visagismo-btn.ativo svg { border-color: var(--border-gold); background: rgba(217,187,144,.08); box-shadow: 0 0 12px rgba(217,187,144,.15); }
-  .visagismo-painel { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); overflow: hidden; animation: fadeInUp .4s var(--ease-out); }
-  .visagismo-painel img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); cursor: zoom-in; }
+  .visagismo-container { display: flex; flex-direction: column; gap: 32px; width: 100%; }
+  .visagismo-nav { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0; }
+  .visagismo-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; padding: 16px 8px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); cursor: pointer;
+    color: var(--text-muted); transition: var(--tr-ui);
+  }
+  .visagismo-btn svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; transition: var(--tr-ui); }
+  .visagismo-btn span { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+  .visagismo-btn.ativo { color: var(--gold); border-color: var(--gold); background: rgba(217,187,144,.08); }
+  .visagismo-btn:hover { border-color: var(--border-gold); background: rgba(217,187,144,.04); }
+
+  .visagismo-painel {
+    background: var(--bg-card); border: 1px solid var(--border-gold);
+    border-radius: var(--radius); overflow: hidden;
+    animation: fadeInUp .4s var(--ease-out);
+    display: grid; grid-template-columns: 1fr;
+  }
+  .visagismo-painel img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: center top; border-bottom: 1px solid var(--border); cursor: zoom-in; }
   .visagismo-painel-txt { padding: 20px; }
   .visagismo-painel-txt h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 6px; }
   .visagismo-painel-txt p { font-size: 0.85rem; color: var(--text-sec); line-height: 1.5; font-weight: 300; margin-bottom: 12px; }
   .visagismo-painel-txt .recomendacao { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 500; display: block; margin-bottom: 4px; }
   .btn-link { display: inline-block; margin-top: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(217,187,144,.1); border: 1px solid var(--border-gold); color: var(--gold-light); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; font-weight: 600; transition: var(--tr-ui); }
   .btn-link:hover { background: rgba(217,187,144,.2); color: var(--gold-hi); }
-  .cores-nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+
+  .cores-nav { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
   .cor-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: var(--tr-ui); box-shadow: 0 4px 12px rgba(0,0,0,.3); }
   .cor-btn.ativo { border-color: var(--gold); transform: scale(1.1); }
   .paleta-resultado { background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: var(--radius); padding: 20px; text-align: center; }
   .paleta-titulo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--gold); margin-bottom: 16px; }
-  .paleta-swatches { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-  .swatch-card { width: 80px; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; }
+  .paleta-swatches { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .swatch-card { width: 100%; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; }
   .swatch-card:hover { transform: translateY(-3px); }
   .swatch-card.ativo { border-color: var(--gold); box-shadow: 0 4px 12px rgba(217,187,144,.3); }
   .swatch-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
-  .swatch-card-info { padding: 6px; text-align: center; background: var(--bg-card); }
+  .swatch-card-info { padding: 8px 4px; text-align: center; background: var(--bg-card); }
   .swatch-card-cor { width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 1px solid rgba(255,255,255,.2); }
-  .swatch-card-info span { display: block; font-size: 0.55rem; color: var(--text-sec); line-height: 1.2; font-weight: 500; }
+  .swatch-card-info span { display: block; font-size: 0.6rem; color: var(--text-sec); line-height: 1.2; font-weight: 500; }
   .paleta-resultado p { font-size: 0.85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; }
+
   .acordeao { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-card); }
   .acordeao-item { border-bottom: 1px solid var(--border); }
   .acordeao-item:last-child { border-bottom: none; }
@@ -236,10 +225,14 @@
   .acordeao-header::after { content: '+'; font-size: 1.2rem; transition: transform .3s; }
   .acordeao-header.active::after { content: '−'; transform: rotate(180deg); }
   .acordeao-body { max-height: 0; overflow: hidden; transition: max-height .4s var(--ease-out); background: rgba(0,0,0,.2); }
-  .acordeao-body-inner { padding: 0 20px 20px; display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; }
-  .acordeao-body-inner::-webkit-scrollbar { display: none; }
-  .mini-card { flex: 0 0 140px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; }
-  .mini-card img { width: 100%; height: 120px; object-fit: cover; }
+  .acordeao-body-inner {
+    padding: 0 20px 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .mini-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; }
+  .mini-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
   .mini-card-txt { padding: 10px; text-align: center; }
   .mini-card-txt strong { display: block; font-size: 0.8rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
   .mini-card-txt span { font-size: 0.65rem; color: var(--text-muted); }
@@ -261,16 +254,7 @@
   .col-info p { font-size: 0.8rem; color: var(--text-sec); font-weight: 300; }
   .col-info .btn-link { margin-top: 12px; }
 
-  /* ==========================================
-     EDITORIAL — agora em GRID 2/4/6 (não mais scroll)
-     ========================================== */
-  .editorial-scroll {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding-bottom: 0;
-    overflow: visible;
-  }
+  /* EDITORIAL */
   .editorial-card {
     background: var(--bg-card); border: 1px solid var(--border-gold);
     border-radius: var(--radius); overflow: hidden; cursor: pointer;
@@ -283,14 +267,7 @@
   .editorial-card-txt h4 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-light); font-size: 1rem; margin-bottom: 4px; }
   .editorial-card-txt p { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
-  /* ==========================================
-     MINI GRID (Cuidados, Manutenção, Acessórios)
-     ========================================== */
-  .mini-grid { 
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 12px; 
-  }
+  /* MINI GRID */
   .mini-card-editorial {
     background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
     overflow: hidden; cursor: pointer; transition: var(--tr-ui);
@@ -387,7 +364,7 @@
   .busca-vazia .gold{color:var(--gold)}
 
   /* ==========================================
-     RESPONSIVO — GRIDS 2 / 4 / 6
+     RESPONSIVO — GRIDS 2 / 3 / 4
      ========================================== */
   @media (max-width:600px){
     :root{ --header-h:104px; }
@@ -397,7 +374,7 @@
     .busca-wrap::before{left:24px;width:15px;height:15px}
     .busca-input{height:38px;font-size:.82rem;padding:0 36px 0 38px}
     .busca-clear{right:18px;width:22px;height:22px}
-    .grid{gap:8px}
+    .grid, .mini-grid, .editorial-scroll{gap:8px}
     .card-info{padding:8px 6px;min-height:56px;gap:2px}
     .card-nome{font-size:.68rem;line-height:1.15}
     .card-sub{font-size:.56rem;line-height:1.2}
@@ -412,59 +389,47 @@
     .card-badge{font-size:.46rem;padding:2px 6px;top:6px;left:6px}
     .dock-btn span{font-size:.5rem}
     .dock-btn svg{width:16px;height:16px}
-    .visagismo-btn svg { width: 40px; height: 40px; }
-    .visagismo-btn span { font-size: 0.55rem; }
+    .visagismo-btn svg { width: 32px; height: 32px; }
+    .visagismo-btn span { font-size: 0.6rem; }
+    .visagismo-btn { padding: 12px 6px; }
+    .visagismo-painel img { aspect-ratio: 4/3; }
     .cor-btn { width: 36px; height: 36px; }
-    .swatch-card { width: 68px; }
-    .mini-grid { gap: 8px; }
+    .swatch-card-info span { font-size: 0.55rem; }
     .editorial-card-txt { padding: 10px; }
     .editorial-card-txt h4 { font-size: 0.85rem; }
     .editorial-card-txt p { font-size: 0.65rem; }
     .mini-card-editorial-txt { padding: 8px 4px; }
     .mini-card-editorial-txt strong { font-size: 0.68rem; }
     .mini-card-editorial-txt span { font-size: 0.55rem; }
+    .acordeao-body-inner { padding: 0 14px 16px; gap: 8px; }
+    .mini-card img { height: 100px; }
   }
 
-  /* TABLET (601–1023px): 4 colunas em TODOS os grids */
+  /* TABLET (601–1023px): 3 colunas em TODOS os grids */
   @media (min-width:601px) and (max-width:1023px){
     .grid,
-    .grid-2,
-    .grid-3,
-    .grid-4,
-    #grid-tipos,
-    #grid-cortes,
-    #grid-franjas,
-    #grid-comprimentos,
-    #grid-kits,
-    #grid-ferramentas,
-    #grid-busca,
-    #grid-harmonizacao,
-    #grid-manutencao,
     .mini-grid,
-    .editorial-scroll {
-      grid-template-columns: repeat(4, 1fr) !important;
+    .editorial-scroll,
+    .visagismo-nav,
+    .paleta-swatches,
+    .acordeao-body-inner {
+      grid-template-columns: repeat(3, 1fr);
     }
+    .visagismo-painel { grid-template-columns: 1fr 1fr; }
+    .visagismo-painel img { aspect-ratio: auto; height: 100%; border-bottom: none; border-right: 1px solid var(--border); }
   }
 
-  /* DESKTOP (1024px+): 6 colunas em TODOS os grids */
+  /* DESKTOP (1024px+): 4 colunas em TODOS os grids */
   @media (min-width:1024px){
     .grid,
-    .grid-2,
-    .grid-3,
-    .grid-4,
-    #grid-tipos,
-    #grid-cortes,
-    #grid-franjas,
-    #grid-comprimentos,
-    #grid-kits,
-    #grid-ferramentas,
-    #grid-busca,
-    #grid-harmonizacao,
-    #grid-manutencao,
     .mini-grid,
-    .editorial-scroll {
-      grid-template-columns: repeat(6, 1fr) !important;
+    .editorial-scroll,
+    .visagismo-nav,
+    .paleta-swatches,
+    .acordeao-body-inner {
+      grid-template-columns: repeat(4, 1fr);
     }
+    .visagismo-painel { grid-template-columns: 1fr 2fr; }
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -566,8 +531,10 @@
       <div class="sub">Descubra o que valoriza você<br><span class="highlight">de forma interativa</span></div>
     </div>
 
+    <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber uma comissão — <span class="gold">sem custo extra para você.</span></div>
+
     <div class="visagismo-container">
-      <div class="bloco" style="margin-bottom:0">
+      <div class="bloco">
         <div class="bloco-head"><h2>Formatos de Rosto</h2><div class="linha"></div></div>
         <div class="visagismo-nav" id="visagismoNav">
           <button class="visagismo-btn" data-formato="oval"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="7" ry="9"/></svg><span>Oval</span></button>
@@ -577,10 +544,10 @@
           <button class="visagismo-btn" data-formato="diamante"><svg viewBox="0 0 24 24"><path d="M12 2 L 20 12 L 12 22 L 4 12 Z"/></svg><span>Diamante</span></button>
           <button class="visagismo-btn" data-formato="triangular"><svg viewBox="0 0 24 24"><path d="M4 4 L 20 4 L 12 20 Z"/></svg><span>Triangular</span></button>
         </div>
-        <div class="visagismo-painel" id="visagismoResultado"></div>
+        <div class="visagismo-painel" id="visagismoResultado" style="margin-top:16px"></div>
       </div>
 
-      <div class="bloco" style="margin-bottom:0">
+      <div class="bloco">
         <div class="bloco-head"><h2>Harmonização de Cores</h2><div class="linha"></div></div>
         <div class="cores-nav" id="coresNav">
           <button class="cor-btn" data-cor="clara" style="background:linear-gradient(135deg, #fcebdb, #e8c6b0)" aria-label="Pele Clara"></button>
@@ -591,7 +558,7 @@
         <div class="paleta-resultado" id="paletaResultado"></div>
       </div>
 
-      <div class="bloco" style="margin-bottom:0">
+      <div class="bloco">
         <div class="bloco-head"><h2>Tipos de Cabelo</h2><div class="linha"></div></div>
         <div class="acordeao" id="acordeaoCabelos">
           <div class="acordeao-item">
@@ -613,12 +580,12 @@
         </div>
       </div>
 
-      <div class="bloco" style="margin-bottom:0">
+      <div class="bloco">
         <div class="bloco-head"><h2>Franjas</h2><div class="linha"></div></div>
         <div class="grid" id="grid-franjas"></div>
       </div>
 
-      <div class="bloco" style="margin-bottom:0">
+      <div class="bloco">
         <div class="bloco-head"><h2>Comprimentos</h2><div class="linha"></div></div>
         <div class="grid" id="grid-comprimentos"></div>
       </div>
