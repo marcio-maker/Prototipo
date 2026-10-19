@@ -1313,7 +1313,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
-      cursor: zoom-in;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
@@ -1321,10 +1321,6 @@
 
     .mini-card>.image-frame {
       flex: 0 0 auto;
-    }
-
-    .mini-card>.image-frame>img {
-      cursor: zoom-in;
     }
 
     .mini-card-txt {
@@ -1647,90 +1643,6 @@
       border-radius: 20px;
       pointer-events: none;
       z-index: 2100;
-    }
-
-    /* CARROSSEL DE CORTES (mantido desativado) */
-    .corte-carrossel-wrapper {
-      position: relative;
-      width: 100%;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .corte-carrossel {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      gap: 6px;
-      border-radius: 10px;
-    }
-
-    .corte-carrossel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .corte-slide {
-      flex: 0 0 100%;
-      scroll-snap-align: center;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .corte-slide>.image-frame {
-      width: min(100%, 220px);
-      flex: 0 1 220px;
-      margin-inline: auto;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-    }
-
-    .corte-slide .slide-texto {
-      text-align: center;
-      font-size: .85rem;
-      color: var(--text-sec);
-      font-weight: 300;
-      line-height: 1.5;
-      padding: 0 4px;
-      min-height: 40px;
-    }
-
-    .corte-slide .slide-texto strong {
-      color: var(--gold);
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 600;
-      display: block;
-      margin-bottom: 2px;
-      font-size: .95rem;
-    }
-
-    .corte-indicadores {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .corte-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--border-gold);
-      transition: background .3s, transform .3s;
-      cursor: pointer;
-      box-shadow: 0 0 0 8px transparent;
-      touch-action: manipulation;
-    }
-
-    .corte-dot.ativo {
-      background: var(--gold);
-      transform: scale(1.3);
     }
 
     /* MODAL PADRÃO */
@@ -2323,11 +2235,6 @@
         max-height: 38dvh;
       }
 
-      .corte-slide>.image-frame {
-        width: min(100%, 180px);
-        flex-basis: 180px;
-      }
-
       .zoom-close {
         top: 12px;
         right: 12px;
@@ -2722,7 +2629,7 @@
           <h2>Acessórios</h2>
           <div class="linha"></div>
         </div>
-        <div class="mini-grid" id="acessoriosGrid"></div>
+        <div class="grid grid-3" id="acessoriosGrid"></div>
       </div>
     </section>
 
@@ -3025,9 +2932,6 @@
         imgWrap.style.display = 'none';
       }
 
-      const g = document.querySelector('.modal-body .corte-carrossel-wrapper');
-      if (g) g.remove();
-
       const ul = document.getElementById('mList');
       ul.innerHTML = '';
       if (lista && lista.length) { lista.forEach(item => { const li = document.createElement('li'); li.textContent = item; ul.appendChild(li); }); }
@@ -3063,90 +2967,8 @@
       setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
     }
 
-    /* Carrossel de cortes mantido no código, mas DESATIVADO.
-       Para religar: chame openModalCorte(item) no lugar de openModal(...) em renderGrid. */
-    function openModalCorte(item) {
-      _focoAnterior = document.activeElement;
-      document.getElementById('mTitle').innerHTML = item.title;
-      document.getElementById('mSub').textContent = item.sub || 'Corte';
-      document.getElementById('mText').innerHTML = '';
-      document.getElementById('mList').innerHTML = '';
-
-      const htmlCarrossel = `
-    <div class="corte-carrossel-wrapper">
-      <div class="corte-carrossel" id="corteCarrossel">
-        <div class="corte-slide">
-          <div class="image-frame image-frame--portrait">
-            <img src="${item.imgFrente || item.img}" alt="Frente" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
-          </div>
-          <div class="slide-texto"><strong>Frente</strong>${item.descFrente || ''}</div>
-        </div>
-        <div class="corte-slide">
-          <div class="image-frame image-frame--portrait">
-            <img src="${item.imgLado || item.img}" alt="Lado" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
-          </div>
-          <div class="slide-texto"><strong>Lado</strong>${item.descLado || ''}</div>
-        </div>
-        <div class="corte-slide">
-          <div class="image-frame image-frame--portrait">
-            <img src="${item.imgAtras || item.img}" alt="Atrás" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
-          </div>
-          <div class="slide-texto"><strong>Atrás</strong>${item.descAtras || ''}</div>
-        </div>
-      </div>
-      <div class="corte-indicadores" id="corteIndicadores">
-        <span class="corte-dot ativo" data-idx="0"></span>
-        <span class="corte-dot" data-idx="1"></span>
-        <span class="corte-dot" data-idx="2"></span>
-      </div>
-    </div>
-  `;
-
-      document.querySelector('.modal-img').style.display = 'none';
-      const body = document.querySelector('.modal-body');
-      const existingWrapper = body.querySelector('.corte-carrossel-wrapper');
-      if (existingWrapper) existingWrapper.remove();
-      document.getElementById('mSub').insertAdjacentHTML('afterend', htmlCarrossel);
-
-      document.querySelectorAll('.corte-dot').forEach((dot, i) => {
-        dot.tabIndex = 0; dot.setAttribute('role', 'button');
-        dot.setAttribute('aria-label', 'Ir para slide ' + (i + 1));
-        dot.addEventListener('click', () => irParaSlide(i));
-        dot.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); irParaSlide(i); }
-        });
-      });
-
-      setTimeout(() => {
-        const carrossel = document.getElementById('corteCarrossel');
-        if (!carrossel) return;
-        carrossel.addEventListener('scroll', () => {
-          const largura = carrossel.offsetWidth;
-          const slideIdx = Math.round(carrossel.scrollLeft / largura);
-          document.querySelectorAll('.corte-dot').forEach((dot, i) => { dot.classList.toggle('ativo', i === slideIdx); });
-        });
-      }, 100);
-
-      const linkEl = document.getElementById('mLink');
-      linkEl.href = item.link || ML_LINKS.kitNoiva;
-      linkEl.style.display = 'flex';
-      const btnText = linkEl.querySelector('span');
-      if (btnText) btnText.textContent = 'Ver Produtos Recomendados';
-
-      document.getElementById('modalBg').classList.add('on');
-      trapFocus(document.querySelector('.modal'));
-      setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
-    }
-
-    function irParaSlide(idx) {
-      const carrossel = document.getElementById('corteCarrossel');
-      if (carrossel) { carrossel.scrollTo({ left: carrossel.offsetWidth * idx, behavior: 'smooth' }); }
-    }
-
     function closeModal() {
       document.getElementById('modalBg').classList.remove('on');
-      const modalImg = document.querySelector('.modal-img'); if (modalImg) modalImg.style.display = 'block';
-      const existingWrapper = document.querySelector('.modal-body .corte-carrossel-wrapper'); if (existingWrapper) existingWrapper.remove();
       if (_focoAnterior && _focoAnterior.focus) _focoAnterior.focus();
     }
     function closeModalBg(e) { if (e.target.id === 'modalBg') closeModal(); }
@@ -3162,12 +2984,12 @@
 
     /* ============ DADOS ============ */
     const visagismoData = {
-      oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', produto: 'Spray Volume', link: ML_LINKS.kerastase },
-      redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
-      quadrado: { nome: 'Quadrado', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', recomendacao: 'Ondas suaves e camadas.', desc: 'Suavize os ângulos marcados da mandíbula e da testa.', produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas },
-      coracao: { nome: 'Coração', img: 'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', recomendacao: 'Franja lateral e volume na base.', desc: 'Equilibre a testa mais larga e o queixo fino.', produto: 'Máscara de Reconstrução', link: ML_LINKS.joico },
-      diamante: { nome: 'Diamante', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', recomendacao: 'Volume no topo e na base.', desc: 'Suavize as maçãs do rosto largas.', produto: 'Shampoo Matizador', link: ML_LINKS.keune },
-      triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Disfarce a base mais larga criando volume no topo.', produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas }
+      oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', produto: 'Spray Volume', link: ML_LINKS.kerastase, lista: ['Camadas suaves', 'Comprimento médio', 'Equilíbrio natural'] },
+      redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas, lista: ['Volume no topo', 'Laterais justas', 'Alongamento visual'] },
+      quadrado: { nome: 'Quadrado', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', recomendacao: 'Ondas suaves e camadas.', desc: 'Suavize os ângulos marcados da mandíbula e da testa.', produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas, lista: ['Ondas suaves', 'Camadas', 'Suaviza ângulos'] },
+      coracao: { nome: 'Coração', img: 'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', recomendacao: 'Franja lateral e volume na base.', desc: 'Equilibre a testa mais larga e o queixo fino.', produto: 'Máscara de Reconstrução', link: ML_LINKS.joico, lista: ['Franja lateral', 'Volume na base', 'Equilíbrio'] },
+      diamante: { nome: 'Diamante', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', recomendacao: 'Volume no topo e na base.', desc: 'Suavize as maçãs do rosto largas.', produto: 'Shampoo Matizador', link: ML_LINKS.keune, lista: ['Volume no topo', 'Volume na base', 'Suaviza maçãs'] },
+      triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Disfarce a base mais larga criando volume no topo.', produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas, lista: ['Camadas laterais', 'Topo volumoso', 'Disfarça a base'] }
     };
 
     const coresData = {
@@ -3178,60 +3000,60 @@
     };
 
     const cabelosData = {
-      liso: [{ title: '1A', sub: 'Liso, sem volume', img: 'https://i.pinimg.com/736x/96/ed/ba/96edbad796f6419dde511218d30b4a89.jpg' }, { title: '1B', sub: 'Liso com leve volume', img: 'https://i.pinimg.com/736x/97/12/55/971255981aaef5c19d234cbe7bb15b5b.jpg' }, { title: '1C', sub: 'Liso com mais corpo', img: 'https://i.pinimg.com/736x/20/e5/0e/20e50e3d7d91ea1c77739beef358253e.jpg' }],
-      ondulado: [{ title: '2A', sub: 'Ondas suaves', img: 'https://i.pinimg.com/736x/d2/3f/6c/d23f6cb6d4eba707e8af9dbd0365d7b3.jpg' }, { title: '2B', sub: 'Ondas definidas', img: 'https://i.pinimg.com/736x/5b/d6/67/5bd6678622f65f802a790f27193d2b43.jpg' }, { title: '2C', sub: 'Ondas volumosas', img: 'https://i.pinimg.com/736x/b3/23/38/b323381530d017a718dfd57ebb70f280.jpg' }],
-      cacheado: [{ title: '3A', sub: 'Cachos definidos', img: 'https://i.pinimg.com/736x/f2/f4/09/f2f4094f58a52962676524bcc79dc511.jpg' }, { title: '3B', sub: 'Cachos fechados', img: 'https://i.pinimg.com/736x/a3/c2/a8/a3c2a82d52cb1f590ebbb7b6ba386229.jpg' }, { title: '3C', sub: 'Cachos volumosos', img: 'https://i.pinimg.com/736x/03/38/48/033848a08f6285b6473392e31710c7b5.jpg' }],
-      crespo: [{ title: '4A', sub: 'Crespos definidos', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }, { title: '4B', sub: 'Crespos ziguezague', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }, { title: '4C', sub: 'Crespos apertados', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg' }]
+      liso: [{ title: '1A', sub: 'Liso, sem volume', desc: 'Fios lisos sem volume natural. Precisam de produtos de volume e textura.', img: 'https://i.pinimg.com/736x/96/ed/ba/96edbad796f6419dde511218d30b4a89.jpg', link: ML_LINKS.kerastase }, { title: '1B', sub: 'Liso com leve volume', desc: 'Fios lisos com leve volume natural. Fáceis de modelar.', img: 'https://i.pinimg.com/736x/97/12/55/971255981aaef5c19d234cbe7bb15b5b.jpg', link: ML_LINKS.kerastase }, { title: '1C', sub: 'Liso com mais corpo', desc: 'Fios lisos com mais corpo e resistência.', img: 'https://i.pinimg.com/736x/20/e5/0e/20e50e3d7d91ea1c77739beef358253e.jpg', link: ML_LINKS.kerastase }],
+      ondulado: [{ title: '2A', sub: 'Ondas suaves', desc: 'Ondas suaves e naturais. Fáceis de finalizar.', img: 'https://i.pinimg.com/736x/d2/3f/6c/d23f6cb6d4eba707e8af9dbd0365d7b3.jpg', link: ML_LINKS.kerastase }, { title: '2B', sub: 'Ondas definidas', desc: 'Ondas mais definidas e com volume.', img: 'https://i.pinimg.com/736x/5b/d6/67/5bd6678622f65f802a790f27193d2b43.jpg', link: ML_LINKS.kerastase }, { title: '2C', sub: 'Ondas volumosas', desc: 'Ondas volumosas e resistentes.', img: 'https://i.pinimg.com/736x/b3/23/38/b323381530d017a718dfd57ebb70f280.jpg', link: ML_LINKS.kerastase }],
+      cacheado: [{ title: '3A', sub: 'Cachos definidos', desc: 'Cachos definidos e com brilho.', img: 'https://i.pinimg.com/736x/f2/f4/09/f2f4094f58a52962676524bcc79dc511.jpg', link: ML_LINKS.joico }, { title: '3B', sub: 'Cachos fechados', desc: 'Cachos mais fechados e volumosos.', img: 'https://i.pinimg.com/736x/a3/c2/a8/a3c2a82d52cb1f590ebbb7b6ba386229.jpg', link: ML_LINKS.joico }, { title: '3C', sub: 'Cachos volumosos', desc: 'Cachos volumosos e cheios de personalidade.', img: 'https://i.pinimg.com/736x/03/38/48/033848a08f6285b6473392e31710c7b5.jpg', link: ML_LINKS.joico }],
+      crespo: [{ title: '4A', sub: 'Crespos definidos', desc: 'Crespos definidos em espiral.', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', link: ML_LINKS.joico }, { title: '4B', sub: 'Crespos ziguezague', desc: 'Crespos em ziguezague, muito volumosos.', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', link: ML_LINKS.joico }, { title: '4C', sub: 'Crespos apertados', desc: 'Crespos bem apertados e densos.', img: 'https://i.pinimg.com/736x/62/56/a8/6256a87f0bc5ce4ad04e5008e3e75c3c.jpg', link: ML_LINKS.joico }]
     };
 
     const coloracaoData = {
       loiros: {
         tons: [
-          { cor: '#F5DEB3', nome: 'Loiro Platinado', desc: 'Ideal para peles frias.', img: 'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link: ML_LINKS.inoa },
-          { cor: '#E6C280', nome: 'Loiro Dourado', desc: 'Ilumina peles quentes.', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link: ML_LINKS.keune },
-          { cor: '#C49A6C', nome: 'Loiro Médio', desc: 'Clássico e versátil.', img: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', link: ML_LINKS.inoa },
-          { cor: '#A37A4E', nome: 'Loiro Escuro', desc: 'Transição natural.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.keune }
+          { cor: '#F5DEB3', nome: 'Loiro Platinado', desc: 'Ideal para peles frias.', img: 'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link: ML_LINKS.inoa, lista: ['Peles frias', 'Alto clareamento', 'Manutenção com matizador'] },
+          { cor: '#E6C280', nome: 'Loiro Dourado', desc: 'Ilumina peles quentes.', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link: ML_LINKS.keune, lista: ['Peles quentes', 'Brilho dourado', 'Ilumina o rosto'] },
+          { cor: '#C49A6C', nome: 'Loiro Médio', desc: 'Clássico e versátil.', img: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', link: ML_LINKS.inoa, lista: ['Clássico', 'Versátil', 'Baixa manutenção'] },
+          { cor: '#A37A4E', nome: 'Loiro Escuro', desc: 'Transição natural.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.keune, lista: ['Transição natural', 'Discreto', 'Fácil manutenção'] }
         ]
       },
       castanhos: {
         tons: [
-          { cor: '#5C3A21', nome: 'Chocolate Frio', desc: 'Neutro e sofisticado.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa },
-          { cor: '#7D5A4F', nome: 'Castanho Médio', desc: 'Coringa para todos os dias.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune },
-          { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.inoa },
-          { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune }
+          { cor: '#5C3A21', nome: 'Chocolate Frio', desc: 'Neutro e sofisticado.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa, lista: ['Neutro', 'Sofisticado', 'Tom frio'] },
+          { cor: '#7D5A4F', nome: 'Castanho Médio', desc: 'Coringa para todos os dias.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune, lista: ['Coringa', 'Dia a dia', 'Natural'] },
+          { cor: '#8E5B3E', nome: 'Castanho Mel', desc: 'Reflexos quentes.', img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.inoa, lista: ['Reflexos quentes', 'Iluminado', 'Aconchegante'] },
+          { cor: '#3B1C0D', nome: 'Castanho Escuro', desc: 'Profundo e elegante.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune, lista: ['Profundo', 'Elegante', 'Marcante'] }
         ]
       },
       ruivos: {
         tons: [
-          { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.inoa },
-          { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.keune },
-          { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.inoa },
-          { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.keune }
+          { cor: '#B85C38', nome: 'Cobre Queimado', desc: 'Vibrante e quente.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.inoa, lista: ['Vibrante', 'Quente', 'Ousado'] },
+          { cor: '#8A4F3A', nome: 'Ruivo Acobreado', desc: 'Elegante e marcante.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.keune, lista: ['Elegante', 'Marcante', 'Acobreado'] },
+          { cor: '#7A1E1E', nome: 'Borgonha', desc: 'Intenso e frio.', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', link: ML_LINKS.inoa, lista: ['Intenso', 'Tom frio', 'Sofisticado'] },
+          { cor: '#D17A45', nome: 'Laranja Cobre', desc: 'Ousado e moderno.', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', link: ML_LINKS.keune, lista: ['Ousado', 'Moderno', 'Cheio de personalidade'] }
         ]
       },
       escuros: {
         tons: [
-          { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', link: ML_LINKS.inoa },
-          { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.keune },
-          { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa },
-          { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune }
+          { cor: '#0a0a0a', nome: 'Preto', desc: 'Clássico absoluto.', img: 'https://i.pinimg.com/1200x/fc/77/96/fc7796a5b8212a0fd41f43792ede5351.jpg', link: ML_LINKS.inoa, lista: ['Clássico', 'Atemporal', 'Brilho intenso'] },
+          { cor: '#1A1210', nome: 'Preto Suave', desc: 'Menos agressivo.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.keune, lista: ['Menos agressivo', 'Suave', 'Natural'] },
+          { cor: '#2C1410', nome: 'Café Quente', desc: 'Rico em profundidade.', img: 'https://i.pinimg.com/1200x/d6/03/48/d6034885db6c8ed5ec5d84f05db7033c.jpg', link: ML_LINKS.inoa, lista: ['Profundo', 'Quente', 'Elegante'] },
+          { cor: '#3B2818', nome: 'Castanho Escuro', desc: 'Natural e versátil.', img: 'https://i.pinimg.com/1200x/2b/aa/ea/2baaea4f4dc0674819552e1a00063c01.jpg', link: ML_LINKS.keune, lista: ['Natural', 'Versátil', 'Fácil de manter'] }
         ]
       }
     };
 
     const makeData = {
-      pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.', link: ML_LINKS.kerastase },
-      olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios.', link: ML_LINKS.expert },
-      boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss.', link: ML_LINKS.moroccanoil }
+      pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.', desc2: 'Acabamento natural e luminoso.', lista: ['Base leve', 'Corretivo iluminador', 'Blush pêssego'], link: ML_LINKS.kerastase },
+      olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios.', desc2: 'Olhar marcante e sofisticado.', lista: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'], link: ML_LINKS.expert },
+      boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss.', desc2: 'Efeito hidratado e volumoso.', lista: ['Batom nude', 'Acabamento gloss', 'Efeito volumoso'], link: ML_LINKS.moroccanoil }
     };
 
     const franjasData = [
-      { title: 'Reta', sub: 'Encurta o rosto', desc: 'Encurta o rosto e destaca os olhos.', desc2: 'Ideal para rostos longos.', lista: ['Encurta o rosto', 'Destaca olhos'], img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80' },
-      { title: 'Cortina', sub: 'Alonga o rosto', desc: 'Alonga o rosto e suaviza traços.', desc2: 'Ideal para rostos redondos e quadrados.', lista: ['Alonga o rosto', 'Suaviza traços'], img: 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600&q=80' },
-      { title: 'Lateral', sub: 'Cria assimetria', desc: 'Emoldura e cria assimetria.', desc2: 'Ideal para rostos quadrados e ovais.', lista: ['Emoldura', 'Cria assimetria'], img: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=600&q=80' },
-      { title: 'Desfiada', sub: 'Leve e moderna', desc: 'Leve e moderna, não pesa.', desc2: 'Ideal para todos os formatos.', lista: ['Leve', 'Moderna', 'Não pesa'], img: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=80' },
-      { title: 'Arredondada', sub: 'Suaviza ângulos', desc: 'Suaviza ângulos e valoriza curvas.', desc2: 'Ideal para rostos quadrados.', lista: ['Suaviza ângulos', 'Valoriza curvas'], img: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80' },
-      { title: 'Baby', sub: 'Delicada', desc: 'Delicada e alonga o rosto.', desc2: 'Ideal para rostos redondos e ovais.', lista: ['Delicada', 'Alonga o rosto'], img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80' }
+      { title: 'Reta', sub: 'Encurta o rosto', desc: 'Encurta o rosto e destaca os olhos.', desc2: 'Ideal para rostos longos.', lista: ['Encurta o rosto', 'Destaca olhos'], img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80', link: ML_LINKS.kerastase },
+      { title: 'Cortina', sub: 'Alonga o rosto', desc: 'Alonga o rosto e suaviza traços.', desc2: 'Ideal para rostos redondos e quadrados.', lista: ['Alonga o rosto', 'Suaviza traços'], img: 'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600&q=80', link: ML_LINKS.kerastase },
+      { title: 'Lateral', sub: 'Cria assimetria', desc: 'Emoldura e cria assimetria.', desc2: 'Ideal para rostos quadrados e ovais.', lista: ['Emoldura', 'Cria assimetria'], img: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=600&q=80', link: ML_LINKS.kerastase },
+      { title: 'Desfiada', sub: 'Leve e moderna', desc: 'Leve e moderna, não pesa.', desc2: 'Ideal para todos os formatos.', lista: ['Leve', 'Moderna', 'Não pesa'], img: 'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=600&q=80', link: ML_LINKS.kerastase },
+      { title: 'Arredondada', sub: 'Suaviza ângulos', desc: 'Suaviza ângulos e valoriza curvas.', desc2: 'Ideal para rostos quadrados.', lista: ['Suaviza ângulos', 'Valoriza curvas'], img: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80', link: ML_LINKS.kerastase },
+      { title: 'Baby', sub: 'Delicada', desc: 'Delicada e alonga o rosto.', desc2: 'Ideal para rostos redondos e ovais.', lista: ['Delicada', 'Alonga o rosto'], img: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80', link: ML_LINKS.kerastase }
     ];
     const comprimentosData = [
       {
@@ -3240,7 +3062,8 @@
         desc: 'Cria corpo e presença no cabelo.',
         desc2: 'Ideal para fios finos ou quem quer mais estrutura.',
         lista: ['Corpo', 'Presença'],
-        img: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80',
+        link: ML_LINKS.kerastase
       },
       {
         title: 'Movimento',
@@ -3248,7 +3071,8 @@
         desc: 'Traz fluidez e naturalidade aos fios.',
         desc2: 'Ideal para quem gosta de cabelo solto e com balanço.',
         lista: ['Fluidez', 'Naturalidade'],
-        img: 'https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=600&q=80',
+        link: ML_LINKS.kerastase
       },
       {
         title: 'Praticidade',
@@ -3256,83 +3080,117 @@
         desc: 'Facilita o dia a dia e reduz o tempo de finalização.',
         desc2: 'Ideal para quem tem rotina corrida.',
         lista: ['Dia a dia', 'Baixa manutenção'],
-        img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80',
+        link: ML_LINKS.kerastase
       }
     ];
 
     const cortesData = [
-      { title: 'Velvet Bob', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgFrente: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgLado: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', imgAtras: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', descFrente: 'Bob Texturizado. Camadas internas que dão volume sem peso.', descLado: 'O corte lateral mostra a progressão das camadas.', descAtras: 'A parte de trás é levemente mais curta para valorizar a nuca.' },
-      { title: 'Wolf Cut', img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgFrente: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgLado: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', imgAtras: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', descFrente: 'Topo volumoso. Um topo curto e rebelde com nuca longa.', descLado: 'A lateral revela as camadas desconectadas.', descAtras: 'Comprimento longo na nuca, criando o efeito wolf.' },
-      { title: 'Pixie Cut', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgFrente: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgLado: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', imgAtras: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', descFrente: 'Corte curto. Topo volumoso com laterais bem curtas.', descLado: 'O perfil destaca a textura do topo.', descAtras: 'Nuca bem desenhada e curta.' },
-      { title: 'Butterfly Cut', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgFrente: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgLado: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', imgAtras: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', descFrente: 'Camadas em asa. Duas camadas marcadas e base pesada.', descLado: 'A lateral mostra o movimento das camadas.', descAtras: 'O volume se concentra no meio, afinando as pontas.' },
-      { title: 'Blunt Cut', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgFrente: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgLado: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', imgAtras: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', descFrente: 'Corte reto. Zero camadas e linha precisa.', descLado: 'A lateral é reta e uniforme.', descAtras: 'A parte de trás segue a mesma linha reta.' },
-      { title: 'Shaggy Hair', img: 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgFrente: 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgLado: 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', imgAtras: 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', descFrente: 'Camadas cruas. Desconectadas e cheias de atitude.', descLado: 'O perfil destaca a textura e o volume lateral.', descAtras: 'Nuca com camadas repicadas.' },
-      { title: 'Long Bob', img: 'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgFrente: 'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgLado: 'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', imgAtras: 'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', descFrente: 'Bob ombro. Base inclinada para frente.', descLado: 'A lateral mostra o comprimento médio.', descAtras: 'A parte de trás é levemente mais longa.' },
-      { title: 'French Bob', img: 'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgFrente: 'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgLado: 'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', imgAtras: 'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', descFrente: 'Chanel com franja. Curtíssimo no maxilar.', descLado: 'A lateral evidencia a franja reta.', descAtras: 'A nuca é acompanhada por um corte baixo.' },
-      { title: 'Italian Bob', img: 'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgFrente: 'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgLado: 'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', imgAtras: 'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', descFrente: 'Bob repicado. Repicados internos com volume.', descLado: 'A lateral mostra a base trabalhada.', descAtras: 'A base arredondada e volumosa.' },
-      { title: 'Bixie Cut', img: 'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgFrente: 'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgLado: 'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', imgAtras: 'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', descFrente: 'Pixie-Bob. Meio pixie, meio bob, desfiado.', descLado: 'O perfil revela a fusão dos dois estilos.', descAtras: 'Nuca curta com transição suave.' },
-      { title: 'Soft Layers', img: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgFrente: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgLado: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', imgAtras: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', descFrente: 'Camadas contínuas. Sem marcação e muito natural.', descLado: 'A lateral mostra o caimento suave.', descAtras: 'Comprimento uniforme com leve movimento.' },
-      { title: 'Kitty Cut', img: 'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgFrente: 'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgLado: 'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', imgAtras: 'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', descFrente: 'Bob-shag. Base reta com camadas no topo.', descLado: 'A lateral revela a mistura do bob com shag.', descAtras: 'A parte de trás tem repicado texturizado.' }
+      { title: 'Velvet Bob', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', desc: 'Bob texturizado com camadas internas que dão volume sem peso.', desc2: 'Ideal para quem quer um corte moderno e prático.', lista: ['Camadas internas', 'Volume sem peso', 'Moderno e prático'] },
+      { title: 'Wolf Cut', img: 'https://i.pinimg.com/736x/2a/eb/88/2aeb88213907101e1792b014a75fb4b3.jpg', desc: 'Topo volumoso e rebelde com nuca longa.', desc2: 'Ideal para quem gosta de um visual ousado.', lista: ['Topo volumoso', 'Camadas desconectadas', 'Nuca longa'] },
+      { title: 'Pixie Cut', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', desc: 'Corte curto com topo volumoso e laterais bem curtas.', desc2: 'Ideal para um visual prático e elegante.', lista: ['Topo volumoso', 'Laterais curtas', 'Nuca desenhada'] },
+      { title: 'Butterfly Cut', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', desc: 'Camadas em asa com duas camadas marcadas e base pesada.', desc2: 'Ideal para quem quer movimento nos fios.', lista: ['Camadas em asa', 'Movimento', 'Base pesada'] },
+      { title: 'Blunt Cut', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', desc: 'Corte reto, sem camadas e com linha precisa.', desc2: 'Ideal para um visual clássico e elegante.', lista: ['Linha reta', 'Zero camadas', 'Precisão'] },
+      { title: 'Shaggy Hair', img: 'https://i.pinimg.com/736x/e7/6a/22/e76a22e038cba1d1daad41e6f2238004.jpg', desc: 'Camadas cruas e desconectadas cheias de atitude.', desc2: 'Ideal para quem gosta de um visual despojado.', lista: ['Camadas cruas', 'Textura', 'Atitude'] },
+      { title: 'Long Bob', img: 'https://i.pinimg.com/736x/63/fc/05/63fc05a4610ab0214e2e74e3d6a0014f.jpg', desc: 'Bob no comprimento do ombro com base inclinada para frente.', desc2: 'Ideal para quem quer um meio-termo entre curto e longo.', lista: ['Comprimento médio', 'Base inclinada', 'Versátil'] },
+      { title: 'French Bob', img: 'https://i.pinimg.com/1200x/fa/83/3a/fa833a9f5008d52cbf0f86a0665bbe15.jpg', desc: 'Chanel com franja curtíssimo no maxilar.', desc2: 'Ideal para um visual parisiense e elegante.', lista: ['Franja reta', 'Curtíssimo', 'Elegante'] },
+      { title: 'Italian Bob', img: 'https://i.pinimg.com/736x/f5/fe/29/f5fe294a026ca252b16fdfb6eab958e5.jpg', desc: 'Bob repicado com repicados internos e volume.', desc2: 'Ideal para quem quer um corte cheio de movimento.', lista: ['Repicado', 'Volume', 'Base arredondada'] },
+      { title: 'Bixie Cut', img: 'https://i.pinimg.com/736x/4e/66/83/4e66838f18fe2212fa8ac412d9985447.jpg', desc: 'Pixie-Bob, meio pixie, meio bob, desfiado.', desc2: 'Ideal para quem quer o melhor dos dois mundos.', lista: ['Pixie + Bob', 'Desfiado', 'Moderno'] },
+      { title: 'Soft Layers', img: 'https://i.pinimg.com/1200x/e9/12/96/e91296a700072a42b4d9cfaafeb48ac7.jpg', desc: 'Camadas contínuas sem marcação e muito naturais.', desc2: 'Ideal para quem quer um caimento suave.', lista: ['Camadas contínuas', 'Natural', 'Caimento suave'] },
+      { title: 'Kitty Cut', img: 'https://i.pinimg.com/1200x/14/1c/a1/141ca123597b6962ddde805e87d9d0d3.jpg', desc: 'Bob-shag com base reta e camadas no topo.', desc2: 'Ideal para quem quer textura sem perder o comprimento.', lista: ['Bob-shag', 'Base reta', 'Camadas no topo'] }
     ];
 
     const noivasData = [
-      { title: 'Coque Clássico', sub: 'Elegância atemporal', desc: 'Coque baixo com detalhes trançados. Ideal para vestidos de princesa.', img: 'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Sem Presilhas', sub: 'Solto e romântico', desc: 'Ondas suaves com presilhas invisíveis. Para noivas modernas.', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Trança Lateral', sub: 'Boho Chic', desc: 'Trança embutida com flores naturais. Ideal para casamentos na praia.', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Coque Despojado', sub: 'Textura e volume', desc: 'Fios soltos ao redor do rosto para um ar mais leve.', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', link: ML_LINKS.kitNoiva }
+      { title: 'Coque Clássico', sub: 'Elegância atemporal', desc: 'Coque baixo com detalhes trançados.', desc2: 'Ideal para vestidos de princesa.', lista: ['Coque baixo', 'Detalhes trançados', 'Elegância atemporal'], img: 'https://i.pinimg.com/736x/5b/da/00/5bda009665f3eff9b6aa04f58e2c473f.jpg', link: ML_LINKS.kitNoiva },
+      { title: 'Sem Presilhas', sub: 'Solto e romântico', desc: 'Ondas suaves com presilhas invisíveis.', desc2: 'Para noivas modernas.', lista: ['Ondas suaves', 'Presilhas invisíveis', 'Romântico'], img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', link: ML_LINKS.kitNoiva },
+      { title: 'Trança Lateral', sub: 'Boho Chic', desc: 'Trança embutida com flores naturais.', desc2: 'Ideal para casamentos na praia.', lista: ['Trança embutida', 'Flores naturais', 'Boho Chic'], img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', link: ML_LINKS.kitNoiva },
+      { title: 'Coque Despojado', sub: 'Textura e volume', desc: 'Fios soltos ao redor do rosto para um ar mais leve.', desc2: 'Ideal para noivas despojadas.', lista: ['Fios soltos', 'Textura', 'Ar leve'], img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', link: ML_LINKS.kitNoiva }
     ];
 
+    /* ============ ACESSÓRIOS ============ */
     const acessoriosData = [
-      { title: 'Presilhas Cravejadas', sub: 'Brilho e sofisticação', desc: 'Brilho e sofisticação para festas.', img: 'https://i.pinimg.com/736x/46/2d/f6/462df6b1f56969957b95ba221cc88c10.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Tiara de Pérolas', sub: 'Toque clássico', desc: 'O toque clássico para noivas.', img: 'https://i.pinimg.com/1200x/46/c2/64/46c264e279e9eac0e26e730041895450.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Flor para Cabelo', sub: 'Detalhe romântico', desc: 'Detalhe romântico para convidadas.', img: 'https://i.pinimg.com/1200x/f6/53/c0/f653c0403fe63150d3f4c549308dce4e.jpg', link: ML_LINKS.kitNoiva },
-      { title: 'Grampos Dourados', sub: 'Fixação e estilo', desc: 'Para prender fios e dar acabamento.', img: 'https://images.unsplash.com/photo-1523264653568-d3d4032d1476?w=600&q=80', link: ML_LINKS.kitNoiva }
+      {
+        title: 'Presilhas Cravejadas',
+        sub: 'Brilho e sofisticação',
+        desc: 'Presilhas com pedrarias para um acabamento luminoso e sofisticado.',
+        desc2: 'Perfeitas para festas, casamentos e formaturas.',
+        lista: ['Pedrarias de alto brilho', 'Fixação confortável', 'Acabamento dourado'],
+        img: 'https://i.pinimg.com/736x/46/2d/f6/462df6b1f56969957b95ba221cc88c10.jpg',
+        link: ML_LINKS.kitNoiva
+      },
+      {
+        title: 'Tiara de Pérolas',
+        sub: 'Toque clássico',
+        desc: 'Tiara delicada com pérolas sintéticas que traz um toque clássico e atemporal.',
+        desc2: 'Ideal para noivas e madrinhas.',
+        lista: ['Pérolas de acabamento natural', 'Estrutura leve', 'Confortável para o dia todo'],
+        img: 'https://i.pinimg.com/1200x/46/c2/64/46c264e279e9eac0e26e730041895450.jpg',
+        link: ML_LINKS.kitNoiva
+      },
+      {
+        title: 'Flor para Cabelo',
+        sub: 'Detalhe romântico',
+        desc: 'Flor de tecido com acabamento artesanal, ideal para convidadas e looks boho.',
+        desc2: 'Pode ser usada presa ou solta nos fios.',
+        lista: ['Acabamento artesanal', 'Leve e versátil', 'Combina com penteados soltos'],
+        img: 'https://i.pinimg.com/1200x/f6/53/c0/f653c0403fe63150d3f4c549308dce4e.jpg',
+        link: ML_LINKS.kitNoiva
+      },
+      {
+        title: 'Grampos Dourados',
+        sub: 'Fixação e estilo',
+        desc: 'Grampos dourados para prender fios e dar acabamento profissional ao penteado.',
+        desc2: 'Pacote com diversas unidades.',
+        lista: ['Fixação firme', 'Acabamento dourado', 'Fácil de usar'],
+        img: 'https://images.unsplash.com/photo-1523264653568-d3d4032d1476?w=600&q=80',
+        link: ML_LINKS.kitNoiva
+      }
     ];
 
     const tecnicasData = [
-      { title: 'Balayage', desc: 'Pintura manual que cria degradê natural.', desc2: 'Ideal para loiro iluminado sem raiz marcada.', lista: ['Degradê natural', 'Sem raiz marcada'], img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.inoa },
-      { title: 'Babylights', desc: 'Mechas finíssimas que imitam o sol.', desc2: 'Ideal para loiros delicados.', lista: ['Mechas finas', 'Clareamento natural'], img: 'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link: ML_LINKS.inoa },
-      { title: 'Luzes', desc: 'Mechas tradicionais com papel alumínio.', desc2: 'Ideal para clarear de forma uniforme.', lista: ['Mechas tradicionais', 'Clareamento uniforme'], img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', link: ML_LINKS.inoa },
-      { title: 'Morena Iluminada', desc: 'Mechas sutis para iluminar o castanho.', desc2: 'Ideal para morenas que querem loiro discreto.', lista: ['Mechas sutis', 'Ilumina o castanho'], img: 'https://i.pinimg.com/1200x/e8/cc/fd/e8ccfd0d23c0a67cdec7b3518588c87a.jpg', link: ML_LINKS.inoa },
-      { title: 'Ombré Hair', desc: 'Degradê do escuro ao claro.', desc2: 'Ideal para efeito natural e baixa manutenção.', lista: ['Degradê', 'Natural'], img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link: ML_LINKS.inoa }
+      { title: 'Balayage', desc: 'Pintura manual que cria degradê natural.', desc2: 'Ideal para loiro iluminado sem raiz marcada.', lista: ['Degradê natural', 'Sem raiz marcada', 'Pintura manual'], img: 'https://i.pinimg.com/736x/67/53/d4/6753d4546e18a5b6e121879b4e45a5f5.jpg', link: ML_LINKS.inoa },
+      { title: 'Babylights', desc: 'Mechas finíssimas que imitam o sol.', desc2: 'Ideal para loiros delicados.', lista: ['Mechas finas', 'Clareamento natural', 'Efeito iluminado'], img: 'https://i.pinimg.com/1200x/37/c9/1c/37c91cbb94c03b8a37157bf367a3dfbc.jpg', link: ML_LINKS.inoa },
+      { title: 'Luzes', desc: 'Mechas tradicionais com papel alumínio.', desc2: 'Ideal para clarear de forma uniforme.', lista: ['Mechas tradicionais', 'Clareamento uniforme', 'Controle preciso'], img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg', link: ML_LINKS.inoa },
+      { title: 'Morena Iluminada', desc: 'Mechas sutis para iluminar o castanho.', desc2: 'Ideal para morenas que querem loiro discreto.', lista: ['Mechas sutis', 'Ilumina o castanho', 'Discreto'], img: 'https://i.pinimg.com/1200x/e8/cc/fd/e8ccfd0d23c0a67cdec7b3518588c87a.jpg', link: ML_LINKS.inoa },
+      { title: 'Ombré Hair', desc: 'Degradê do escuro ao claro.', desc2: 'Ideal para efeito natural e baixa manutenção.', lista: ['Degradê', 'Natural', 'Baixa manutenção'], img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', link: ML_LINKS.inoa }
     ];
     const cuidadosData = [
-      { title: 'Shampoo Matizador', sub: 'Mantém o tom frio', desc: 'Mantém o tom frio e evita amarelamento.', desc2: 'Ideal para cabelos loiros, platinados ou com mechas.', lista: ['Mantém tom frio', 'Evita amarelamento'], img: 'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg', link: ML_LINKS.kerastase },
-      { title: 'Máscara de Reconstrução', sub: 'Repõe massa', desc: 'Repõe massa e força após a química.', desc2: 'Ideal para cabelos pós-coloração.', lista: ['Repõe massa', 'Força'], img: 'https://i.pinimg.com/1200x/55/d6/10/55d610f599b3c10b5fe4cafceb5104fc.jpg', link: ML_LINKS.joico },
-      { title: 'Leave-in', sub: 'Protege e finaliza', desc: 'Protege e finaliza no dia a dia.', desc2: 'Ideal para todos os tipos de cabelo.', lista: ['Protege', 'Finaliza'], img: 'https://i.pinimg.com/736x/c1/4a/bb/c14abbd5fb1d4528ab1371784cd4503b.jpg', link: ML_LINKS.kerastase },
+      { title: 'Shampoo Matizador', sub: 'Mantém o tom frio', desc: 'Mantém o tom frio e evita amarelamento.', desc2: 'Ideal para cabelos loiros, platinados ou com mechas.', lista: ['Mantém tom frio', 'Evita amarelamento', 'Uso semanal'], img: 'https://i.pinimg.com/1200x/0c/dd/f1/0cddf1a088784488cc73ffbedfa53ebf.jpg', link: ML_LINKS.kerastase },
+      { title: 'Máscara de Reconstrução', sub: 'Repõe massa', desc: 'Repõe massa e força após a química.', desc2: 'Ideal para cabelos pós-coloração.', lista: ['Repõe massa', 'Força', 'Pós-química'], img: 'https://i.pinimg.com/1200x/55/d6/10/55d610f599b3c10b5fe4cafceb5104fc.jpg', link: ML_LINKS.joico },
+      { title: 'Leave-in', sub: 'Protege e finaliza', desc: 'Protege e finaliza no dia a dia.', desc2: 'Ideal para todos os tipos de cabelo.', lista: ['Protege', 'Finaliza', 'Uso diário'], img: 'https://i.pinimg.com/736x/c1/4a/bb/c14abbd5fb1d4528ab1371784cd4503b.jpg', link: ML_LINKS.kerastase },
       { title: 'Óleo Finalizador', sub: 'Sela cutículas', desc: 'Sela cutículas e dá brilho.', desc2: 'Ideal para cabelos secos ou com frizz.', lista: ['Sela cutículas', 'Brilho', 'Anti-frizz'], img: 'https://i.pinimg.com/1200x/59/d8/dd/59d8dd9ea4a78fdeb7e0b420ffcdda0a.jpg', link: ML_LINKS.kerastase }
     ];
     const manutencaoData = [
-      { title: 'Retoque de Raiz', sub: 'Cor uniforme', desc: 'Como e quando retocar a raiz.', desc2: 'Ideal para manter a cor uniforme.', lista: ['Retoque de raiz', 'Cor uniforme'], img: 'https://i.pinimg.com/736x/45/26/d3/4526d3bd85f723c62b5d376a21575ae5.jpg', link: ML_LINKS.inoa },
-      { title: 'Matização', sub: 'Tom frio', desc: 'Como usar matizador para manter o tom.', desc2: 'Ideal para loiros e platinados.', lista: ['Matizador', 'Tom frio'], img: 'https://i.pinimg.com/736x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg', link: ML_LINKS.kerastase },
-      { title: 'Durabilidade', sub: 'Cor vibrante', desc: 'O que fazer para a cor durar mais.', desc2: 'Ideal para quem quer manter o tom.', lista: ['Durabilidade', 'Cor'], img: 'https://i.pinimg.com/736x/45/9c/a1/459ca1eba3cc70bc50f8414b1490a0b0.jpg', link: ML_LINKS.kerastase },
-      { title: 'Proteção Solar', sub: 'Evita desbotamento', desc: 'Como o sol afeta a cor e como proteger.', desc2: 'Ideal para manter a cor vibrante.', lista: ['Sol', 'Proteção'], img: 'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link: ML_LINKS.kerastase }
+      { title: 'Retoque de Raiz', sub: 'Cor uniforme', desc: 'Como e quando retocar a raiz.', desc2: 'Ideal para manter a cor uniforme.', lista: ['Retoque de raiz', 'Cor uniforme', 'A cada 4-6 semanas'], img: 'https://i.pinimg.com/736x/45/26/d3/4526d3bd85f723c62b5d376a21575ae5.jpg', link: ML_LINKS.inoa },
+      { title: 'Matização', sub: 'Tom frio', desc: 'Como usar matizador para manter o tom.', desc2: 'Ideal para loiros e platinados.', lista: ['Matizador', 'Tom frio', 'Uso semanal'], img: 'https://i.pinimg.com/736x/80/f3/bb/80f3bbce1fb5bb37fd8c921cd8ada7d2.jpg', link: ML_LINKS.kerastase },
+      { title: 'Durabilidade', sub: 'Cor vibrante', desc: 'O que fazer para a cor durar mais.', desc2: 'Ideal para quem quer manter o tom.', lista: ['Durabilidade', 'Cor vibrante', 'Cuidados diários'], img: 'https://i.pinimg.com/736x/45/9c/a1/459ca1eba3cc70bc50f8414b1490a0b0.jpg', link: ML_LINKS.kerastase },
+      { title: 'Proteção Solar', sub: 'Evita desbotamento', desc: 'Como o sol afeta a cor e como proteger.', desc2: 'Ideal para manter a cor vibrante.', lista: ['Proteção solar', 'Evita desbotamento', 'Uso diário'], img: 'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link: ML_LINKS.kerastase }
     ];
     const kitsData = [
-      { title: 'Kit Kérastase', sub: 'Reconstrução + Brilho', desc: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: ML_LINKS.kerastase },
-      { title: "Kit L'Oréal Expert", sub: 'Profissional', desc: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: ML_LINKS.expert },
-      { title: 'Kit Joico', sub: 'Hidratação Intensa', desc: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK', img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: ML_LINKS.joico },
-      { title: 'Kit Keune', sub: 'Coloração Comercial', desc: 'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor', img: 'https://i.pinimg.com/736x/c3/0a/af/c30aaf4489ef1d860d98c316ccbbd230.jpg', link: ML_LINKS.keune },
-      { title: "Kit L'Oréal INOA", sub: 'Coloração Técnica', desc: 'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol', img: 'https://i.pinimg.com/1200x/d3/8b/24/d38b24295fae510cc7af903f5211d686.jpg', link: ML_LINKS.inoa },
-      { title: 'Kit Ferramentas', sub: 'Ferramentas', desc: 'Secador Iônico Pro + Prancha de Titânio + Escova Rotativa', img: 'https://i.pinimg.com/736x/5c/c7/3b/5cc73b8f44d2256f6966332305cf823a.jpg', link: ML_LINKS.ferramentas },
-      { title: 'Kit Igora Royal', sub: 'Coloração Profissional', desc: 'Tintas Igora Royal + oxidantes para coloração de alta performance.', img: 'https://i.pinimg.com/1200x/99/80/cc/9980cca426c963d89ae2bd93d7c76675.jpg', link: ML_LINKS.igora },
-      { title: 'Kit Moroccanoil', sub: 'Óleo e Tratamento', desc: 'Óleo de argan + shampoo + condicionador para nutrição intensa.', img: 'https://i.pinimg.com/1200x/2a/93/d4/2a93d408b20857bb44cf95a560272229.jpg', link: ML_LINKS.moroccanoil },
-      { title: 'Kit Schwarzkopf', sub: 'Coloração e Cuidados', desc: 'Linha profissional Schwarzkopf para coloração e manutenção.', img: 'https://i.pinimg.com/1200x/96/8a/c9/968ac9442778b5b63e3b7dc535b68ec3.jpg', link: ML_LINKS.schwarzkopf },
-      { title: 'Kit Living Proof', sub: 'Tecnologia Avançada', desc: 'Produtos Living Proof com tecnologia patenteada para todos os tipos de cabelo.', img: 'https://i.pinimg.com/736x/78/82/41/7882410eb150fa73d21d47cfa809c3d9.jpg', link: ML_LINKS.livingproof }
+      { title: 'Kit Kérastase', sub: 'Reconstrução + Brilho', desc: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', desc2: 'Kit completo para reconstrução e brilho.', lista: ['Shampoo Nutritive', 'Condicionador Resistance', 'Máscara Genesis', 'Leave-In Elixir Ultime'], img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: ML_LINKS.kerastase },
+      { title: "Kit L'Oréal Expert", sub: 'Profissional', desc: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', desc2: 'Linha profissional para cuidados completos.', lista: ['Shampoo Vitamino Color', 'Condicionador Absolut Repair', 'Máscara Nutrioil', 'Sérum Pro Longer'], img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: ML_LINKS.expert },
+      { title: 'Kit Joico', sub: 'Hidratação Intensa', desc: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK', desc2: 'Hidratação profunda para cabelos secos.', lista: ['Shampoo Moisture Recovery', 'Condicionador', 'Máscara Intensa', 'Leave-In K-PAK'], img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: ML_LINKS.joico },
+      { title: 'Kit Keune', sub: 'Coloração Comercial', desc: 'Tinta Color + Semi Color + Oxidante 20 vol + Ativador de Cor', desc2: 'Tudo para coloração em casa.', lista: ['Tinta Color', 'Semi Color', 'Oxidante 20 vol', 'Ativador de Cor'], img: 'https://i.pinimg.com/736x/c3/0a/af/c30aaf4489ef1d860d98c316ccbbd230.jpg', link: ML_LINKS.keune },
+      { title: "Kit L'Oréal INOA", sub: 'Coloração Técnica', desc: 'Tinta INOA + Tonalizante Dia Color + Oxidante 20 vol + Revelador 9 vol', desc2: 'Coloração sem amônia de alta performance.', lista: ['Tinta INOA', 'Tonalizante Dia Color', 'Oxidante 20 vol', 'Revelador 9 vol'], img: 'https://i.pinimg.com/1200x/d3/8b/24/d38b24295fae510cc7af903f5211d686.jpg', link: ML_LINKS.inoa },
+      { title: 'Kit Ferramentas', sub: 'Ferramentas', desc: 'Secador Iônico Pro + Prancha de Titânio + Escova Rotativa', desc2: 'Kit completo de ferramentas profissionais.', lista: ['Secador Iônico Pro', 'Prancha de Titânio', 'Escova Rotativa'], img: 'https://i.pinimg.com/736x/5c/c7/3b/5cc73b8f44d2256f6966332305cf823a.jpg', link: ML_LINKS.ferramentas },
+      { title: 'Kit Igora Royal', sub: 'Coloração Profissional', desc: 'Tintas Igora Royal + oxidantes para coloração de alta performance.', desc2: 'Resultados profissionais em casa.', lista: ['Tintas Igora Royal', 'Oxidantes', 'Alta performance'], img: 'https://i.pinimg.com/1200x/99/80/cc/9980cca426c963d89ae2bd93d7c76675.jpg', link: ML_LINKS.igora },
+      { title: 'Kit Moroccanoil', sub: 'Óleo e Tratamento', desc: 'Óleo de argan + shampoo + condicionador para nutrição intensa.', desc2: 'Nutrição intensa com óleo de argan.', lista: ['Óleo de argan', 'Shampoo', 'Condicionador'], img: 'https://i.pinimg.com/1200x/2a/93/d4/2a93d408b20857bb44cf95a560272229.jpg', link: ML_LINKS.moroccanoil },
+      { title: 'Kit Schwarzkopf', sub: 'Coloração e Cuidados', desc: 'Linha profissional Schwarzkopf para coloração e manutenção.', desc2: 'Cuidados completos para coloração.', lista: ['Coloração', 'Manutenção', 'Linha profissional'], img: 'https://i.pinimg.com/1200x/96/8a/c9/968ac9442778b5b63e3b7dc535b68ec3.jpg', link: ML_LINKS.schwarzkopf },
+      { title: 'Kit Living Proof', sub: 'Tecnologia Avançada', desc: 'Produtos Living Proof com tecnologia patenteada para todos os tipos de cabelo.', desc2: 'Tecnologia avançada para todos os tipos de cabelo.', lista: ['Tecnologia patenteada', 'Todos os tipos de cabelo', 'Alta performance'], img: 'https://i.pinimg.com/736x/78/82/41/7882410eb150fa73d21d47cfa809c3d9.jpg', link: ML_LINKS.livingproof }
     ];
     const ferramentasData = [
-      { title: 'Secador Iônico Pro', sub: 'Secagem Rápida', desc: 'Secador com tecnologia iônica que reduz frizz.', img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80' },
-      { title: 'Prancha de Titânio', sub: 'Alisamento Uniforme', desc: 'Placas de titânio para alta condução de calor.', img: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=600&q=80' },
-      { title: 'Modelador de Ondas', sub: 'Ondas Perfeitas', desc: 'Modelador térmico para ondas marcadas.', img: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=600&q=80' },
-      { title: 'Babyliss Cerâmica', sub: 'Cachos Definidos', desc: 'Modelador cilíndrico cerâmico para cachos.', img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600&q=80' },
-      { title: 'Escova Rotativa', sub: 'Modelagem e Volume', desc: 'Escova de ar quente que combina secagem e modelagem.', img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80' },
-      { title: 'Tesoura Profissional', sub: 'Corte de Precisão', desc: 'Tesoura para cortes técnicos e acabamento preciso.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' },
-      { title: 'Escova de Cerdas Naturais', sub: 'Acabamento e Brilho', desc: 'Cerdas naturais para pentear e distribuir oleosidade.', img: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=600&q=80' },
-      { title: 'Máquina de Corte', sub: 'Degradê e Aparo', desc: 'Lâmina ajustável para cortes, contornos e degradês.', img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80' },
-      { title: 'Difusor Universal', sub: 'Cachos sem Frizz', desc: 'Acessório para secador que distribui o ar.', img: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=600&q=80' },
-      { title: 'Escova Térmica Alisadora', sub: 'Alisamento', desc: 'Escova elétrica com superfície aquecida para alisar.', img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600&q=80' },
-      { title: 'Escova Paddle', sub: 'Desembaraçar', desc: 'Base larga e plana para desembaraçar e alinhar.', img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80' },
-      { title: 'Escova Térmica', sub: 'Modelagem com Brilho', desc: 'Escova redonda com cilindro cerâmico.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' }
+      { title: 'Secador Iônico Pro', sub: 'Secagem Rápida', desc: 'Secador com tecnologia iônica que reduz frizz.', desc2: 'Ideal para secagem rápida e sem frizz.', lista: ['Tecnologia iônica', 'Reduz frizz', 'Secagem rápida'], img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Prancha de Titânio', sub: 'Alisamento Uniforme', desc: 'Placas de titânio para alta condução de calor.', desc2: 'Ideal para alisamento uniforme e duradouro.', lista: ['Placas de titânio', 'Alta condução', 'Alisamento uniforme'], img: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Modelador de Ondas', sub: 'Ondas Perfeitas', desc: 'Modelador térmico para ondas marcadas.', desc2: 'Ideal para ondas perfeitas e duradouras.', lista: ['Modelador térmico', 'Ondas marcadas', 'Fácil de usar'], img: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Babyliss Cerâmica', sub: 'Cachos Definidos', desc: 'Modelador cilíndrico cerâmico para cachos.', desc2: 'Ideal para cachos definidos e duradouros.', lista: ['Cilindro cerâmico', 'Cachos definidos', 'Fácil de usar'], img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Escova Rotativa', sub: 'Modelagem e Volume', desc: 'Escova de ar quente que combina secagem e modelagem.', desc2: 'Ideal para modelagem e volume no dia a dia.', lista: ['Ar quente', 'Secagem + modelagem', 'Volume'], img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Tesoura Profissional', sub: 'Corte de Precisão', desc: 'Tesoura para cortes técnicos e acabamento preciso.', desc2: 'Ideal para cortes de precisão.', lista: ['Corte técnico', 'Acabamento preciso', 'Aço profissional'], img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Escova de Cerdas Naturais', sub: 'Acabamento e Brilho', desc: 'Cerdas naturais para pentear e distribuir oleosidade.', desc2: 'Ideal para acabamento e brilho natural.', lista: ['Cerdas naturais', 'Distribui oleosidade', 'Brilho natural'], img: 'https://images.unsplash.com/photo-1585232351009-aa87416fca90?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Máquina de Corte', sub: 'Degradê e Aparo', desc: 'Lâmina ajustável para cortes, contornos e degradês.', desc2: 'Ideal para degradê e aparo.', lista: ['Lâmina ajustável', 'Degradê', 'Aparo'], img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Difusor Universal', sub: 'Cachos sem Frizz', desc: 'Acessório para secador que distribui o ar.', desc2: 'Ideal para cachos sem frizz.', lista: ['Distribui o ar', 'Sem frizz', 'Universal'], img: 'https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Escova Térmica Alisadora', sub: 'Alisamento', desc: 'Escova elétrica com superfície aquecida para alisar.', desc2: 'Ideal para alisamento rápido.', lista: ['Superfície aquecida', 'Alisamento', 'Rápido'], img: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Escova Paddle', sub: 'Desembaraçar', desc: 'Base larga e plana para desembaraçar e alinhar.', desc2: 'Ideal para desembaraçar e alinhar.', lista: ['Base larga', 'Desembaraçar', 'Alinhar'], img: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80', link: ML_LINKS.ferramentas },
+      { title: 'Escova Térmica', sub: 'Modelagem com Brilho', desc: 'Escova redonda com cilindro cerâmico.', desc2: 'Ideal para modelagem com brilho.', lista: ['Cilindro cerâmico', 'Modelagem', 'Brilho'], img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80', link: ML_LINKS.ferramentas }
     ];
 
     /* ============ INDEXEDDB ============ */
@@ -3403,17 +3261,20 @@
         return { item: { ...i, img, cat, link: i.link || linkDefault || null }, hay, titleNorm: normBusca(i.title) };
       });
       const visagismoIdx = Object.values(visagismoData).map(v => ({
-        title: v.nome, sub: v.recomendacao, desc: v.desc, img: v.img, link: v.link
+        title: v.nome, sub: v.recomendacao, desc: v.desc, img: v.img, link: v.link, lista: v.lista || []
       }));
       const paletaIdx = Object.values(coresData).flatMap(g =>
-        g.cores.map(c => ({ title: c.n, sub: g.nome, desc: 'Tom recomendado para ' + g.nome, img: c.img }))
+        g.cores.map(c => ({ title: c.n, sub: g.nome, desc: 'Tom recomendado para ' + g.nome, img: c.img, link: ML_LINKS.kerastase, lista: ['Tom recomendado', 'Harmoniza com ' + g.nome] }))
       );
       const coloracaoIdx = Object.values(coloracaoData).flatMap(g =>
-        g.tons.map(t => ({ title: t.nome, sub: 'Coloração', desc: t.desc, img: t.img, link: t.link }))
+        g.tons.map(t => ({ title: t.nome, sub: 'Coloração', desc: t.desc, img: t.img, link: t.link, lista: t.lista || [] }))
       );
       const makeIdx = Object.values(makeData).map(m => ({
-        title: m.nome, sub: 'Maquiagem', desc: m.desc, img: m.img, link: m.link
+        title: m.nome, sub: 'Maquiagem', desc: m.desc, desc2: m.desc2, img: m.img, link: m.link, lista: m.lista || []
       }));
+      const cabelosIdx = Object.values(cabelosData).flatMap(g => g.map(c => ({
+        title: c.title, sub: c.sub, desc: c.desc, img: c.img, link: c.link, lista: [c.sub]
+      })));
       return [
         ...push(cortesData, 'Cortes', ML_LINKS.kerastase),
         ...push(noivasData, 'Noivas', ML_LINKS.kitNoiva),
@@ -3428,7 +3289,8 @@
         ...push(visagismoIdx, 'Visagismo', null),
         ...push(paletaIdx, 'Paleta', null),
         ...push(coloracaoIdx, 'Coloração', null),
-        ...push(makeIdx, 'Maquiagem', null)
+        ...push(makeIdx, 'Maquiagem', null),
+        ...push(cabelosIdx, 'Tipos de Cabelo', null)
       ];
     }
     let INDICE_BUSCA = null;
@@ -3650,7 +3512,16 @@
   `;
 
       container.querySelectorAll('.swatch-card').forEach(card => {
-        card.addEventListener('click', () => { container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo')); card.classList.add('ativo'); });
+        card.addEventListener('click', (e) => {
+          if (e.target.tagName === 'IMG') return;
+          const nome = card.dataset.nome;
+          const corObj = data.cores.find(c => c.n === nome);
+          if (corObj) {
+            openModal(corObj.n, data.nome, 'Tom recomendado para ' + data.nome + '.', 'Use para iluminar o rosto e harmonizar com o subtom natural.', ['Tom recomendado', 'Harmoniza com ' + data.nome], ML_LINKS.kerastase, corObj.img);
+          }
+          container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo'));
+          card.classList.add('ativo');
+        });
         card.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
         });
@@ -3666,13 +3537,23 @@
       const container = document.getElementById(`acordeao-${tipo}`);
       if (!container) return;
       container.innerHTML = cabelosData[tipo].map(item => `
-    <div class="mini-card" tabindex="0" role="button" onclick="abrirZoomEditorial('${item.img}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirZoomEditorial('${item.img}')}">
+    <div class="mini-card" tabindex="0" role="button" data-cab="${item.title}">
       <div class="image-frame image-frame--portrait">
         <img src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onerror="_imgErro(this)">
       </div>
       <div class="mini-card-txt"><strong>${item.title}</strong><span>${item.sub}</span></div>
     </div>
   `).join('');
+      container.querySelectorAll('.mini-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const t = card.dataset.cab;
+          const item = cabelosData[tipo].find(c => c.title === t);
+          if (item) openModal(item.title, 'Tipo de Cabelo', item.desc, '', [item.sub], item.link, item.img);
+        });
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+        });
+      });
     });
     document.querySelectorAll('.acordeao-header').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -3767,6 +3648,33 @@
       });
     }
 
+    function renderAcessoriosGrid(id) {
+      const grid = document.getElementById(id);
+      if (!grid) return;
+      grid.innerHTML = '';
+      acessoriosData.forEach((item, idx) => {
+        const card = document.createElement('button');
+        card.className = 'card card--produto';
+        card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
+
+        card.innerHTML = `
+      <span class="card-img-wrap">
+        <span class="card-badge">Acessório</span>
+        <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </span>
+      <span class="card-text-wrap">
+        <span class="card-nome">${item.title}</span>
+        ${item.sub ? '<span class="card-sub">' + item.sub + '</span>' : ''}
+      </span>
+    `;
+
+        card.addEventListener('click', () => {
+          openModal(item.title, 'Acessório', item.desc, item.desc2, item.lista, item.link, item.img);
+        });
+        grid.appendChild(card);
+      });
+    }
+
     function renderEditorialScroll(id, data, catLabel, linkDefault) {
       const container = document.getElementById(id);
       if (!container) return;
@@ -3785,9 +3693,11 @@
         <p>${item.desc}</p>
       </div>
     `;
-        card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+        card.addEventListener('click', () => {
+          openModal(item.title, catLabel, item.desc, item.desc2 || '', item.lista || [], item.link || linkDefault, item.img);
+        });
         card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
         });
         container.appendChild(card);
       });
@@ -3811,9 +3721,11 @@
         <span>${item.sub || ''}</span>
       </div>
     `;
-        card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+        card.addEventListener('click', () => {
+          openModal(item.title, catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, item.img);
+        });
         card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
         });
         container.appendChild(card);
       });
@@ -3848,7 +3760,7 @@
       renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kitNoiva);
 
       renderGrid('grid-kits', kitsData, 'Kit', null);
-      renderMiniGrid('acessoriosGrid', acessoriosData, 'Acessório', ML_LINKS.kitNoiva);
+      renderAcessoriosGrid('acessoriosGrid');
 
       renderGrid('grid-ferramentas', ferramentasData, 'Ferramenta', ML_LINKS.ferramentas);
 
