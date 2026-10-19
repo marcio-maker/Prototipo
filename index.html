@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0a0808">
   <meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
-  <title>HairOS — Beleza Completa</title>
+  <title>HairOS — Beleza Completa (v3)</title>
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1078,6 +1078,11 @@
       margin: 0 auto;
     }
 
+    .visagismo-painel>.image-frame img,
+    .col-display>.image-frame img {
+      cursor: pointer;
+    }
+
     .visagismo-painel>.image-frame {
       border-bottom: 1px solid var(--border);
     }
@@ -1206,7 +1211,7 @@
     }
 
     .swatch-card>.image-frame>img {
-      cursor: zoom-in;
+      cursor: pointer;
     }
 
     .swatch-card-info {
@@ -1313,7 +1318,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
-      cursor: zoom-in;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
@@ -1324,7 +1329,7 @@
     }
 
     .mini-card>.image-frame>img {
-      cursor: zoom-in;
+      cursor: pointer;
     }
 
     .mini-card-txt {
@@ -2491,7 +2496,7 @@
       </div>
     </div>
 
-    <div class="drawer-footer">HairOS · 2026</div>
+    <div class="drawer-footer">HairOS · 2026 · v3 modais</div>
   </aside>
 
   <div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheet()"></div>
@@ -2639,7 +2644,7 @@
         <div class="col-display">
           <div class="image-frame image-frame--portrait">
             <img id="colImagem" src="" alt="Modelo" loading="lazy" decoding="async"
-              onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+              onclick="var b=document.getElementById('colDetalhes');if(b)b.click()" onerror="_imgErro(this)">
           </div>
           <div class="col-paleta" id="colPaleta"></div>
           <div class="col-info" id="colInfo"></div>
@@ -2693,7 +2698,7 @@
         <div class="col-display">
           <div class="image-frame image-frame--portrait">
             <img id="makeImagem" src="" alt="Maquiagem" loading="lazy" decoding="async"
-              onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+              onclick="var b=document.getElementById('makeDetalhes');if(b)b.click()" onerror="_imgErro(this)">
           </div>
           <div class="col-info" id="makeInfo"></div>
         </div>
@@ -2852,6 +2857,23 @@
       livingproof: "https://meli.la/34fZAEp", kitNoiva: "https://meli.la/1H35KAT"
     };
 
+    /* ============ PADRÃO ÚNICO DE MODAL ============
+       Todo card/bloco chama abrirItem(): garante título, subtítulo, descrição,
+       lista e link de afiliado. O zoom só abre de dentro do modal (clique na imagem). */
+    function _listaPadrao(item) {
+      if (item.lista && item.lista.length) return item.lista;
+      if (item.desc && item.desc.indexOf(' + ') > -1) return item.desc.split(' + ').map(x => x.trim()).filter(Boolean);
+      if (item.descFrente) return ['Frente: ' + item.descFrente, 'Lado: ' + (item.descLado || ''), 'Atrás: ' + (item.descAtras || '')].filter(x => x.length > 8);
+      return item.sub ? [item.sub] : [];
+    }
+    function abrirItem(item, cat, linkDefault) {
+      const img = item.img || item.imgFrente || '';
+      const ehKit = !!(item.desc && item.desc.indexOf(' + ') > -1 && !item.desc2);
+      let t1 = item.desc || item.descFrente || item.sub || '';
+      if (ehKit) t1 = (item.sub ? item.sub + ' — ' : '') + 'itens do kit:';
+      openModal(item.title, item.cat || cat, t1, item.desc2 || '', _listaPadrao(item), item.link || linkDefault || ML_LINKS.kitNoiva, img);
+    }
+
     const secoes = document.querySelectorAll('.secao');
     const dockBtns = document.querySelectorAll('.dock-btn:not(#btnMais)');
     const dock = document.getElementById('dock');
@@ -3009,8 +3031,9 @@
 
     function openModal(nome, categoria, texto1, texto2, lista, link, img) {
       _focoAnterior = document.activeElement;
+      texto1 = texto1 || ''; texto2 = texto2 || '';
       document.getElementById('mTitle').innerHTML = nome;
-      document.getElementById('mSub').textContent = categoria;
+      document.getElementById('mSub').textContent = categoria || '';
       document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
 
       const imgWrap = document.getElementById('modalImgWrap');
@@ -3038,7 +3061,7 @@
         linkEl.style.display = 'flex';
         const btnText = linkEl.querySelector('span');
         if (btnText) {
-          btnText.textContent = (categoria === 'Cortes' || categoria === 'Noivas')
+          btnText.textContent = /^(cortes?|noivas?|penteados?)$/i.test(categoria || '')
             ? 'Ver Produtos Recomendados'
             : 'Ver Sugestão';
         }
@@ -3047,7 +3070,7 @@
       }
 
       const kitsWrap = document.getElementById('modalMiniKits');
-      const sugeridos = kitsData.filter(k => k.title !== nome).slice(0, 5);
+      const sugeridos = kitsData.filter(k => k.title !== String(nome).replace(/<[^>]*>/g, '')).slice(0, 5);
       kitsWrap.innerHTML = sugeridos.map(kit => `
     <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="modal-mini-kit">
       <div class="image-frame image-frame--square image-frame--contain">
@@ -3059,7 +3082,8 @@
 
       document.getElementById('modalBg').classList.add('on');
       const modalEl = document.querySelector('.modal');
-      trapFocus(modalEl);
+      if (!modalEl._trap) { trapFocus(modalEl); modalEl._trap = true; }
+      modalEl.scrollTop = 0; const mb = modalEl.querySelector('.modal-body'); if (mb) mb.scrollTop = 0;
       setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
     }
 
@@ -3335,6 +3359,90 @@
       { title: 'Escova Térmica', sub: 'Modelagem com Brilho', desc: 'Escova redonda com cilindro cerâmico.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' }
     ];
 
+    /* ============ COMPLEMENTOS PARA MODAL COMPLETO ============ */
+    (function completarDados() {
+      const L = ML_LINKS;
+      const extras = {
+        /* Noivas */
+        'Coque Clássico': { desc2: 'Fixação firme que dura a cerimônia e a festa.', lista: ['Coque baixo', 'Detalhes trançados', 'Combina com vestido princesa'] },
+        'Sem Presilhas': { desc2: 'Visual leve, com movimento natural.', lista: ['Ondas suaves', 'Presilhas invisíveis', 'Para noivas modernas'] },
+        'Trança Lateral': { desc2: 'Pede flores frescas ou acessório delicado.', lista: ['Trança embutida', 'Flores naturais', 'Ideal para casamento na praia'] },
+        'Coque Despojado': { desc2: 'Penteado com ar mais descontraído.', lista: ['Fios soltos ao redor do rosto', 'Textura e volume', 'Visual leve'] },
+        /* Acessórios */
+        'Presilhas Cravejadas': { desc2: 'Combine com penteados presos ou meio presos.', lista: ['Brilho e sofisticação', 'Ótimas para festas', 'Fixam sem marcar o cabelo'] },
+        'Tiara de Pérolas': { desc2: 'Peça clássica para noivas e madrinhas.', lista: ['Toque clássico', 'Para noivas', 'Combina com coque ou semi preso'] },
+        'Flor para Cabelo': { desc2: 'Fácil de usar em qualquer penteado.', lista: ['Detalhe romântico', 'Para convidadas', 'Pode ser usada de lado ou no coque'] },
+        'Grampos Dourados': { desc2: 'Item básico de kit para finalização.', lista: ['Prendem os fios', 'Dão acabamento', 'Acabamento dourado'] },
+        /* Ferramentas */
+        'Secador Iônico Pro': { desc2: 'Reduz o tempo de secagem e deixa os fios alinhados.', lista: ['Tecnologia iônica', 'Reduz frizz', 'Secagem rápida'] },
+        'Prancha de Titânio': { desc2: 'Indicada para alisamento e finalização.', lista: ['Placas de titânio', 'Alta condução de calor', 'Alisamento uniforme'] },
+        'Modelador de Ondas': { desc2: 'Ótimo para ondas definidas e duradouras.', lista: ['Modelador térmico', 'Ondas marcadas', 'Ótimo para finalização'] },
+        'Babyliss Cerâmica': { desc2: 'Cachos uniformes com menos agressão ao fio.', lista: ['Modelador cilíndrico', 'Revestimento cerâmico', 'Cachos definidos'] },
+        'Escova Rotativa': { desc2: 'Seca e modela de uma vez só.', lista: ['Ar quente', 'Seca e modela', 'Volume e movimento'] },
+        'Tesoura Profissional': { desc2: 'Item essencial para quem corta com frequência.', lista: ['Corte técnico', 'Acabamento preciso', 'Uso profissional'] },
+        'Escova de Cerdas Naturais': { desc2: 'Boa para finalizar sem eletrizar os fios.', lista: ['Cerdas naturais', 'Distribui oleosidade', 'Brilho e acabamento'] },
+        'Máquina de Corte': { desc2: 'Indispensável para degradês e contornos.', lista: ['Lâmina ajustável', 'Degradê e aparo', 'Contornos'] },
+        'Difusor Universal': { desc2: 'Encaixa na maioria dos secadores.', lista: ['Distribui o ar', 'Cachos sem frizz', 'Acessório de secador'] },
+        'Escova Térmica Alisadora': { desc2: 'Alisa e modela com praticidade no dia a dia.', lista: ['Superfície aquecida', 'Alisamento prático', 'Escova elétrica'] },
+        'Escova Paddle': { desc2: 'Ideal para pentear antes da finalização.', lista: ['Base larga e plana', 'Desembaraça', 'Alinha os fios'] },
+        'Escova Térmica': { desc2: 'Boa para volume nas pontas e brilho.', lista: ['Cilindro cerâmico', 'Modelagem com brilho', 'Escova redonda'] }
+      };
+      [noivasData, acessoriosData, ferramentasData].forEach(arr => arr.forEach(i => {
+        const e = extras[i.title]; if (!e) return;
+        if (!i.desc2) i.desc2 = e.desc2;
+        if (!i.lista || !i.lista.length) i.lista = e.lista;
+      }));
+      ferramentasData.forEach(i => { if (!i.link) i.link = L.ferramentas; });
+      noivasData.concat(acessoriosData).forEach(i => { if (!i.link) i.link = L.kitNoiva; });
+
+      /* Cortes: sub/desc/lista a partir de frente-lado-atrás */
+      cortesData.forEach(i => {
+        const f = (i.descFrente || '');
+        if (!i.sub) i.sub = f.split('.')[0];
+        if (!i.desc) i.desc = f.split('.').slice(1).join('.').trim() || f;
+        if (!i.lista) i.lista = ['Frente: ' + f, 'Lado: ' + (i.descLado || ''), 'Atrás: ' + (i.descAtras || '')];
+        if (!i.link) i.link = L.kerastase;
+      });
+
+      /* Tipos de cabelo */
+      const cabInfo = {
+        liso: { desc: 'Fio sem curvatura. Tende a ficar oleoso mais rápido e pede produtos leves.', lista: ['Hidratação leve', 'Finalizador de brilho', 'Evite excesso de óleo'], link: L.kerastase },
+        ondulado: { desc: 'Fio com ondas em formato de S. Pede definição sem pesar.', lista: ['Creme de pentear leve', 'Difusor na secagem', 'Evite escovar a seco'], link: L.kerastase },
+        cacheado: { desc: 'Cachos em espiral. Precisa de hidratação, nutrição e definição.', lista: ['Máscara hidratante', 'Leave-in', 'Finalização com creme ou gel'], link: L.joico },
+        crespo: { desc: 'Fios muito enrolados e delicados. Pede umectação e cuidado com o ressecamento.', lista: ['Nutrição intensa', 'Umectação', 'Evite calor excessivo'], link: L.joico }
+      };
+      Object.keys(cabelosData).forEach(t => cabelosData[t].forEach(i => {
+        const c = cabInfo[t];
+        if (!i.desc) i.desc = i.sub + '. ' + c.desc;
+        if (!i.lista) i.lista = [i.sub].concat(c.lista);
+        if (!i.link) i.link = c.link;
+      }));
+
+      /* Visagismo */
+      const vLista = {
+        oval: ['Camadas suaves', 'Comprimento médio', 'Valoriza o equilíbrio natural'],
+        redondo: ['Volume no topo', 'Laterais justas', 'Evite corte na altura das bochechas'],
+        quadrado: ['Ondas suaves', 'Camadas', 'Suaviza mandíbula e testa'],
+        coracao: ['Franja lateral', 'Volume na base', 'Equilibra testa larga e queixo fino'],
+        diamante: ['Volume no topo e na base', 'Suaviza maçãs do rosto largas', 'Franja lateral'],
+        triangular: ['Camadas laterais', 'Topo volumoso', 'Disfarça a base mais larga']
+      };
+      Object.keys(visagismoData).forEach(k => { if (!visagismoData[k].lista) visagismoData[k].lista = vLista[k]; });
+
+      /* Maquiagem */
+      const mLista = {
+        pele: ['Base de cobertura leve', 'Corretivo iluminador', 'Blush pêssego'],
+        olhos: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'],
+        boca: ['Batom nude', 'Acabamento gloss', 'Contorno labial suave']
+      };
+      Object.keys(makeData).forEach(k => { if (!makeData[k].lista) makeData[k].lista = mLista[k]; });
+
+      /* Coloração */
+      Object.keys(coloracaoData).forEach(k => coloracaoData[k].tons.forEach(t => {
+        if (!t.lista) t.lista = [t.desc, 'Categoria: ' + k.charAt(0).toUpperCase() + k.slice(1), 'Consulte um profissional antes de aplicar'];
+      }));
+    })();
+
     /* ============ INDEXEDDB ============ */
     const DB_NAME = 'hairos';
     const DB_VERSION = 1;
@@ -3403,16 +3511,16 @@
         return { item: { ...i, img, cat, link: i.link || linkDefault || null }, hay, titleNorm: normBusca(i.title) };
       });
       const visagismoIdx = Object.values(visagismoData).map(v => ({
-        title: v.nome, sub: v.recomendacao, desc: v.desc, img: v.img, link: v.link
+        title: v.nome, sub: v.recomendacao, desc: v.desc, desc2: v.recomendacao, lista: v.lista, img: v.img, link: v.link
       }));
       const paletaIdx = Object.values(coresData).flatMap(g =>
-        g.cores.map(c => ({ title: c.n, sub: g.nome, desc: 'Tom recomendado para ' + g.nome, img: c.img }))
+        g.cores.map(c => ({ title: c.n, sub: g.nome, desc: 'Tom recomendado para ' + g.nome + '.', desc2: 'Use para iluminar o rosto e harmonizar com o subtom natural.', lista: ['Tom recomendado', 'Harmoniza com ' + g.nome], img: c.img, link: ML_LINKS.kerastase }))
       );
       const coloracaoIdx = Object.values(coloracaoData).flatMap(g =>
-        g.tons.map(t => ({ title: t.nome, sub: 'Coloração', desc: t.desc, img: t.img, link: t.link }))
+        g.tons.map(t => ({ title: t.nome, sub: 'Coloração', desc: t.desc, lista: t.lista, img: t.img, link: t.link }))
       );
       const makeIdx = Object.values(makeData).map(m => ({
-        title: m.nome, sub: 'Maquiagem', desc: m.desc, img: m.img, link: m.link
+        title: m.nome, sub: 'Maquiagem', desc: m.desc, lista: m.lista, img: m.img, link: m.link
       }));
       return [
         ...push(cortesData, 'Cortes', ML_LINKS.kerastase),
@@ -3421,14 +3529,14 @@
         ...push(tecnicasData, 'Técnicas', ML_LINKS.inoa),
         ...push(cuidadosData, 'Cuidados', ML_LINKS.kerastase),
         ...push(manutencaoData, 'Manutenção', ML_LINKS.keune),
-        ...push(kitsData, 'Kits', null),
+        ...push(kitsData, 'Kits', ML_LINKS.kitNoiva),
         ...push(ferramentasData, 'Ferramentas', ML_LINKS.ferramentas),
         ...push(franjasData, 'Franjas', ML_LINKS.kerastase),
         ...push(comprimentosData, 'Comprimentos', ML_LINKS.kerastase),
-        ...push(visagismoIdx, 'Visagismo', null),
-        ...push(paletaIdx, 'Paleta', null),
-        ...push(coloracaoIdx, 'Coloração', null),
-        ...push(makeIdx, 'Maquiagem', null)
+        ...push(visagismoIdx, 'Visagismo', ML_LINKS.kerastase),
+        ...push(paletaIdx, 'Paleta', ML_LINKS.kerastase),
+        ...push(coloracaoIdx, 'Coloração', ML_LINKS.inoa),
+        ...push(makeIdx, 'Maquiagem', ML_LINKS.kerastase)
       ];
     }
     let INDICE_BUSCA = null;
@@ -3495,7 +3603,6 @@
 
         card.innerHTML = `
       <span class="card-img-wrap">
-        <span class="card-badge">${item.cat}</span>
         <img src="${item.img || ''}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
       </span>
       <span class="card-text-wrap">
@@ -3504,7 +3611,7 @@
       </span>`;
 
         card.addEventListener('click', () => {
-          openModal(item.title, item.cat, item.desc || '', item.desc2 || '', item.lista || [], item.link, item.img);
+          abrirItem(item, item.cat, ML_LINKS.kitNoiva);
         });
         grid.appendChild(card);
       });
@@ -3613,16 +3720,19 @@
       if (!container || !data) return;
       container.innerHTML = `
     <div class="image-frame image-frame--portrait">
-      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="document.getElementById('visagismoDetalhes').click()" onerror="_imgErro(this)">
     </div>
     <div class="visagismo-painel-txt">
       <h3>Seu Formato: ${data.nome}</h3>
       <span class="recomendacao">Recomendação</span>
       <p>${data.recomendacao}</p>
       <p>${data.desc}</p>
+      <button type="button" class="btn-link" id="visagismoDetalhes">Ver Detalhes</button>
       <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
     </div>
   `;
+      const bd = document.getElementById('visagismoDetalhes');
+      if (bd) bd.addEventListener('click', () => openModal(data.nome, 'Visagismo', data.desc, data.recomendacao, data.lista || [], data.link, data.img));
       document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); });
     }
 
@@ -3634,7 +3744,7 @@
       const swatches = data.cores.map((item, i) => `
     <div class="swatch-card ${i === 0 ? 'ativo' : ''}" data-nome="${item.n}" tabindex="0" role="button" aria-label="${item.n}">
       <div class="image-frame image-frame--square">
-        <img src="${item.img}" alt="${item.n}" loading="lazy" decoding="async" onclick="event.stopPropagation(); abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+        <img src="${item.img}" alt="${item.n}" loading="lazy" decoding="async" onerror="_imgErro(this)">
       </div>
       <div class="swatch-card-info">
         <div class="swatch-card-cor" style="background:${item.c}"></div>
@@ -3649,8 +3759,13 @@
     <p>Use essas cores para iluminar o rosto e harmonizar com o seu subtom natural.</p>
   `;
 
-      container.querySelectorAll('.swatch-card').forEach(card => {
-        card.addEventListener('click', () => { container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo')); card.classList.add('ativo'); });
+      container.querySelectorAll('.swatch-card').forEach((card, i) => {
+        card.addEventListener('click', () => {
+          container.querySelectorAll('.swatch-card').forEach(c => c.classList.remove('ativo'));
+          card.classList.add('ativo');
+          const c = data.cores[i];
+          openModal(c.n, data.nome, 'Tom recomendado para ' + data.nome + '.', 'Use para iluminar o rosto e harmonizar com o subtom natural.', ['Tom recomendado', 'Harmoniza com ' + data.nome], ML_LINKS.kerastase, c.img);
+        });
         card.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
         });
@@ -3665,14 +3780,20 @@
     Object.keys(cabelosData).forEach(tipo => {
       const container = document.getElementById(`acordeao-${tipo}`);
       if (!container) return;
-      container.innerHTML = cabelosData[tipo].map(item => `
-    <div class="mini-card" tabindex="0" role="button" onclick="abrirZoomEditorial('${item.img}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirZoomEditorial('${item.img}')}">
+      container.innerHTML = cabelosData[tipo].map((item, idx) => `
+    <div class="mini-card" data-idx="${idx}" tabindex="0" role="button" aria-label="${item.title} — ${item.sub}">
       <div class="image-frame image-frame--portrait">
         <img src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onerror="_imgErro(this)">
       </div>
       <div class="mini-card-txt"><strong>${item.title}</strong><span>${item.sub}</span></div>
     </div>
   `).join('');
+      container.querySelectorAll('.mini-card').forEach(card => {
+        const item = cabelosData[tipo][+card.dataset.idx];
+        const abrir = () => openModal(item.title, 'Tipo de Cabelo', item.desc, '', item.lista || [item.sub], item.link, item.img);
+        card.addEventListener('click', abrir);
+        card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); } });
+      });
     });
     document.querySelectorAll('.acordeao-header').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -3687,6 +3808,7 @@
       if (!data) return;
 
       const paleta = document.getElementById('colPaleta');
+      window._colAtual = data.tons;
       paleta.innerHTML = data.tons.map((t, i) =>
         `<div class="col-swatch ${i === 0 ? 'ativo' : ''}" style="background:${t.cor}" data-nome="${t.nome}" data-desc="${t.desc}" data-link="${t.link}" data-img="${t.img}" tabindex="0" role="button" aria-label="${t.nome}"></div>`
       ).join('');
@@ -3716,8 +3838,14 @@
       document.getElementById('colInfo').innerHTML = `
     <h3>${tom.nome}</h3>
     <p>${tom.desc}</p>
+    <button type="button" class="btn-link" id="colDetalhes">Ver Detalhes</button>
     <a href="${tom.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Tinta</a>
   `;
+      const bd = document.getElementById('colDetalhes');
+      if (bd) bd.addEventListener('click', () => {
+        const full = (window._colAtual || []).find(t => t.nome === tom.nome) || tom;
+        openModal(full.nome, 'Coloração', full.desc, '', full.lista || [full.desc], full.link || tom.link, full.img || tom.img);
+      });
     }
 
     document.querySelectorAll('#colTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderColoracao(tab.dataset.cat)); });
@@ -3733,8 +3861,10 @@
       container.innerHTML = `
     <h3>${data.nome}</h3>
     <p>${data.desc}</p>
-    <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Ver Produtos</a>
+    <button type="button" class="btn-link" id="makeDetalhes">Ver Produtos</button>
   `;
+      const bd = document.getElementById('makeDetalhes');
+      if (bd) bd.addEventListener('click', () => openModal(data.nome, 'Maquiagem', data.desc, '', data.lista || [], data.link, data.img));
       document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
     }
     document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
@@ -3760,9 +3890,7 @@
       </span>
     `;
 
-        card.addEventListener('click', () => {
-          openModal(item.title, item.cat || catLabel, item.desc || '', item.desc2 || '', item.lista || [], item.link || linkDefault, img);
-        });
+        card.addEventListener('click', () => abrirItem(item, catLabel, linkDefault));
         grid.appendChild(card);
       });
     }
@@ -3785,9 +3913,10 @@
         <p>${item.desc}</p>
       </div>
     `;
-        card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+        const abrir = () => abrirItem(item, catLabel, linkDefault);
+        card.addEventListener('click', abrir);
         card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
         });
         container.appendChild(card);
       });
@@ -3811,9 +3940,10 @@
         <span>${item.sub || ''}</span>
       </div>
     `;
-        card.addEventListener('click', () => { abrirZoomEditorial(item.img); });
+        const abrir = () => abrirItem(item, catLabel, linkDefault);
+        card.addEventListener('click', abrir);
         card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirZoomEditorial(item.img); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
         });
         container.appendChild(card);
       });
