@@ -778,9 +778,7 @@
       background: var(--border-gold)
     }
 
-    /* ============================================================
-     GRID PADRONIZADO — 2 mobile / 3 tablet / 4 desktop
-     ============================================================ */
+    /* GRID PADRONIZADO */
     .grid,
     .grid-2,
     .grid-3,
@@ -818,9 +816,7 @@
       }
     }
 
-    /* ============================================================
-     SISTEMA DE IMAGENS — 2:3 (nativa 1000×1500) 
-     ============================================================ */
+    /* SISTEMA DE IMAGENS */
     .card {
       position: relative;
       display: flex;
@@ -891,7 +887,6 @@
       transition: transform .8s var(--ease-out), opacity .2s;
     }
 
-    /* Ajustes para produtos (Kits e Ferramentas) */
     .card--produto .card-img-wrap {
       aspect-ratio: 1 / 1;
       background: linear-gradient(145deg, var(--bg-elevated), var(--bg-card));
@@ -1352,7 +1347,7 @@
       color: var(--text-muted);
     }
 
-    /* COLORAÇÃO E MAQUIAGEM (DISPLAY) */
+    /* COLORAÇÃO E MAQUIAGEM */
     .col-tabs {
       display: flex;
       gap: 8px;
@@ -1539,7 +1534,7 @@
       color: var(--text-muted);
     }
 
-    /* ============ ZOOM ============ */
+    /* ZOOM */
     .zoom-bg {
       position: fixed;
       inset: 0;
@@ -1656,7 +1651,7 @@
       z-index: 2100;
     }
 
-    /* CARROSSEL DE CORTES (mantido desativado) */
+    /* CARROSSEL DE CORTES */
     .corte-carrossel-wrapper {
       position: relative;
       width: 100%;
@@ -1915,7 +1910,6 @@
       box-shadow: 0 0 6px rgba(217, 187, 144, .5)
     }
 
-    /* --- BOTÕES E PRODUTOS NO MODAL SOFISTICADOS --- */
     .modal-afiliado {
       font-size: 0.65rem;
       color: var(--text-muted);
@@ -2403,31 +2397,26 @@
       text-align: center;
     }
 
-    /* ============ ENDURECIMENTO PARA DEPLOY ============ */
+    /* ENDURECIMENTO PARA DEPLOY */
     html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
-    /* sem zoom por duplo toque; rolagem/pinça controladas */
     html, body, header, nav, aside, .drawer, .sheet, .dock, button, a, input,
     .modal-bg, .card, .editorial-card, .mini-card, .mini-card-editorial, .swatch-card {
       touch-action: manipulation;
     }
     .modal-bg { touch-action: pan-y; }
 
-    /* iOS dá zoom automático ao focar input com fonte < 16px */
     .busca-input { font-size: 16px; }
     @media (max-width:600px) { .busca-input { font-size: 16px; } }
 
-    /* nada de arrastar/selecionar imagem sem querer */
     img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 
-    /* grids que nunca estouram a largura */
     .acordeao-body-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .dock-btn { min-width: 0; }
     .dock-btn span { max-width: 100%; overflow: hidden; text-overflow: clip; white-space: nowrap; }
     .card-nome, .card-sub, .modal-title, .modal-text { overflow-wrap: anywhere; }
     .swatch-card { flex: 0 0 auto; }
 
-    /* viewer de zoom: ampliado por tamanho (não transform) para poder rolar em todas as direções */
     .zoom-bg { align-items: stretch; justify-content: flex-start; }
     .zoom-bg img { margin: auto; flex: 0 0 auto; }
     .zoom-bg img.zoomed {
@@ -2438,14 +2427,12 @@
       height: auto;
     }
 
-    /* fallback p/ navegadores sem unidade dvh */
     @supports not (height: 100dvh) {
       .modal { max-height: calc(100vh - 24px); }
       .zoom-bg img { max-height: 88vh; }
       .image-frame--modal { max-height: 40vh; width: min(100%, 280px, 26.66vh); }
     }
 
-    /* telas muito estreitas (320px) */
     @media (max-width: 340px) {
       .brand-h { font-size: 1.5rem; }
       .dock { width: calc(100% - 16px); padding: 4px; }
@@ -2457,7 +2444,6 @@
       .modal-mini-kits { margin: 0 -14px; padding-inline: 14px; }
     }
 
-    /* celular deitado: pouca altura */
     @media (max-height: 480px) and (orientation: landscape) {
       .image-frame--modal { max-height: 55dvh; width: min(100%, 220px, 36.6dvh); }
       .modal-img { padding: 8px; }
@@ -2879,7 +2865,9 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/idb@8/build/umd.js" defer></script>
+  <!-- FIX #1: onerror no CDN do idb garante fallback silencioso -->
+  <script src="https://unpkg.com/idb@8/build/umd.js" defer
+    onerror="window.__idbFalhou=true;console.warn('idb CDN indisponível — busca persistente desativada')"></script>
   <script>
     /* Fallback dourado global para imagens que falharem */
     function _imgErro(el) {
@@ -2919,9 +2907,7 @@
       livingproof: "https://meli.la/34fZAEp", kitNoiva: "https://meli.la/1H35KAT"
     };
 
-    /* ============ PADRÃO ÚNICO DE MODAL ============
-       Todo card/bloco chama abrirItem(): garante título, subtítulo, descrição,
-       lista e link de afiliado. O zoom só abre de dentro do modal (clique na imagem). */
+    /* PADRÃO ÚNICO DE MODAL */
     function _listaPadrao(item) {
       if (item.lista && item.lista.length) return item.lista;
       if (item.desc && item.desc.indexOf(' + ') > -1) return item.desc.split(' + ').map(x => x.trim()).filter(Boolean);
@@ -2929,6 +2915,7 @@
       return item.sub ? [item.sub] : [];
     }
     function abrirItem(item, cat, linkDefault) {
+      if (item.imgFrente && /^cortes?$/i.test(item.cat || cat || '')) { openModalCorte(item); return; }
       const img = item.img || item.imgFrente || '';
       const ehKit = !!(item.desc && item.desc.indexOf(' + ') > -1 && !item.desc2);
       let t1 = item.desc || item.descFrente || item.sub || '';
@@ -3036,8 +3023,9 @@
       btn.addEventListener('click', () => { irParaSecao(btn.dataset.secao); fecharDrawer(); });
     });
 
-    /* ============ ZOOM ============ */
+    /* ZOOM */
     function abrirZoomEditorial(src) {
+      if (!src) return; /* FIX #3: guarda para src vazio */
       const img = document.getElementById('zoomEditorialImg');
       img.src = src || '';
       img.classList.remove('zoomed');
@@ -3052,7 +3040,6 @@
       e.stopPropagation();
       e.target.classList.toggle('zoomed');
     }
-    /* pan por arraste quando zoomed */
     (function () {
       const bg = document.getElementById('zoomEditorialBg');
       let isDown = false, sx = 0, sy = 0, sl = 0, st = 0;
@@ -3071,13 +3058,12 @@
       bg.addEventListener('pointercancel', () => { isDown = false; });
     })();
 
-    /* hint mobile */
     if (window.matchMedia('(pointer: coarse)').matches) {
       const h = document.getElementById('zoomHint');
       if (h) h.textContent = 'Toque na imagem para ampliar • X dourado para fechar';
     }
 
-    /* ============ MODAL ============ */
+    /* MODAL */
     let _focoAnterior = null;
     function trapFocus(container) {
       const sel = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
@@ -3149,50 +3135,43 @@
       setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
     }
 
-    /* Carrossel de cortes mantido no código, mas DESATIVADO.
-       Para religar: chame openModalCorte(item) no lugar de openModal(...) em renderGrid. */
     function openModalCorte(item) {
-      _focoAnterior = document.activeElement;
-      document.getElementById('mTitle').innerHTML = item.title;
-      document.getElementById('mSub').textContent = item.sub || 'Corte';
-      document.getElementById('mText').innerHTML = '';
-      document.getElementById('mList').innerHTML = '';
+      openModal(
+        item.title,
+        'Corte',
+        item.desc || item.sub || '',
+        item.desc2 || '',
+        [item.sub, 'Deslize para ver frente, lado e atrás'].filter(Boolean),
+        item.link || ML_LINKS.kerastase,
+        ''
+      );
+      document.getElementById('modalImgWrap').style.display = 'none';
 
-      const htmlCarrossel = `
+      const ang = [
+        ['Frente', item.imgFrente || item.img, item.descFrente],
+        ['Lado', item.imgLado || item.img, item.descLado],
+        ['Atrás', item.imgAtras || item.img, item.descAtras]
+      ];
+      const html = `
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
+        ${ang.map(a => `
         <div class="corte-slide">
           <div class="image-frame image-frame--portrait">
-            <img src="${item.imgFrente || item.img}" alt="Frente" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+            <img src="${a[1]}" alt="${a[0]}" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
           </div>
-          <div class="slide-texto"><strong>Frente</strong>${item.descFrente || ''}</div>
-        </div>
-        <div class="corte-slide">
-          <div class="image-frame image-frame--portrait">
-            <img src="${item.imgLado || item.img}" alt="Lado" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
-          </div>
-          <div class="slide-texto"><strong>Lado</strong>${item.descLado || ''}</div>
-        </div>
-        <div class="corte-slide">
-          <div class="image-frame image-frame--portrait">
-            <img src="${item.imgAtras || item.img}" alt="Atrás" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
-          </div>
-          <div class="slide-texto"><strong>Atrás</strong>${item.descAtras || ''}</div>
-        </div>
+          <div class="slide-texto"><strong>${a[0]}</strong>${a[2] || ''}</div>
+        </div>`).join('')}
       </div>
       <div class="corte-indicadores" id="corteIndicadores">
         <span class="corte-dot ativo" data-idx="0"></span>
         <span class="corte-dot" data-idx="1"></span>
         <span class="corte-dot" data-idx="2"></span>
       </div>
-    </div>
-  `;
-
-      document.querySelector('.modal-img').style.display = 'none';
+    </div>`;
       const body = document.querySelector('.modal-body');
-      const existingWrapper = body.querySelector('.corte-carrossel-wrapper');
-      if (existingWrapper) existingWrapper.remove();
-      document.getElementById('mSub').insertAdjacentHTML('afterend', htmlCarrossel);
+      const antigo = body.querySelector('.corte-carrossel-wrapper'); if (antigo) antigo.remove();
+      document.getElementById('mSub').insertAdjacentHTML('afterend', html);
 
       document.querySelectorAll('.corte-dot').forEach((dot, i) => {
         dot.tabIndex = 0; dot.setAttribute('role', 'button');
@@ -3202,26 +3181,13 @@
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); irParaSlide(i); }
         });
       });
-
-      setTimeout(() => {
-        const carrossel = document.getElementById('corteCarrossel');
-        if (!carrossel) return;
+      const carrossel = document.getElementById('corteCarrossel');
+      if (carrossel) {
         carrossel.addEventListener('scroll', () => {
-          const largura = carrossel.offsetWidth;
-          const slideIdx = Math.round(carrossel.scrollLeft / largura);
-          document.querySelectorAll('.corte-dot').forEach((dot, i) => { dot.classList.toggle('ativo', i === slideIdx); });
-        });
-      }, 100);
-
-      const linkEl = document.getElementById('mLink');
-      linkEl.href = item.link || ML_LINKS.kitNoiva;
-      linkEl.style.display = 'flex';
-      const btnText = linkEl.querySelector('span');
-      if (btnText) btnText.textContent = 'Ver Produtos Recomendados';
-
-      document.getElementById('modalBg').classList.add('on');
-      trapFocus(document.querySelector('.modal'));
-      setTimeout(() => document.querySelector('.modal-close')?.focus(), 50);
+          const idx = Math.round(carrossel.scrollLeft / (carrossel.offsetWidth || 1));
+          document.querySelectorAll('.corte-dot').forEach((dot, i) => dot.classList.toggle('ativo', i === idx));
+        }, { passive: true });
+      }
     }
 
     function irParaSlide(idx) {
@@ -3246,7 +3212,7 @@
       }
     });
 
-    /* ============ DADOS ============ */
+    /* DADOS */
     const visagismoData = {
       oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', produto: 'Spray Volume', link: ML_LINKS.kerastase },
       redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
@@ -3421,21 +3387,18 @@
       { title: 'Escova Térmica', sub: 'Modelagem com Brilho', desc: 'Escova redonda com cilindro cerâmico.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80' }
     ];
 
-    /* ============ COMPLEMENTOS PARA MODAL COMPLETO ============ */
+    /* COMPLEMENTOS PARA MODAL COMPLETO */
     (function completarDados() {
       const L = ML_LINKS;
       const extras = {
-        /* Noivas */
         'Coque Clássico': { desc2: 'Fixação firme que dura a cerimônia e a festa.', lista: ['Coque baixo', 'Detalhes trançados', 'Combina com vestido princesa'] },
         'Sem Presilhas': { desc2: 'Visual leve, com movimento natural.', lista: ['Ondas suaves', 'Presilhas invisíveis', 'Para noivas modernas'] },
         'Trança Lateral': { desc2: 'Pede flores frescas ou acessório delicado.', lista: ['Trança embutida', 'Flores naturais', 'Ideal para casamento na praia'] },
         'Coque Despojado': { desc2: 'Penteado com ar mais descontraído.', lista: ['Fios soltos ao redor do rosto', 'Textura e volume', 'Visual leve'] },
-        /* Acessórios */
         'Presilhas Cravejadas': { desc2: 'Combine com penteados presos ou meio presos.', lista: ['Brilho e sofisticação', 'Ótimas para festas', 'Fixam sem marcar o cabelo'] },
         'Tiara de Pérolas': { desc2: 'Peça clássica para noivas e madrinhas.', lista: ['Toque clássico', 'Para noivas', 'Combina com coque ou semi preso'] },
         'Flor para Cabelo': { desc2: 'Fácil de usar em qualquer penteado.', lista: ['Detalhe romântico', 'Para convidadas', 'Pode ser usada de lado ou no coque'] },
         'Grampos Dourados': { desc2: 'Item básico de kit para finalização.', lista: ['Prendem os fios', 'Dão acabamento', 'Acabamento dourado'] },
-        /* Ferramentas */
         'Secador Iônico Pro': { desc2: 'Reduz o tempo de secagem e deixa os fios alinhados.', lista: ['Tecnologia iônica', 'Reduz frizz', 'Secagem rápida'] },
         'Prancha de Titânio': { desc2: 'Indicada para alisamento e finalização.', lista: ['Placas de titânio', 'Alta condução de calor', 'Alisamento uniforme'] },
         'Modelador de Ondas': { desc2: 'Ótimo para ondas definidas e duradouras.', lista: ['Modelador térmico', 'Ondas marcadas', 'Ótimo para finalização'] },
@@ -3457,7 +3420,6 @@
       ferramentasData.forEach(i => { if (!i.link) i.link = L.ferramentas; });
       noivasData.concat(acessoriosData).forEach(i => { if (!i.link) i.link = L.kitNoiva; });
 
-      /* Cortes: sub/desc/lista a partir de frente-lado-atrás */
       cortesData.forEach(i => {
         const f = (i.descFrente || '');
         if (!i.sub) i.sub = f.split('.')[0];
@@ -3466,7 +3428,6 @@
         if (!i.link) i.link = L.kerastase;
       });
 
-      /* Tipos de cabelo */
       const cabInfo = {
         liso: { desc: 'Fio sem curvatura. Tende a ficar oleoso mais rápido e pede produtos leves.', lista: ['Hidratação leve', 'Finalizador de brilho', 'Evite excesso de óleo'], link: L.kerastase },
         ondulado: { desc: 'Fio com ondas em formato de S. Pede definição sem pesar.', lista: ['Creme de pentear leve', 'Difusor na secagem', 'Evite escovar a seco'], link: L.kerastase },
@@ -3480,7 +3441,6 @@
         if (!i.link) i.link = c.link;
       }));
 
-      /* Visagismo */
       const vLista = {
         oval: ['Camadas suaves', 'Comprimento médio', 'Valoriza o equilíbrio natural'],
         redondo: ['Volume no topo', 'Laterais justas', 'Evite corte na altura das bochechas'],
@@ -3491,7 +3451,6 @@
       };
       Object.keys(visagismoData).forEach(k => { if (!visagismoData[k].lista) visagismoData[k].lista = vLista[k]; });
 
-      /* Maquiagem */
       const mLista = {
         pele: ['Base de cobertura leve', 'Corretivo iluminador', 'Blush pêssego'],
         olhos: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'],
@@ -3499,19 +3458,20 @@
       };
       Object.keys(makeData).forEach(k => { if (!makeData[k].lista) makeData[k].lista = mLista[k]; });
 
-      /* Coloração */
       Object.keys(coloracaoData).forEach(k => coloracaoData[k].tons.forEach(t => {
         if (!t.lista) t.lista = [t.desc, 'Categoria: ' + k.charAt(0).toUpperCase() + k.slice(1), 'Consulte um profissional antes de aplicar'];
       }));
     })();
 
-    /* ============ INDEXEDDB ============ */
+    /* INDEXEDDB — FIX #2: getDB nunca rejeita sem tratamento */
     const DB_NAME = 'hairos';
     const DB_VERSION = 1;
     let _dbPromise = null;
     function getDB() {
+      if (window.__idbFalhou || typeof idb === 'undefined') {
+        return Promise.reject(new Error('idb indisponível'));
+      }
       if (!_dbPromise) {
-        if (typeof idb === 'undefined') return Promise.reject(new Error('idb indisponível'));
         _dbPromise = idb.openDB(DB_NAME, DB_VERSION, {
           upgrade(db) {
             if (!db.objectStoreNames.contains('buscas')) {
@@ -3564,7 +3524,7 @@
       try { const db = await getDB(); await db.clear('buscas'); await dbSetEstado('ultimoTermo', ''); } catch { }
     }
 
-    /* ============ BUSCA ============ */
+    /* BUSCA */
     const normBusca = s => (s == null ? '' : String(s)).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     function montarIndiceBusca() {
       const push = (arr, cat, linkDefault) => arr.map(i => {
@@ -3743,6 +3703,7 @@
       }
     }
 
+    /* FIX #19: try/catch externo para nunca propagar erro */
     async function renderHistoricoChips() {
       const wrap = document.getElementById('buscaSugestoes');
       if (!wrap) return;
@@ -3772,17 +3733,25 @@
           await dbLimparHistorico();
           await renderHistoricoChips();
         });
+      } catch (e) {
+        /* FIX #19: silencioso — mantém chips padrão se algo falhar */
+        wrap.innerHTML = '';
+        ['bob', 'maquiagem', 'noiva', 'loiro', 'cachos', 'hidratação'].forEach(t => {
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'busca-chip'; b.dataset.q = t; b.textContent = t;
+          wrap.appendChild(b);
+        });
       } finally { wrap.classList.remove('carregando'); }
     }
 
-    /* ============ RENDER HELPERS ============ */
+    /* RENDER HELPERS */
     function renderVisagismo(formato) {
       const data = visagismoData[formato];
       const container = document.getElementById('visagismoResultado');
       if (!container || !data) return;
       container.innerHTML = `
     <div class="image-frame image-frame--portrait">
-      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="document.getElementById('visagismoDetalhes').click()" onerror="_imgErro(this)">
+      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="var b=document.getElementById('visagismoDetalhes');if(b)b.click()" onerror="_imgErro(this)">
     </div>
     <div class="visagismo-painel-txt">
       <h3>Seu Formato: ${data.nome}</h3>
@@ -3872,7 +3841,6 @@
     let _rzTmr = null;
     window.addEventListener('resize', () => { clearTimeout(_rzTmr); _rzTmr = setTimeout(_reajustarAcordeao, 120); });
     window.addEventListener('orientationchange', () => setTimeout(_reajustarAcordeao, 250));
-    document.querySelectorAll('.mini-card img').forEach(im => im.addEventListener('load', _reajustarAcordeao));
 
     function renderColoracao(categoria) {
       const data = coloracaoData[categoria];
@@ -4020,7 +3988,7 @@
       });
     }
 
-    /* ============ HEADER ESCONDE AO ROLAR ============ */
+    /* HEADER ESCONDE AO ROLAR */
     (function () {
       const main = document.getElementById('mainContent');
       if (!main) return;
@@ -4033,7 +4001,7 @@
       }, { passive: true });
     })();
 
-    /* ============ INIT ============ */
+    /* INIT — FIX #7: querySelectorAll(.mini-card img) movido para DEPOIS dos renders */
     document.addEventListener('DOMContentLoaded', () => {
       renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
       renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
@@ -4055,6 +4023,9 @@
 
       renderVisagismo('oval');
       renderPaleta('clara');
+
+      /* FIX #7: reajuste de acordeão agora vê as imagens recém-renderizadas */
+      document.querySelectorAll('.mini-card img').forEach(im => im.addEventListener('load', _reajustarAcordeao));
 
       initBusca();
       document.body.classList.add('app-pronta');
