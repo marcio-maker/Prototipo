@@ -5,8 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0a0808">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="HairOS — cortes, visagismo, coloração, kits, noivas e ferramentas.">
-  <title>HairOS — Beleza Completa (v3)</title>
+  <title>HairOS — Beleza Completa</title>
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0808'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='72' fill='%23d9bb90' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2400,6 +2402,66 @@
       line-height: 1.3;
       text-align: center;
     }
+
+    /* ============ ENDURECIMENTO PARA DEPLOY ============ */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+    /* sem zoom por duplo toque; rolagem/pinça controladas */
+    html, body, header, nav, aside, .drawer, .sheet, .dock, button, a, input,
+    .modal-bg, .card, .editorial-card, .mini-card, .mini-card-editorial, .swatch-card {
+      touch-action: manipulation;
+    }
+    .modal-bg { touch-action: pan-y; }
+
+    /* iOS dá zoom automático ao focar input com fonte < 16px */
+    .busca-input { font-size: 16px; }
+    @media (max-width:600px) { .busca-input { font-size: 16px; } }
+
+    /* nada de arrastar/selecionar imagem sem querer */
+    img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+
+    /* grids que nunca estouram a largura */
+    .acordeao-body-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .dock-btn { min-width: 0; }
+    .dock-btn span { max-width: 100%; overflow: hidden; text-overflow: clip; white-space: nowrap; }
+    .card-nome, .card-sub, .modal-title, .modal-text { overflow-wrap: anywhere; }
+    .swatch-card { flex: 0 0 auto; }
+
+    /* viewer de zoom: ampliado por tamanho (não transform) para poder rolar em todas as direções */
+    .zoom-bg { align-items: stretch; justify-content: flex-start; }
+    .zoom-bg img { margin: auto; flex: 0 0 auto; }
+    .zoom-bg img.zoomed {
+      transform: none;
+      max-width: none;
+      max-height: none;
+      width: min(192vw, 2400px);
+      height: auto;
+    }
+
+    /* fallback p/ navegadores sem unidade dvh */
+    @supports not (height: 100dvh) {
+      .modal { max-height: calc(100vh - 24px); }
+      .zoom-bg img { max-height: 88vh; }
+      .image-frame--modal { max-height: 40vh; width: min(100%, 280px, 26.66vh); }
+    }
+
+    /* telas muito estreitas (320px) */
+    @media (max-width: 340px) {
+      .brand-h { font-size: 1.5rem; }
+      .dock { width: calc(100% - 16px); padding: 4px; }
+      .dock-btn span { font-size: .54rem; letter-spacing: 0; }
+      .acordeao-body-inner { padding: 14px; gap: 8px; }
+      .mini-card-txt strong { font-size: .74rem; }
+      .mini-card-txt span { font-size: .6rem; }
+      .modal-body { padding: 16px 14px 20px; }
+      .modal-mini-kits { margin: 0 -14px; padding-inline: 14px; }
+    }
+
+    /* celular deitado: pouca altura */
+    @media (max-height: 480px) and (orientation: landscape) {
+      .image-frame--modal { max-height: 55dvh; width: min(100%, 220px, 36.6dvh); }
+      .modal-img { padding: 8px; }
+    }
   </style>
 </head>
 
@@ -2496,7 +2558,7 @@
       </div>
     </div>
 
-    <div class="drawer-footer">HairOS · 2026 · v3 modais</div>
+    <div class="drawer-footer">HairOS · 2026</div>
   </aside>
 
   <div class="sheet-overlay" id="sheetOverlay" onclick="fecharSheet()"></div>
@@ -3019,11 +3081,11 @@
     let _focoAnterior = null;
     function trapFocus(container) {
       const sel = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
-      const els = container.querySelectorAll(sel);
-      if (!els.length) return;
-      const first = els[0], last = els[els.length - 1];
       container.addEventListener('keydown', function (e) {
         if (e.key !== 'Tab') return;
+        const els = Array.from(container.querySelectorAll(sel)).filter(el => el.offsetParent !== null || el === document.activeElement);
+        if (!els.length) return;
+        const first = els[0], last = els[els.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       });
@@ -3799,9 +3861,18 @@
       btn.addEventListener('click', () => {
         const isActive = btn.classList.contains('active');
         document.querySelectorAll('.acordeao-header').forEach(b => { b.classList.remove('active'); b.nextElementSibling.style.maxHeight = null; });
-        if (!isActive) { btn.classList.add('active'); const body = btn.nextElementSibling; body.style.maxHeight = body.scrollHeight + 'px'; }
+        if (!isActive) { btn.classList.add('active'); const body = btn.nextElementSibling; body.style.maxHeight = body.scrollHeight + 'px'; setTimeout(_reajustarAcordeao, 450); }
       });
     });
+
+    function _reajustarAcordeao() {
+      const ativo = document.querySelector('.acordeao-header.active');
+      if (ativo) { const b = ativo.nextElementSibling; b.style.maxHeight = 'none'; b.style.maxHeight = b.scrollHeight + 'px'; }
+    }
+    let _rzTmr = null;
+    window.addEventListener('resize', () => { clearTimeout(_rzTmr); _rzTmr = setTimeout(_reajustarAcordeao, 120); });
+    window.addEventListener('orientationchange', () => setTimeout(_reajustarAcordeao, 250));
+    document.querySelectorAll('.mini-card img').forEach(im => im.addEventListener('load', _reajustarAcordeao));
 
     function renderColoracao(categoria) {
       const data = coloracaoData[categoria];
