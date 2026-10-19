@@ -2751,6 +2751,14 @@
           <div class="col-info" id="makeInfo"></div>
         </div>
       </div>
+
+      <div class="bloco">
+        <div class="bloco-head">
+          <h2>Produtos MAC</h2>
+          <div class="linha"></div>
+        </div>
+        <div class="grid grid-3" id="grid-make-produtos"></div>
+      </div>
     </section>
 
     <section class="secao ativa" id="secao-kits">
@@ -2863,8 +2871,7 @@
         </div>
       </div>
     </div>
-  </div>
-
+  </
   <script src="https://unpkg.com/idb@8/build/umd.js" defer
     onerror="window.__idbFalhou=true;console.warn('idb CDN indisponível — busca persistente desativada')"></script>
   <script>
@@ -3270,11 +3277,100 @@
       }
     };
 
+    /* ====== MAQUIAGEM — 6 produtos MAC (2 por DNA) ====== */
+    const MAC_LINK = 'https://meli.la/1Zs9Ncu';
+
     const makeData = {
-      pele: { nome: 'Foco: Pele', img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg', desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.', link: ML_LINKS.kerastase },
-      olhos: { nome: 'Foco: Olhos', img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg', desc: 'Sombra cobre com delineado gatinho e máscara de cílios.', link: ML_LINKS.expert },
-      boca: { nome: 'Foco: Boca', img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg', desc: 'Batom nude com acabamento gloss.', link: ML_LINKS.moroccanoil }
+      pele: {
+        nome: 'Foco: Pele',
+        img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        desc: 'Base de cobertura leve, corretivo iluminador e blush pêssego.',
+        lista: ['Base de cobertura leve', 'Corretivo iluminador', 'Blush pêssego'],
+        link: ML_LINKS.kerastase
+      },
+      olhos: {
+        nome: 'Foco: Olhos',
+        img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg',
+        desc: 'Sombra cobre com delineado gatinho e máscara de cílios.',
+        lista: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'],
+        link: ML_LINKS.expert
+      },
+      boca: {
+        nome: 'Foco: Boca',
+        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        desc: 'Batom nude com acabamento gloss.',
+        lista: ['Batom nude', 'Acabamento gloss', 'Contorno labial suave'],
+        link: ML_LINKS.moroccanoil
+      }
     };
+
+    const makeProdutosData = [
+      /* PELE — 1) cobertura  2) selagem/anti-brilho */
+      {
+        title: 'Base Líquida MAC Studio Fix Fluid',
+        sub: 'NW18 · Matte · SPF 15 · 30ml',
+        desc: 'Base líquida matte com cobertura média e até 24h de duração.',
+        desc2: 'Proteção SPF 15 e controle de brilho para o dia todo.',
+        lista: ['Cobertura 24h', 'Acabamento matte', 'SPF 15'],
+        cat: 'Pele',
+        img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        link: MAC_LINK
+      },
+      {
+        title: 'Pó Fixador MAC Studio Fix Pro Set',
+        sub: 'Blur · Translúcido · 6,5g',
+        desc: 'Pó fixador translúcido com efeito blur e anti-brilho.',
+        desc2: 'Sela a maquiagem e controla o brilho ao longo do dia.',
+        lista: ['Efeito blur', 'Anti-brilho', 'Translúcido'],
+        cat: 'Pele',
+        img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
+        link: MAC_LINK
+      },
+
+      /* OLHOS — 1) sombra  2) delineado/2 em 1 */
+      {
+        title: 'Paleta de Sombras MAC Connect in Colour',
+        sub: 'Encrypted Kryptonit',
+        desc: 'Paleta com sombras de alta pigmentação e fácil esfumado.',
+        desc2: 'Combina tons neutros e marcantes para looks variados.',
+        lista: ['Alta pigmentação', 'Fácil esfumado', 'Tons variados'],
+        cat: 'Olhos',
+        img: 'https://i.pinimg.com/1200x/6f/04/f7/6f04f7f22120c572e80a8d903f0f2baf.jpg',
+        link: MAC_LINK
+      },
+      {
+        title: 'Sombra Líquida MAC 2 em 1',
+        sub: 'Multisculpt Matte Pinot Noir',
+        desc: 'Sombra líquida multifuncional com acabamento matte.',
+        desc2: 'Pode ser usada nos olhos ou como delineado.',
+        lista: ['2 em 1', 'Acabamento matte', 'Multisculpt'],
+        cat: 'Olhos',
+        img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg',
+        link: MAC_LINK
+      },
+
+      /* BOCA — 1) cor matte  2) contorno/definição */
+      {
+        title: 'Batom MAC Matte Macximal',
+        sub: 'Diva',
+        desc: 'Batom matte de longa duração na cor Diva.',
+        desc2: 'Cor intensa com acabamento matte confortável.',
+        lista: ['Acabamento matte', 'Longa duração', 'Cor Diva'],
+        cat: 'Boca',
+        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        link: MAC_LINK
+      },
+      {
+        title: 'Lápis Delineador Labial MAC Stone',
+        sub: 'Contorno labial',
+        desc: 'Lápis delineador labial com textura macia.',
+        desc2: 'Define o contorno dos lábios e ajuda na fixação do batom.',
+        lista: ['Textura macia', 'Define contorno', 'Longa duração'],
+        cat: 'Boca',
+        img: 'https://i.pinimg.com/1200x/7a/d4/f4/7ad4f49a2f9604293e2bc16d65a6d30f.jpg',
+        link: MAC_LINK
+      }
+    ];
 
     const franjasData = [
       { title: 'Reta', sub: 'Encurta o rosto', desc: 'Encurta o rosto e destaca os olhos.', desc2: 'Ideal para rostos longos.', lista: ['Encurta o rosto', 'Destaca olhos'], img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80' },
@@ -3450,12 +3546,15 @@
       };
       Object.keys(visagismoData).forEach(k => { if (!visagismoData[k].lista) visagismoData[k].lista = vLista[k]; });
 
-      const mLista = {
-        pele: ['Base de cobertura leve', 'Corretivo iluminador', 'Blush pêssego'],
-        olhos: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'],
-        boca: ['Batom nude', 'Acabamento gloss', 'Contorno labial suave']
-      };
-      Object.keys(makeData).forEach(k => { if (!makeData[k].lista) makeData[k].lista = mLista[k]; });
+      Object.keys(makeData).forEach(k => {
+        if (!makeData[k].lista) {
+          makeData[k].lista = {
+            pele: ['Base de cobertura leve', 'Corretivo iluminador', 'Blush pêssego'],
+            olhos: ['Sombra cobre', 'Delineado gatinho', 'Máscara de cílios'],
+            boca: ['Batom nude', 'Acabamento gloss', 'Contorno labial suave']
+          }[k] || [];
+        }
+      });
 
       Object.keys(coloracaoData).forEach(k => coloracaoData[k].tons.forEach(t => {
         if (!t.lista) t.lista = [t.desc, 'Categoria: ' + k.charAt(0).toUpperCase() + k.slice(1), 'Consulte um profissional antes de aplicar'];
@@ -3557,7 +3656,8 @@
         ...push(visagismoIdx, 'Visagismo', ML_LINKS.kerastase),
         ...push(paletaIdx, 'Paleta', ML_LINKS.kerastase),
         ...push(coloracaoIdx, 'Coloração', ML_LINKS.inoa),
-        ...push(makeIdx, 'Maquiagem', ML_LINKS.kerastase)
+        ...push(makeIdx, 'Maquiagem', ML_LINKS.kerastase),
+        ...push(makeProdutosData, 'Maquiagem', MAC_LINK)
       ];
     }
     let INDICE_BUSCA = null;
@@ -3619,7 +3719,7 @@
       resultados.forEach((item, idx) => {
         const card = document.createElement('button');
         card.className = 'card';
-        card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio/i.test(item.cat || ''));
+        card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio|maquiagem/i.test(item.cat || ''));
         card.style.animationDelay = Math.min(idx * 0.025, 0.4) + 's';
 
         card.innerHTML = `
@@ -3903,6 +4003,29 @@
       if (bd) bd.addEventListener('click', () => openModal(data.nome, 'Maquiagem', data.desc, '', data.lista || [], data.link, data.img));
       document.querySelectorAll('#makeTabs .col-tab').forEach(t => t.classList.toggle('ativo', t.dataset.cat === categoria));
     }
+
+    function renderMakeProdutos() {
+      const grid = document.getElementById('grid-make-produtos');
+      if (!grid) return;
+      grid.innerHTML = '';
+      makeProdutosData.forEach((item, idx) => {
+        const card = document.createElement('button');
+        card.className = 'card card--produto';
+        card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
+        card.innerHTML = `
+      <span class="card-img-wrap">
+        <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      </span>
+      <span class="card-text-wrap">
+        <span class="card-nome">${item.title}</span>
+        ${item.sub ? '<span class="card-sub">' + item.sub + '</span>' : ''}
+      </span>
+    `;
+        card.addEventListener('click', () => abrirItem(item, item.cat || 'Maquiagem', MAC_LINK));
+        grid.appendChild(card);
+      });
+    }
+
     document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
 
     function renderGrid(id, data, catLabel, linkDefault) {
@@ -3912,7 +4035,7 @@
       data.forEach((item, idx) => {
         const card = document.createElement('button');
         card.className = 'card';
-        card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio/i.test(catLabel || item.cat || ''));
+        card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio|maquiagem/i.test(catLabel || item.cat || ''));
         card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
         const img = item.img || item.imgFrente || '';
 
@@ -4010,6 +4133,7 @@
       renderMiniGrid('manutencaoGrid', manutencaoData, 'Manutenção', ML_LINKS.keune);
 
       renderMake('pele');
+      renderMakeProdutos();
 
       renderEditorialScroll('noivasScroll', noivasData, 'Noiva', ML_LINKS.kitNoiva);
 
