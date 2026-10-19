@@ -2865,7 +2865,6 @@
     </div>
   </div>
 
-  <!-- FIX #1: onerror no CDN do idb garante fallback silencioso -->
   <script src="https://unpkg.com/idb@8/build/umd.js" defer
     onerror="window.__idbFalhou=true;console.warn('idb CDN indisponível — busca persistente desativada')"></script>
   <script>
@@ -3025,7 +3024,7 @@
 
     /* ZOOM */
     function abrirZoomEditorial(src) {
-      if (!src) return; /* FIX #3: guarda para src vazio */
+      if (!src) return;
       const img = document.getElementById('zoomEditorialImg');
       img.src = src || '';
       img.classList.remove('zoomed');
@@ -3463,7 +3462,7 @@
       }));
     })();
 
-    /* INDEXEDDB — FIX #2: getDB nunca rejeita sem tratamento */
+    /* INDEXEDDB */
     const DB_NAME = 'hairos';
     const DB_VERSION = 1;
     let _dbPromise = null;
@@ -3703,7 +3702,6 @@
       }
     }
 
-    /* FIX #19: try/catch externo para nunca propagar erro */
     async function renderHistoricoChips() {
       const wrap = document.getElementById('buscaSugestoes');
       if (!wrap) return;
@@ -3734,7 +3732,6 @@
           await renderHistoricoChips();
         });
       } catch (e) {
-        /* FIX #19: silencioso — mantém chips padrão se algo falhar */
         wrap.innerHTML = '';
         ['bob', 'maquiagem', 'noiva', 'loiro', 'cachos', 'hidratação'].forEach(t => {
           const b = document.createElement('button');
@@ -4001,7 +3998,7 @@
       }, { passive: true });
     })();
 
-    /* INIT — FIX #7: querySelectorAll(.mini-card img) movido para DEPOIS dos renders */
+    /* INIT */
     document.addEventListener('DOMContentLoaded', () => {
       renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
       renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
@@ -4024,7 +4021,6 @@
       renderVisagismo('oval');
       renderPaleta('clara');
 
-      /* FIX #7: reajuste de acordeão agora vê as imagens recém-renderizadas */
       document.querySelectorAll('.mini-card img').forEach(im => im.addEventListener('load', _reajustarAcordeao));
 
       initBusca();
