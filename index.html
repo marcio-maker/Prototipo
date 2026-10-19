@@ -200,22 +200,24 @@
   #grid-tipos,
   .mini-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
+    min-width: 0;
   }
   @media (min-width:601px) and (max-width:1024px){
     .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   @media (min-width:1025px){
     .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
     }
   }
 
   /* ============================================================
-     REGRA ÚNICA — imagem 2:3 (nativa 1000×1500) + fallback
+     SISTEMA DE IMAGENS — 2:3 (nativa 1000×1500) 
      ============================================================ */
   .card {
     position: relative; display: flex; flex-direction: column;
@@ -229,62 +231,53 @@
   .card:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: var(--radius); }
 
   .card-img-wrap,
-  .editorial-card .card-img-wrap,
-  .mini-card-editorial .card-img-wrap,
-  .visagismo-painel img,
-  .col-display img,
-  .swatch-card img,
-  .mini-card img,
-  .corte-slide img,
-  .modal-img img,
-  .modal-mini-kit img {
+  .image-frame {
+    position: relative;
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
-    background: var(--bg-elevated);
-  }
-
-  .card-img-wrap {
-    position: relative;
-    border-radius: var(--radius);
     overflow: hidden;
+    background: var(--bg-elevated);
+    isolation: isolate;
+  }
+  .card-img-wrap {
+    aspect-ratio: 2 / 3;
+    border-radius: var(--radius);
     box-shadow: 0 8px 24px rgba(0,0,0,.4);
     border: 1px solid rgba(255,255,255,.05);
     transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
   }
-  .card-img-wrap img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: transform .8s var(--ease-out);
-    display: block;
-  }
-
-  /* fallback dourado com nome do item */
-  .img-erro {
-    background: var(--bg-elevated) !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .img-erro::after {
-    content: attr(data-nome);
-    color: var(--gold-lo);
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: .85rem;
-    text-align: center;
-    padding: 14px;
-    line-height: 1.3;
+  .image-frame--portrait { aspect-ratio: 2 / 3; }
+  .image-frame--square { aspect-ratio: 1 / 1; }
+  
+  .card-img-wrap > img,
+  .image-frame > img {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: var(--image-focus, 50% 35%);
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    transition: transform .8s var(--ease-out), opacity .2s;
+  }
+
+  /* Ajustes para produtos (Kits e Ferramentas) */
+  .card--produto .card-img-wrap {
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(145deg, var(--bg-elevated), var(--bg-card));
+  }
+  .card--produto .card-img-wrap > img,
+  .image-frame--contain > img {
+    object-fit: contain;
+    object-position: center;
+    padding: 12px;
   }
 
   @media (hover:hover) {
@@ -304,7 +297,7 @@
     color: var(--gold); font-weight: 500; line-height: 1.4;
   }
 
-  .card-text-wrap { padding: 10px 2px 0 2px; display: block; }
+  .card-text-wrap { padding: 10px 2px 0 2px; display: block; min-width: 0; }
   .card-nome {
     display: block;
     font-family: 'Playfair Display', serif; font-style: italic;
@@ -312,12 +305,14 @@
     line-height: 1.2;
     display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
     overflow: hidden; text-overflow: ellipsis;
+    min-width: 0;
   }
   .card-sub {
     display: -webkit-box;
     font-size: 0.72rem; color: var(--text-muted); font-weight: 300; line-height: 1.3;
     -webkit-line-clamp: 2; -webkit-box-orient: vertical;
     overflow: hidden;
+    min-width: 0;
   }
   .card-nome mark{background:rgba(217,187,144,.22);color:var(--gold-hi);padding:0 2px;border-radius:2px;font-weight:700}
 
@@ -340,11 +335,7 @@
     animation: fadeInUp .4s var(--ease-out);
     max-width: 280px; margin: 0 auto;
   }
-  .visagismo-painel img {
-    border-bottom: 1px solid var(--border);
-    cursor: zoom-in;
-    margin: 0 auto;
-  }
+  .visagismo-painel > .image-frame { border-bottom: 1px solid var(--border); }
 
   .visagismo-painel-txt { padding: 20px; }
   .visagismo-painel-txt h3 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--gold-light); margin-bottom: 6px; }
@@ -363,7 +354,8 @@
   .swatch-card { width: 84px; border-radius: 10px; overflow: hidden; background: var(--bg-elevated); border: 2px solid transparent; cursor: pointer; transition: transform 0.3s, border-color 0.3s; touch-action: manipulation; }
   .swatch-card:hover { transform: translateY(-3px); }
   .swatch-card.ativo { border-color: var(--gold); box-shadow: 0 4px 12px rgba(217,187,144,.3); }
-  .swatch-card img { cursor: zoom-in; }
+  .swatch-card > .image-frame { width: 100%; }
+  .swatch-card > .image-frame > img { cursor: zoom-in; }
 
   .swatch-card-info { padding: 6px; text-align: center; background: var(--bg-card); }
   .swatch-card-cor { width: 14px; height: 14px; border-radius: 50%; margin: 0 auto 4px; border: 1px solid rgba(255,255,255,.2); }
@@ -382,7 +374,8 @@
   .acordeao-body-inner { padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .acordeao-body-inner::-webkit-scrollbar { display: none; }
   .mini-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: zoom-in; display: flex; flex-direction: column; touch-action: manipulation; }
-  .mini-card img { cursor: zoom-in; }
+  .mini-card > .image-frame { flex: 0 0 auto; }
+  .mini-card > .image-frame > img { cursor: zoom-in; }
 
   .mini-card-txt { padding: 8px 6px; text-align: center; }
   .mini-card-txt strong { display: block; font-size: 0.82rem; color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; }
@@ -400,12 +393,7 @@
     animation: fadeInUp .4s var(--ease-out);
     max-width: 320px; margin-inline: auto;
   }
-  .col-display img {
-    border-bottom: 1px solid var(--border);
-    transition: opacity 0.3s;
-    margin: 0 auto;
-    cursor: zoom-in;
-  }
+  .col-display > .image-frame { border-bottom: 1px solid var(--border); }
 
   .col-paleta { display: flex; justify-content: center; gap: 12px; padding: 16px; overflow-x: auto; scrollbar-width: none; }
   .col-paleta::-webkit-scrollbar { display: none; }
@@ -442,15 +430,14 @@
     display: flex; align-items: center; justify-content: center;
     opacity: 0; visibility: hidden;
     transition: opacity .35s var(--ease-out), visibility .35s;
-    padding: 20px;
+    padding: max(12px, env(safe-area-inset-top, 0px)) 12px max(12px, env(safe-area-inset-bottom, 0px));
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
   .zoom-bg.on { opacity: 1; visibility: visible; }
   .zoom-bg img {
-    max-width: 95vw;
-    max-height: 90vh;
-    max-height: 90dvh;
+    max-width: 96vw;
+    max-height: 88dvh;
     width: auto; height: auto;
     object-fit: contain;
     border-radius: 8px;
@@ -527,17 +514,17 @@
     z-index: 2100;
   }
 
-  /* CARROSSEL DE CORTES (mantido desativado — religar quando tiver 36 fotos) */
+  /* CARROSSEL DE CORTES (mantido desativado) */
   .corte-carrossel-wrapper { position: relative; width: 100%; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
   .corte-carrossel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; gap: 6px; border-radius: 10px; }
   .corte-carrossel::-webkit-scrollbar { display: none; }
   .corte-slide { flex: 0 0 100%; scroll-snap-align: center; width: 100%; display: flex; flex-direction: column; gap: 8px; }
-  .corte-slide img {
-    max-width: 220px;
+  .corte-slide > .image-frame {
+    width: min(100%, 220px);
+    flex: 0 1 220px;
+    margin-inline: auto;
     border: 1px solid var(--border);
     border-radius: 10px;
-    cursor: zoom-in;
-    margin: 0 auto;
   }
   .corte-slide .slide-texto { text-align: center; font-size: .85rem; color: var(--text-sec); font-weight: 300; line-height: 1.5; padding: 0 4px; min-height: 40px; }
   .corte-slide .slide-texto strong { color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; display: block; margin-bottom: 2px; font-size: .95rem; }
@@ -553,23 +540,31 @@
   .corte-dot.ativo { background: var(--gold); transform: scale(1.3); }
 
   /* MODAL PADRÃO */
-  .modal-bg{position:fixed;inset:0;background:rgba(10,8,8,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;transition:opacity .35s var(--ease-out)}
+  .modal-bg{position:fixed;inset:0;background:rgba(10,8,8,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:12px;z-index:1000;opacity:0;transition:opacity .35s var(--ease-out)}
   .modal-bg.on{display:flex;opacity:1}
-  .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:16px;max-width:340px;width:100%;max-height:85vh;max-height:85dvh;overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
+  .modal{background:var(--bg-card);border:1px solid var(--border-gold);border-radius:14px;width:min(100%, 440px);max-height:calc(100dvh - 24px);overflow-y:auto;transform:translateY(20px);transition:transform .4s var(--ease-luxury);position:relative;box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(217,187,144,.08)}
   .modal-bg.on .modal{transform:translateY(0)}
   .modal::-webkit-scrollbar{width:0;display:none}
   .modal{scrollbar-width:none}
 
-  .modal-img{width: 100%; padding: 20px; background: var(--bg-card); display: flex; justify-content: center; border-radius: 16px 16px 0 0; position: relative; cursor: zoom-in;}
-  .modal-img img{
-    max-width: 220px;
+  .modal-img{width: 100%; padding: 16px; display: flex; justify-content: center; border-radius: 14px 14px 0 0; position: relative; cursor: zoom-in;}
+  .image-frame--modal {
+    flex: 0 1 auto;
+    width: min(100%, 280px, 26.66dvh);
+    max-height: 40dvh;
+    aspect-ratio: 2 / 3;
+    margin-inline: auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,.5);
-    cursor: zoom-in;
-    transition: opacity .2s;
-    margin: 0 auto;
+    background: #100d0b;
   }
-  .modal-img img:hover { opacity: .9; }
+  .image-frame--modal > img {
+    object-fit: contain;
+    object-position: center;
+    padding: 0;
+    cursor: zoom-in;
+  }
+  .image-frame--modal > img:hover { opacity: .92; }
 
   .modal-close{
     position:absolute; top:14px; right:14px;
@@ -637,17 +632,32 @@
   }
 
   .modal-btn.primary {
-    background: rgba(217,187,144,0.08);
-    color: var(--gold-light);
-    border: 1px solid var(--border-gold);
+    background: linear-gradient(135deg, rgba(255,232,177,.16), rgba(217,187,144,.08));
+    color: var(--gold-hi);
+    border: 1px solid rgba(237,212,172,.48);
     font-weight: 600;
+    box-shadow:
+      0 0 0 1px rgba(255,232,177,.06),
+      0 0 16px rgba(255,211,128,.14),
+      inset 0 1px 0 rgba(255,255,255,.06);
   }
 
-  .modal-btn.primary:hover {
-    background: rgba(217,187,144,0.16);
-    border-color: var(--gold);
-    color: var(--gold-hi);
+  .modal-btn.primary:hover,
+  .modal-btn.primary:focus-visible {
+    background: linear-gradient(135deg, rgba(255,232,177,.23), rgba(217,187,144,.12));
+    border-color: rgba(253,241,212,.72);
+    color: #fff5dc;
+    box-shadow:
+      0 0 0 3px rgba(255,226,166,.10),
+      0 0 22px rgba(255,211,128,.22),
+      0 8px 20px rgba(0,0,0,.22),
+      inset 0 1px 0 rgba(255,255,255,.10);
     transform: translateY(-1px);
+  }
+
+  .modal-btn.primary:active {
+    transform: translateY(0) scale(.99);
+    box-shadow: 0 0 14px rgba(255,211,128,.16), inset 0 1px 0 rgba(255,255,255,.06);
   }
 
   .modal-btn.primary svg {
@@ -711,13 +721,14 @@
     transform: translateY(-2px); 
     background: rgba(217,187,144,0.04);
   }
-  .modal-mini-kit img { 
-    width: 100%; 
-    aspect-ratio: 1/1; 
-    object-fit: cover; 
-    border-bottom: none; 
+  .modal-mini-kit > .image-frame {
+    width: 100%;
+    flex: 0 0 auto;
     border-radius: 8px;
+    background: var(--bg-card);
   }
+  .modal-mini-kit > .image-frame > img { padding: 8px; }
+  
   .modal-mini-kit span { 
     display: block; 
     padding: 8px 4px; 
@@ -781,14 +792,46 @@
     .card-nome { font-size: 0.82rem; }
     .card-sub { font-size: 0.68rem; }
 
-    .modal-img { padding: 15px; }
-    .modal-img img { max-width: 180px; }
-    .corte-slide img { max-width: 180px; }
+    .modal-img { padding: 12px; }
+    .image-frame--modal { width: min(100%, 240px, 25.33dvh); max-height: 38dvh; }
+    .corte-slide > .image-frame { width: min(100%, 180px); flex-basis: 180px; }
     .zoom-close { top: 12px; right: 12px; width: 48px; height: 48px; font-size: 26px; }
   }
+  
+  @media (max-width: 380px) {
+    main.main-content { padding-left: 12px; padding-right: 12px; }
+    .grid, .grid-2, .grid-3, .grid-4, #grid-tipos, .mini-grid { gap: 10px; }
+    .card-text-wrap { padding-top: 8px; }
+    .card-nome { font-size: .78rem; }
+  }
+
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:.01ms !important;animation-delay:0s !important;transition-duration:.01ms !important}
   }
+
+  .img-erro {
+    background: var(--bg-elevated) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .img-erro::after {
+    content: attr(data-nome);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: var(--gold-lo);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: .85rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+
 </style>
 </head>
 <body>
@@ -963,7 +1006,9 @@
         <button class="col-tab" data-cat="escuros">Escuros</button>
       </div>
       <div class="col-display">
-        <img id="colImagem" src="" alt="Modelo" onclick="abrirZoomEditorial(this.src)" onerror="this.style.opacity=0">
+        <div class="image-frame image-frame--portrait">
+          <img id="colImagem" src="" alt="Modelo" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+        </div>
         <div class="col-paleta" id="colPaleta"></div>
         <div class="col-info" id="colInfo"></div>
       </div>
@@ -1001,7 +1046,9 @@
         <button class="col-tab" data-cat="boca">Boca</button>
       </div>
       <div class="col-display">
-        <img id="makeImagem" src="" alt="Maquiagem" onclick="abrirZoomEditorial(this.src)" onerror="this.style.opacity=0">
+        <div class="image-frame image-frame--portrait">
+          <img id="makeImagem" src="" alt="Maquiagem" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+        </div>
         <div class="col-info" id="makeInfo"></div>
       </div>
     </div>
@@ -1071,7 +1118,9 @@
     <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
 
     <div class="modal-img" id="modalImgWrap" style="display:none;">
-      <img id="mImg" src="" alt="" onclick="abrirZoomEditorial(this.src)" onerror="this.parentElement.style.display='none'">
+      <div class="image-frame image-frame--portrait image-frame--modal">
+        <img id="mImg" src="" alt="" onclick="abrirZoomEditorial(this.src)" onerror="this.closest('.modal-img').style.display='none'">
+      </div>
     </div>
 
     <div class="modal-body">
@@ -1340,8 +1389,9 @@ function openModal(nome, categoria, texto1, texto2, lista, link, img){
   const sugeridos = kitsData.filter(k => k.title !== nome).slice(0, 5);
   kitsWrap.innerHTML = sugeridos.map(kit => `
     <a href="${kit.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="modal-mini-kit">
-      <img src="${kit.img}" alt="${kit.title}" loading="lazy"
-           onerror="_imgErro(this)">
+      <div class="image-frame image-frame--square image-frame--contain">
+        <img src="${kit.img}" alt="${kit.title}" loading="lazy" decoding="async" onerror="_imgErro(this)">
+      </div>
       <span>${kit.title}</span>
     </a>
   `).join('');
@@ -1365,15 +1415,21 @@ function openModalCorte(item) {
     <div class="corte-carrossel-wrapper">
       <div class="corte-carrossel" id="corteCarrossel">
         <div class="corte-slide">
-          <img src="${item.imgFrente || item.img}" alt="Frente" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          <div class="image-frame image-frame--portrait">
+            <img src="${item.imgFrente || item.img}" alt="Frente" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          </div>
           <div class="slide-texto"><strong>Frente</strong>${item.descFrente || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgLado || item.img}" alt="Lado" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          <div class="image-frame image-frame--portrait">
+            <img src="${item.imgLado || item.img}" alt="Lado" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          </div>
           <div class="slide-texto"><strong>Lado</strong>${item.descLado || ''}</div>
         </div>
         <div class="corte-slide">
-          <img src="${item.imgAtras || item.img}" alt="Atrás" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          <div class="image-frame image-frame--portrait">
+            <img src="${item.imgAtras || item.img}" alt="Atrás" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+          </div>
           <div class="slide-texto"><strong>Atrás</strong>${item.descAtras || ''}</div>
         </div>
       </div>
@@ -1751,6 +1807,7 @@ function renderBusca(q){
   resultados.forEach((item, idx) => {
     const card = document.createElement('button');
     card.className = 'card';
+    card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio/i.test(item.cat || ''));
     card.style.animationDelay = Math.min(idx * 0.025, 0.4) + 's';
 
     card.innerHTML = `
@@ -1872,7 +1929,9 @@ function renderVisagismo(formato) {
   const container = document.getElementById('visagismoResultado');
   if (!container || !data) return;
   container.innerHTML = `
-    <img src="${data.img}" alt="${data.nome}" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+    <div class="image-frame image-frame--portrait">
+      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+    </div>
     <div class="visagismo-painel-txt">
       <h3>Seu Formato: ${data.nome}</h3>
       <span class="recomendacao">Recomendação</span>
@@ -1891,7 +1950,9 @@ function renderPaleta(cor) {
 
   const swatches = data.cores.map((item, i) => `
     <div class="swatch-card ${i===0 ? 'ativo' : ''}" data-nome="${item.n}" tabindex="0" role="button" aria-label="${item.n}">
-      <img src="${item.img}" alt="${item.n}" onclick="event.stopPropagation(); abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+      <div class="image-frame image-frame--square">
+        <img src="${item.img}" alt="${item.n}" loading="lazy" decoding="async" onclick="event.stopPropagation(); abrirZoomEditorial(this.src)" onerror="_imgErro(this)">
+      </div>
       <div class="swatch-card-info">
         <div class="swatch-card-cor" style="background:${item.c}"></div>
         <span>${item.n}</span>
@@ -1923,7 +1984,9 @@ Object.keys(cabelosData).forEach(tipo => {
   if (!container) return;
   container.innerHTML = cabelosData[tipo].map(item => `
     <div class="mini-card" tabindex="0" role="button" onclick="abrirZoomEditorial('${item.img}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirZoomEditorial('${item.img}')}">
-      <img src="${item.img}" alt="${item.title}" loading="lazy" onerror="_imgErro(this)">
+      <div class="image-frame image-frame--portrait">
+        <img src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onerror="_imgErro(this)">
+      </div>
       <div class="mini-card-txt"><strong>${item.title}</strong><span>${item.sub}</span></div>
     </div>
   `).join('');
@@ -2000,6 +2063,7 @@ function renderGrid(id, data, catLabel, linkDefault){
   data.forEach((item, idx) => {
     const card = document.createElement('button');
     card.className = 'card';
+    card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio/i.test(catLabel || item.cat || ''));
     card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
     const img = item.img || item.imgFrente || '';
 
