@@ -16,6 +16,30 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+  <script>
+    /* Fallback dourado global para imagens que falharem */
+    function _imgErro(el) {
+      try {
+        if (!el.getAttribute('src')) return; /* src vazio não é erro real */
+        const wrap = el.parentElement;
+        if (!wrap) return;
+        const nome = el.getAttribute('alt') || el.getAttribute('data-nome') || 'Imagem';
+        wrap.classList.add('img-erro');
+        wrap.setAttribute('data-nome', nome);
+        if (el.id) { el.style.opacity = '0'; return; } /* imagens fixas: esconde, nunca remove */
+        el.remove();
+      } catch (e) { }
+    }
+    window._imgErro = _imgErro;
+    /* Reaplica src numa imagem fixa limpando o estado de erro */
+    function _imgSet(el, src) {
+      if (!el) return;
+      const wrap = el.parentElement;
+      if (wrap) wrap.classList.remove('img-erro');
+      el.style.opacity = '1';
+      if (src) el.src = src;
+    }
+  </script>
   <style>
     :root {
       --bg: #0a0808;
@@ -331,7 +355,6 @@
       padding: 0 12px;
     }
 
-    body.buscando .busca-sugestoes,
     .busca-sugestoes.visivel {
       max-height: 220px;
       opacity: 1;
@@ -792,7 +815,6 @@
     }
 
     @media (min-width:601px) and (max-width:1024px) {
-
       .grid,
       .grid-2,
       .grid-3,
@@ -804,7 +826,6 @@
     }
 
     @media (min-width:1025px) {
-
       .grid,
       .grid-2,
       .grid-3,
@@ -855,7 +876,7 @@
     .card-elegante:hover {
       border-color: var(--border-gold);
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
 
     .card-img-wrap,
@@ -1167,6 +1188,80 @@
 
     .vis-acoes .btn-link {
       margin-top: 0;
+    }
+
+    .visagismo-nav {
+      scroll-margin-top: 72px;
+    }
+
+    .chips-rosto {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip-rosto {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px 6px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: rgba(217, 187, 144, .08);
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: var(--tr-ui);
+    }
+
+    .chip-rosto:hover {
+      background: rgba(217, 187, 144, .18);
+    }
+
+    .chip-rosto svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .modal-rostos {
+      margin: 4px 0 18px;
+    }
+
+    .modal-rostos h4 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .modal-rostos p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .vis-desejos {
+      margin: 0 0 22px;
+    }
+
+    .vis-desejos .recomendacao {
+      margin-bottom: 10px;
+    }
+
+    .vis-desejos .chips-rosto {
+      justify-content: center;
+    }
+
+    .vis-desejos .chip-rosto {
+      padding: 6px 14px;
     }
 
     .visagismo-painel-txt .recomendacao {
@@ -2467,88 +2562,27 @@
     }
 
     /* ENDURECIMENTO PARA DEPLOY */
-    html {
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
-    html,
-    body,
-    header,
-    nav,
-    aside,
-    .drawer,
-    .sheet,
-    .dock,
-    button,
-    a,
-    input,
-    .modal-bg,
-    .card,
-    .editorial-card,
-    .mini-card,
-    .mini-card-editorial,
-    .swatch-card {
+    html, body, header, nav, aside, .drawer, .sheet, .dock, button, a, input,
+    .modal-bg, .card, .editorial-card, .mini-card, .mini-card-editorial, .swatch-card {
       touch-action: manipulation;
     }
+    .modal-bg { touch-action: pan-y; }
 
-    .modal-bg {
-      touch-action: pan-y;
-    }
+    .busca-input { font-size: 16px; }
+    @media (max-width:600px) { .busca-input { font-size: 16px; } }
 
-    .busca-input {
-      font-size: 16px;
-    }
+    img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 
-    @media (max-width:600px) {
-      .busca-input {
-        font-size: 16px;
-      }
-    }
+    .acordeao-body-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .dock-btn { min-width: 0; }
+    .dock-btn span { max-width: 100%; overflow: hidden; text-overflow: clip; white-space: nowrap; }
+    .card-nome, .card-sub, .modal-title, .modal-text { overflow-wrap: anywhere; }
+    .swatch-card { flex: 0 0 auto; }
 
-    img {
-      -webkit-user-drag: none;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
-    }
-
-    .acordeao-body-inner {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .dock-btn {
-      min-width: 0;
-    }
-
-    .dock-btn span {
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: clip;
-      white-space: nowrap;
-    }
-
-    .card-nome,
-    .card-sub,
-    .modal-title,
-    .modal-text {
-      overflow-wrap: anywhere;
-    }
-
-    .swatch-card {
-      flex: 0 0 auto;
-    }
-
-    .zoom-bg {
-      align-items: stretch;
-      justify-content: flex-start;
-    }
-
-    .zoom-bg img {
-      margin: auto;
-      flex: 0 0 auto;
-    }
-
+    .zoom-bg { align-items: stretch; justify-content: flex-start; }
+    .zoom-bg img { margin: auto; flex: 0 0 auto; }
     .zoom-bg img.zoomed {
       transform: none;
       max-width: none;
@@ -2558,67 +2592,25 @@
     }
 
     @supports not (height: 100dvh) {
-      .modal {
-        max-height: calc(100vh - 24px);
-      }
-
-      .zoom-bg img {
-        max-height: 88vh;
-      }
-
-      .image-frame--modal {
-        max-height: 40vh;
-        width: min(100%, 280px, 26.66vh);
-      }
+      .modal { max-height: calc(100vh - 24px); }
+      .zoom-bg img { max-height: 88vh; }
+      .image-frame--modal { max-height: 40vh; width: min(100%, 280px, 26.66vh); }
     }
 
     @media (max-width: 340px) {
-      .brand-h {
-        font-size: 1.5rem;
-      }
-
-      .dock {
-        width: calc(100% - 16px);
-        padding: 4px;
-      }
-
-      .dock-btn span {
-        font-size: .54rem;
-        letter-spacing: 0;
-      }
-
-      .acordeao-body-inner {
-        padding: 14px;
-        gap: 8px;
-      }
-
-      .mini-card-txt strong {
-        font-size: .74rem;
-      }
-
-      .mini-card-txt span {
-        font-size: .6rem;
-      }
-
-      .modal-body {
-        padding: 16px 14px 20px;
-      }
-
-      .modal-mini-kits {
-        margin: 0 -14px;
-        padding-inline: 14px;
-      }
+      .brand-h { font-size: 1.5rem; }
+      .dock { width: calc(100% - 16px); padding: 4px; }
+      .dock-btn span { font-size: .54rem; letter-spacing: 0; }
+      .acordeao-body-inner { padding: 14px; gap: 8px; }
+      .mini-card-txt strong { font-size: .74rem; }
+      .mini-card-txt span { font-size: .6rem; }
+      .modal-body { padding: 16px 14px 20px; }
+      .modal-mini-kits { margin: 0 -14px; padding-inline: 14px; }
     }
 
     @media (max-height: 480px) and (orientation: landscape) {
-      .image-frame--modal {
-        max-height: 55dvh;
-        width: min(100%, 220px, 36.6dvh);
-      }
-
-      .modal-img {
-        padding: 8px;
-      }
+      .image-frame--modal { max-height: 55dvh; width: min(100%, 220px, 36.6dvh); }
+      .modal-img { padding: 8px; }
     }
   </style>
 </head>
@@ -2734,7 +2726,7 @@
         <h1>Cortes</h1><span class="divider"></span>
         <div class="sub">Inspire-se com cortes femininos<br><span class="highlight">em 3 ângulos</span></div>
       </div>
-
+      
       <div class="bloco">
         <div class="bloco-head">
           <h2>Galeria de Cortes</h2>
@@ -2758,32 +2750,25 @@
             <div class="linha"></div>
           </div>
           <div class="visagismo-nav" id="visagismoNav" role="group" aria-label="Formatos de rosto">
-            <button type="button" class="visagismo-btn" data-formato="oval" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="oval" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <ellipse cx="12" cy="12" rx="7" ry="9" />
               </svg><span>Oval</span></button>
-            <button type="button" class="visagismo-btn" data-formato="redondo" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="redondo" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="8" />
               </svg><span>Redondo</span></button>
-            <button type="button" class="visagismo-btn" data-formato="quadrado" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="quadrado" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="5" y="5" width="14" height="14" rx="2" />
               </svg><span>Quadrado</span></button>
-            <button type="button" class="visagismo-btn" data-formato="coracao" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="coracao" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 21 L 4 13 C 1 10, 1 5, 5 4 C 8 3, 12 7, 12 7 C 12 7, 16 3, 19 4 C 23 5, 23 10, 20 13 Z" />
               </svg><span>Coração</span></button>
-            <button type="button" class="visagismo-btn" data-formato="diamante" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="diamante" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2 L 20 12 L 12 22 L 4 12 Z" />
               </svg><span>Diamante</span></button>
-            <button type="button" class="visagismo-btn" data-formato="triangular" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="triangular" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 4 L 20 20 L 4 20 Z" />
               </svg><span>Triangular</span></button>
-            <button type="button" class="visagismo-btn" data-formato="longo" aria-pressed="false"><svg
-                viewBox="0 0 24 24" aria-hidden="true">
+            <button type="button" class="visagismo-btn" data-formato="longo" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="7" y="2" width="10" height="20" rx="3" />
               </svg><span>Longo</span></button>
           </div>
@@ -2870,8 +2855,7 @@
 
       <div class="aviso-afiliado"><span class="gold">Não vendemos produtos.</span> Indicamos os que fazem sentido, com
         link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão —
-        <span class="gold">sem nenhum custo extra para você.</span>
-      </div>
+        <span class="gold">sem nenhum custo extra para você.</span></div>
 
       <div class="bloco">
         <div class="bloco-head">
@@ -3011,7 +2995,7 @@
       </div>
       <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber
         uma comissão — <span class="gold">sem custo extra para você.</span></div>
-
+      
       <div class="bloco">
         <div class="bloco-head">
           <h2>Profissionais</h2>
@@ -3056,6 +3040,7 @@
         <span class="modal-sub" id="mSub"></span>
         <p class="modal-text" id="mText"></p>
         <ul class="modal-list" id="mList"></ul>
+        <div class="modal-rostos" id="mRostos" hidden></div>
 
         <p class="modal-afiliado">Link de afiliado — sem custo extra para você.</p>
 
@@ -3083,19 +3068,6 @@
   <script src="https://unpkg.com/idb@8/build/umd.js" defer
     onerror="window.__idbFalhou=true;console.warn('idb CDN indisponível — busca persistente desativada')"></script>
   <script>
-    /* Fallback dourado global para imagens que falharem */
-    function _imgErro(el) {
-      try {
-        const wrap = el.parentElement;
-        if (!wrap) return;
-        const nome = el.getAttribute('alt') || el.getAttribute('data-nome') || 'Imagem';
-        wrap.classList.add('img-erro');
-        wrap.setAttribute('data-nome', nome);
-        el.remove();
-      } catch (e) { }
-    }
-    window._imgErro = _imgErro;
-
     /* Toast ao copiar PIX */
     function copiarPix() {
       const pix = document.getElementById('pixKey').innerText;
@@ -3128,6 +3100,24 @@
       if (item.descFrente) return ['Frente: ' + item.descFrente, 'Lado: ' + (item.descLado || ''), 'Atrás: ' + (item.descAtras || '')].filter(x => x.length > 8);
       return item.sub ? [item.sub] : [];
     }
+    function mostrarRostosNoModal(lista) {
+      const box = document.getElementById('mRostos');
+      if (!box) return;
+      const chips = lista.filter(k => visagismoData[k]).map(k => {
+        const ic = document.querySelector('.visagismo-btn[data-formato="' + k + '"] svg');
+        return '<button type="button" class="chip-rosto" data-formato="' + k + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + (ic ? ic.innerHTML : '') + '</svg>' + visagismoData[k].nome + '</button>';
+      }).join('');
+      if (!chips) return;
+      box.innerHTML = '<h4>Combina com estes rostos</h4><div class="chips-rosto">' + chips + '</div><p>Toque em um formato para ver no Visagismo.</p>';
+      box.hidden = false;
+      box.querySelectorAll('.chip-rosto').forEach(b => b.addEventListener('click', () => {
+        closeModal();
+        irParaSecao('visagismo');
+        renderVisagismo(b.dataset.formato, true);
+        setTimeout(() => { const n = document.getElementById('visagismoNav'); if (n) n.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
+      }));
+    }
+
     function abrirItem(item, cat, linkDefault) {
       if (item.imgFrente && /^cortes?$/i.test(item.cat || cat || '')) { openModalCorte(item); return; }
       const img = item.img || item.imgFrente || '';
@@ -3135,6 +3125,7 @@
       let t1 = item.desc || item.descFrente || item.sub || '';
       if (ehKit) t1 = (item.sub ? item.sub + ' — ' : '') + 'itens do kit:';
       openModal(item.title, item.cat || cat, t1, item.desc2 || '', _listaPadrao(item), item.link || linkDefault || ML_LINKS.kitNoiva, img);
+      if (item.rostos && item.rostos.length) mostrarRostosNoModal(item.rostos);
     }
 
     const secoes = document.querySelectorAll('.secao');
@@ -3294,6 +3285,7 @@
     function openModal(nome, categoria, texto1, texto2, lista, link, img) {
       _focoAnterior = document.activeElement;
       texto1 = texto1 || ''; texto2 = texto2 || '';
+      const _mr = document.getElementById('mRostos'); if (_mr) { _mr.innerHTML = ''; _mr.hidden = true; }
       document.getElementById('mTitle').innerHTML = nome;
       document.getElementById('mSub').textContent = categoria || '';
       document.getElementById('mText').innerHTML = texto1 + (texto2 ? ' ' + texto2 : '');
@@ -3591,6 +3583,7 @@
         desc: 'Cria corpo e presença no cabelo.',
         desc2: 'Ideal para fios finos ou quem quer mais estrutura.',
         lista: ['Corpo', 'Presença'],
+        rostos: ['redondo', 'coracao', 'diamante', 'triangular', 'longo'],
         img: 'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80'
       },
       {
@@ -3599,6 +3592,7 @@
         desc: 'Traz fluidez e naturalidade aos fios.',
         desc2: 'Ideal para quem gosta de cabelo solto e com balanço.',
         lista: ['Fluidez', 'Naturalidade'],
+        rostos: ['oval', 'quadrado', 'triangular'],
         img: 'https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=600&q=80'
       },
       {
@@ -3607,6 +3601,7 @@
         desc: 'Facilita o dia a dia e reduz o tempo de finalização.',
         desc2: 'Ideal para quem tem rotina corrida.',
         lista: ['Dia a dia', 'Baixa manutenção'],
+        rostos: ['oval'],
         img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80'
       }
     ];
@@ -3660,10 +3655,6 @@
       { title: 'Proteção Solar', sub: 'Evita desbotamento', desc: 'Como o sol afeta a cor e como proteger.', desc2: 'Ideal para manter a cor vibrante.', lista: ['Sol', 'Proteção'], img: 'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link: ML_LINKS.kerastase }
     ];
     const kitsData = [
-      { title: 'Kit Mac', sub: 'Maquiagem', desc: 'Produtos de maquiagem profissional MAC.', img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: 'https://meli.la/2sHyDUk' }, // Lembre-se de colocar a imagem correta do MAC
-      { title: 'Kit Noiva', sub: 'Cuidados Especiais', desc: 'Kit preparatório e de finalização para noivas.', img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: 'https://meli.la/1Zs9Ncu' }, // Lembre-se de colocar a imagem correta do Kit Noiva
-      { title: 'Kit Davines', sub: 'Cuidados', desc: 'Produtos Davines para tratamento capilar.', img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: 'https://meli.la/1H35KAT' }, // Lembre-se de colocar a imagem correta da Davines
-
       { title: 'Kit Kérastase', sub: 'Reconstrução + Brilho', desc: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: ML_LINKS.kerastase },
       { title: "Kit L'Oréal Expert", sub: 'Profissional', desc: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: ML_LINKS.expert },
       { title: 'Kit Joico', sub: 'Hidratação Intensa', desc: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK', img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: ML_LINKS.joico },
@@ -3850,7 +3841,7 @@
         ...push(kitsData, 'Kits', ML_LINKS.kitNoiva),
         ...push(ferramentasData, 'Ferramentas', ML_LINKS.ferramentas),
         ...push(franjasData, 'Franjas', ML_LINKS.kerastase),
-        ...push(comprimentosData, 'Comprimentos', ML_LINKS.kerastase),
+        ...push(comprimentosData, 'Desejos', ML_LINKS.kerastase),
         ...push(visagismoIdx, 'Visagismo', ML_LINKS.kerastase),
         ...push(paletaIdx, 'Paleta', ML_LINKS.kerastase),
         ...push(coloracaoIdx, 'Coloração', ML_LINKS.inoa),
@@ -4046,6 +4037,7 @@
       if (!container || !data) return;
       const nomeMin = data.nome.toLowerCase();
       const temImg = !!data.img;
+      const desejos = comprimentosData.filter(d => (d.rostos || []).includes(formato));
       container.innerHTML = `
     <div class="image-frame image-frame--portrait${temImg ? '' : ' img-erro'}"${temImg ? '' : ` data-nome="${data.nome}"`}>
       ${temImg ? `<img src="${data.img}" alt="Exemplo de corte para rosto ${nomeMin}" loading="eager" decoding="async" onerror="_imgErro(this)">` : ''}
@@ -4056,6 +4048,7 @@
       <p class="vis-rec">${data.recomendacao}</p>
       <p>${data.desc}</p>
       <div class="vis-chips">${(data.lista || []).map(i => `<span>${i}</span>`).join('')}</div>
+      ${desejos.length ? `<div class="vis-desejos"><span class="recomendacao">Desejos que combinam</span><div class="chips-rosto">${desejos.map(d => `<button type="button" class="chip-rosto chip-desejo" data-desejo="${d.title}">${d.title}</button>`).join('')}</div></div>` : ''}
       <div class="vis-acoes">
         <button type="button" class="btn-link" id="visagismoDetalhes">Ver Detalhes</button>
         <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
@@ -4065,6 +4058,16 @@
       const abrir = () => openModal(data.nome, 'Visagismo', data.desc, data.recomendacao, data.lista || [], data.link, data.img);
       const bd = document.getElementById('visagismoDetalhes');
       if (bd) bd.addEventListener('click', abrir);
+      container.querySelectorAll('.chip-desejo').forEach(b => b.addEventListener('click', () => {
+        const item = comprimentosData.find(d => d.title === b.dataset.desejo);
+        if (!item) return;
+        irParaSecao('cortes');
+        setTimeout(() => {
+          const g = document.getElementById('grid-comprimentos');
+          if (g) g.scrollIntoView({ block: 'center' });
+          abrirItem(item, 'Desejo', ML_LINKS.kerastase);
+        }, 60);
+      }));
       const frame = container.querySelector('.image-frame');
       if (frame) frame.addEventListener('click', abrir);
       document.querySelectorAll('.visagismo-btn').forEach(btn => {
@@ -4185,9 +4188,7 @@
     }
 
     function atualizarInfoCor(tom) {
-      const imgEl = document.getElementById('colImagem');
-      imgEl.style.opacity = '1';
-      if (tom.img) { imgEl.src = tom.img; }
+      _imgSet(document.getElementById('colImagem'), tom.img);
 
       document.getElementById('colInfo').innerHTML = `
     <h3>${tom.nome}</h3>
@@ -4208,9 +4209,7 @@
       const data = makeData[categoria];
       if (!data) return;
 
-      const imgEl = document.getElementById('makeImagem');
-      imgEl.style.opacity = '1';
-      imgEl.src = data.img;
+      _imgSet(document.getElementById('makeImagem'), data.img);
       const container = document.getElementById('makeInfo');
       container.innerHTML = `
     <h3>${data.nome}</h3>
@@ -4346,7 +4345,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderGrid('grid-cortes', cortesData, 'Corte', ML_LINKS.kerastase);
       renderGrid('grid-franjas', franjasData, 'Franja', ML_LINKS.kerastase);
-      renderGrid('grid-comprimentos', comprimentosData, 'Comprimento', ML_LINKS.kerastase);
+      renderGrid('grid-comprimentos', comprimentosData, 'Desejo', ML_LINKS.kerastase);
 
       renderColoracao('loiros');
       renderEditorialScroll('tecnicasScroll', tecnicasData, 'Técnica', ML_LINKS.inoa);
