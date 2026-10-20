@@ -778,7 +778,7 @@
       background: var(--border-gold)
     }
 
-    /* GRID PADRONIZADO */
+    /* GRID PADRONIZADO (Padrão Imagem 1 e 3) */
     .grid,
     .grid-2,
     .grid-3,
@@ -816,7 +816,7 @@
       }
     }
 
-    /* SISTEMA DE IMAGENS */
+    /* SISTEMA DE IMAGENS E CARDS ELEGANTES */
     .card {
       position: relative;
       display: flex;
@@ -842,6 +842,22 @@
       border-radius: var(--radius);
     }
 
+    /* MOLDURA DOS CARDS (Para igualar ao padrão) */
+    .card-elegante {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px;
+      transition: transform .3s var(--ease-out), border-color .3s var(--ease-out), box-shadow .3s var(--ease-out);
+      height: 100%;
+    }
+
+    .card-elegante:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
     .card-img-wrap,
     .image-frame {
       position: relative;
@@ -855,7 +871,7 @@
 
     .card-img-wrap {
       aspect-ratio: 2 / 3;
-      border-radius: var(--radius);
+      border-radius: calc(var(--radius) - 4px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
       border: 1px solid rgba(255, 255, 255, .05);
       transition: border-color .3s var(--ease-out), transform .3s var(--ease-out);
@@ -971,14 +987,6 @@
       min-width: 0;
     }
 
-    .card-nome mark {
-      background: rgba(217, 187, 144, .22);
-      color: var(--gold-hi);
-      padding: 0 2px;
-      border-radius: 2px;
-      font-weight: 700
-    }
-
     .aviso-afiliado {
       max-width: 720px;
       margin: 0 auto 32px;
@@ -1009,11 +1017,26 @@
 
     .visagismo-nav {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       overflow-x: auto;
       padding: 4px 4px 16px 4px;
       scrollbar-width: none;
       -ms-overflow-style: none;
+    }
+
+    .visagismo-nav>:first-child {
+      margin-left: auto;
+    }
+
+    .visagismo-nav>:last-child {
+      margin-right: auto;
+    }
+
+    @media (max-width: 560px) {
+      .visagismo-nav {
+        -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+        mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+      }
     }
 
     .visagismo-nav::-webkit-scrollbar {
@@ -1049,10 +1072,23 @@
     }
 
     .visagismo-btn span {
-      font-size: 0.68rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       font-weight: 500;
+    }
+
+    .visagismo-btn {
+      min-width: 64px;
+      padding: 0;
+    }
+
+    .visagismo-btn:focus-visible {
+      outline: none;
+    }
+
+    .visagismo-btn:focus-visible svg {
+      border-color: var(--gold);
     }
 
     .visagismo-btn.ativo {
@@ -1066,42 +1102,71 @@
     }
 
     .visagismo-painel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius);
-      overflow: hidden;
       animation: fadeInUp .4s var(--ease-out);
-      max-width: 280px;
       margin: 0 auto;
     }
 
-    .visagismo-painel>.image-frame img,
-    .col-display>.image-frame img {
+    .visagismo-painel>.image-frame {
+      max-width: 250px;
+      margin: 6px auto 0;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius);
       cursor: pointer;
     }
 
-    .visagismo-painel>.image-frame {
-      border-bottom: 1px solid var(--border);
-    }
-
     .visagismo-painel-txt {
-      padding: 20px;
+      max-width: 520px;
+      margin: 26px auto 0;
+      padding: 0 4px;
+      text-align: center;
     }
 
     .visagismo-painel-txt h3 {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: var(--gold-light);
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
 
     .visagismo-painel-txt p {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-sec);
-      line-height: 1.5;
+      line-height: 1.65;
       font-weight: 300;
       margin-bottom: 12px;
+    }
+
+    .visagismo-painel-txt p.vis-rec {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .vis-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 4px 0 20px;
+    }
+
+    .vis-chips span {
+      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-sec);
+    }
+
+    .vis-acoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .vis-acoes .btn-link {
+      margin-top: 0;
     }
 
     .visagismo-painel-txt .recomendacao {
@@ -1111,7 +1176,7 @@
       color: var(--gold);
       font-weight: 500;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .btn-link {
@@ -1207,10 +1272,6 @@
       width: 100%;
     }
 
-    .swatch-card>.image-frame>img {
-      cursor: pointer;
-    }
-
     .swatch-card-info {
       padding: 6px;
       text-align: center;
@@ -1299,6 +1360,7 @@
       background: rgba(0, 0, 0, .2);
     }
 
+    /* Correção para o Acordeão usar o mesmo grid elegante */
     .acordeao-body-inner {
       padding: 20px;
       display: grid;
@@ -1311,22 +1373,20 @@
     }
 
     .mini-card {
-      background: var(--bg-elevated);
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: var(--radius);
       overflow: hidden;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
+      padding: 6px;
     }
 
     .mini-card>.image-frame {
       flex: 0 0 auto;
-    }
-
-    .mini-card>.image-frame>img {
-      cursor: pointer;
+      border-radius: calc(var(--radius) - 4px);
     }
 
     .mini-card-txt {
@@ -1472,11 +1532,12 @@
     .editorial-card {
       flex: 0 0 200px;
       scroll-snap-align: start;
-      background: transparent;
-      border: none;
-      padding: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px;
       cursor: pointer;
-      transition: transform .3s var(--ease-out);
+      transition: transform .3s var(--ease-out), border-color .3s var(--ease-out);
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
@@ -1484,10 +1545,11 @@
 
     .editorial-card:hover {
       transform: translateY(-4px);
+      border-color: var(--border-gold);
     }
 
     .editorial-card-txt {
-      padding: 10px 2px;
+      padding: 10px 4px 4px;
       text-align: left;
     }
 
@@ -1506,18 +1568,25 @@
     }
 
     .mini-card-editorial {
-      background: transparent;
-      border: none;
-      padding: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px;
       cursor: pointer;
       transition: var(--tr-ui);
       display: flex;
       flex-direction: column;
       touch-action: manipulation;
+      height: 100%;
+    }
+
+    .mini-card-editorial:hover {
+      border-color: var(--border-gold);
+      transform: translateY(-3px);
     }
 
     .mini-card-editorial-txt {
-      padding: 8px 2px;
+      padding: 8px 4px 4px;
       text-align: left;
     }
 
@@ -2291,7 +2360,7 @@
       }
 
       .visagismo-btn span {
-        font-size: 0.6rem;
+        font-size: 0.68rem;
       }
 
       .cor-btn {
@@ -2398,27 +2467,88 @@
     }
 
     /* ENDURECIMENTO PARA DEPLOY */
-    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
 
-    html, body, header, nav, aside, .drawer, .sheet, .dock, button, a, input,
-    .modal-bg, .card, .editorial-card, .mini-card, .mini-card-editorial, .swatch-card {
+    html,
+    body,
+    header,
+    nav,
+    aside,
+    .drawer,
+    .sheet,
+    .dock,
+    button,
+    a,
+    input,
+    .modal-bg,
+    .card,
+    .editorial-card,
+    .mini-card,
+    .mini-card-editorial,
+    .swatch-card {
       touch-action: manipulation;
     }
-    .modal-bg { touch-action: pan-y; }
 
-    .busca-input { font-size: 16px; }
-    @media (max-width:600px) { .busca-input { font-size: 16px; } }
+    .modal-bg {
+      touch-action: pan-y;
+    }
 
-    img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+    .busca-input {
+      font-size: 16px;
+    }
 
-    .acordeao-body-inner { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .dock-btn { min-width: 0; }
-    .dock-btn span { max-width: 100%; overflow: hidden; text-overflow: clip; white-space: nowrap; }
-    .card-nome, .card-sub, .modal-title, .modal-text { overflow-wrap: anywhere; }
-    .swatch-card { flex: 0 0 auto; }
+    @media (max-width:600px) {
+      .busca-input {
+        font-size: 16px;
+      }
+    }
 
-    .zoom-bg { align-items: stretch; justify-content: flex-start; }
-    .zoom-bg img { margin: auto; flex: 0 0 auto; }
+    img {
+      -webkit-user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    .acordeao-body-inner {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .dock-btn {
+      min-width: 0;
+    }
+
+    .dock-btn span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: clip;
+      white-space: nowrap;
+    }
+
+    .card-nome,
+    .card-sub,
+    .modal-title,
+    .modal-text {
+      overflow-wrap: anywhere;
+    }
+
+    .swatch-card {
+      flex: 0 0 auto;
+    }
+
+    .zoom-bg {
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+
+    .zoom-bg img {
+      margin: auto;
+      flex: 0 0 auto;
+    }
+
     .zoom-bg img.zoomed {
       transform: none;
       max-width: none;
@@ -2428,25 +2558,67 @@
     }
 
     @supports not (height: 100dvh) {
-      .modal { max-height: calc(100vh - 24px); }
-      .zoom-bg img { max-height: 88vh; }
-      .image-frame--modal { max-height: 40vh; width: min(100%, 280px, 26.66vh); }
+      .modal {
+        max-height: calc(100vh - 24px);
+      }
+
+      .zoom-bg img {
+        max-height: 88vh;
+      }
+
+      .image-frame--modal {
+        max-height: 40vh;
+        width: min(100%, 280px, 26.66vh);
+      }
     }
 
     @media (max-width: 340px) {
-      .brand-h { font-size: 1.5rem; }
-      .dock { width: calc(100% - 16px); padding: 4px; }
-      .dock-btn span { font-size: .54rem; letter-spacing: 0; }
-      .acordeao-body-inner { padding: 14px; gap: 8px; }
-      .mini-card-txt strong { font-size: .74rem; }
-      .mini-card-txt span { font-size: .6rem; }
-      .modal-body { padding: 16px 14px 20px; }
-      .modal-mini-kits { margin: 0 -14px; padding-inline: 14px; }
+      .brand-h {
+        font-size: 1.5rem;
+      }
+
+      .dock {
+        width: calc(100% - 16px);
+        padding: 4px;
+      }
+
+      .dock-btn span {
+        font-size: .54rem;
+        letter-spacing: 0;
+      }
+
+      .acordeao-body-inner {
+        padding: 14px;
+        gap: 8px;
+      }
+
+      .mini-card-txt strong {
+        font-size: .74rem;
+      }
+
+      .mini-card-txt span {
+        font-size: .6rem;
+      }
+
+      .modal-body {
+        padding: 16px 14px 20px;
+      }
+
+      .modal-mini-kits {
+        margin: 0 -14px;
+        padding-inline: 14px;
+      }
     }
 
     @media (max-height: 480px) and (orientation: landscape) {
-      .image-frame--modal { max-height: 55dvh; width: min(100%, 220px, 36.6dvh); }
-      .modal-img { padding: 8px; }
+      .image-frame--modal {
+        max-height: 55dvh;
+        width: min(100%, 220px, 36.6dvh);
+      }
+
+      .modal-img {
+        padding: 8px;
+      }
     }
   </style>
 </head>
@@ -2556,14 +2728,23 @@
 
   <main class="main-content" id="mainContent">
 
+    <!-- CORTES -->
     <section class="secao" id="secao-cortes">
       <div class="page-title">
         <h1>Cortes</h1><span class="divider"></span>
         <div class="sub">Inspire-se com cortes femininos<br><span class="highlight">em 3 ângulos</span></div>
       </div>
-      <div class="grid grid-3" id="grid-cortes"></div>
+
+      <div class="bloco">
+        <div class="bloco-head">
+          <h2>Galeria de Cortes</h2>
+          <div class="linha"></div>
+        </div>
+        <div class="grid grid-3" id="grid-cortes"></div>
+      </div>
     </section>
 
+    <!-- VISAGISMO -->
     <section class="secao" id="secao-visagismo">
       <div class="page-title">
         <h1>Visagismo</h1><span class="divider"></span>
@@ -2576,27 +2757,37 @@
             <h2>Formatos de Rosto</h2>
             <div class="linha"></div>
           </div>
-          <div class="visagismo-nav" id="visagismoNav">
-            <button class="visagismo-btn" data-formato="oval"><svg viewBox="0 0 24 24">
+          <div class="visagismo-nav" id="visagismoNav" role="group" aria-label="Formatos de rosto">
+            <button type="button" class="visagismo-btn" data-formato="oval" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
                 <ellipse cx="12" cy="12" rx="7" ry="9" />
               </svg><span>Oval</span></button>
-            <button class="visagismo-btn" data-formato="redondo"><svg viewBox="0 0 24 24">
+            <button type="button" class="visagismo-btn" data-formato="redondo" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="8" />
               </svg><span>Redondo</span></button>
-            <button class="visagismo-btn" data-formato="quadrado"><svg viewBox="0 0 24 24">
-                <rect x="5" y="4" width="14" height="16" rx="2" />
+            <button type="button" class="visagismo-btn" data-formato="quadrado" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="5" width="14" height="14" rx="2" />
               </svg><span>Quadrado</span></button>
-            <button class="visagismo-btn" data-formato="coracao"><svg viewBox="0 0 24 24">
+            <button type="button" class="visagismo-btn" data-formato="coracao" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 21 L 4 13 C 1 10, 1 5, 5 4 C 8 3, 12 7, 12 7 C 12 7, 16 3, 19 4 C 23 5, 23 10, 20 13 Z" />
               </svg><span>Coração</span></button>
-            <button class="visagismo-btn" data-formato="diamante"><svg viewBox="0 0 24 24">
+            <button type="button" class="visagismo-btn" data-formato="diamante" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2 L 20 12 L 12 22 L 4 12 Z" />
               </svg><span>Diamante</span></button>
-            <button class="visagismo-btn" data-formato="triangular"><svg viewBox="0 0 24 24">
-                <path d="M4 4 L 20 4 L 12 20 Z" />
+            <button type="button" class="visagismo-btn" data-formato="triangular" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 4 L 20 20 L 4 20 Z" />
               </svg><span>Triangular</span></button>
+            <button type="button" class="visagismo-btn" data-formato="longo" aria-pressed="false"><svg
+                viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="7" y="2" width="10" height="20" rx="3" />
+              </svg><span>Longo</span></button>
           </div>
-          <div class="visagismo-painel" id="visagismoResultado"></div>
+          <div class="visagismo-painel" id="visagismoResultado" aria-live="polite"></div>
         </div>
 
         <div class="bloco" style="margin-bottom:0">
@@ -2655,6 +2846,7 @@
             <h2>Franjas</h2>
             <div class="linha"></div>
           </div>
+          <!-- ADICIONADO grid-3 para ficar igual à imagem 1 -->
           <div class="grid grid-3" id="grid-franjas"></div>
         </div>
 
@@ -2663,11 +2855,13 @@
             <h2>Desejos</h2>
             <div class="linha"></div>
           </div>
+          <!-- ADICIONADO grid-3 para ficar igual à imagem 1 -->
           <div class="grid grid-3" id="grid-comprimentos"></div>
         </div>
       </div>
     </section>
 
+    <!-- COLORAÇÃO -->
     <section class="secao" id="secao-coloracao">
       <div class="page-title">
         <h1>Coloração</h1><span class="divider"></span>
@@ -2676,7 +2870,8 @@
 
       <div class="aviso-afiliado"><span class="gold">Não vendemos produtos.</span> Indicamos os que fazem sentido, com
         link direto para você comprar onde preferir. Se você comprar por um desses links, podemos receber uma comissão —
-        <span class="gold">sem nenhum custo extra para você.</span></div>
+        <span class="gold">sem nenhum custo extra para você.</span>
+      </div>
 
       <div class="bloco">
         <div class="bloco-head">
@@ -2724,6 +2919,7 @@
       </div>
     </section>
 
+    <!-- MAQUIAGEM -->
     <section class="secao" id="secao-maquiagem">
       <div class="page-title">
         <h1>Maquiagem</h1><span class="divider"></span>
@@ -2761,6 +2957,7 @@
       </div>
     </section>
 
+    <!-- KITS -->
     <section class="secao ativa" id="secao-kits">
       <div class="page-title">
         <h1>Kits & Acessórios</h1><span class="divider"></span>
@@ -2787,6 +2984,7 @@
       </div>
     </section>
 
+    <!-- NOIVAS -->
     <section class="secao" id="secao-noivas">
       <div class="page-title">
         <h1>Noivas</h1><span class="divider"></span>
@@ -2805,6 +3003,7 @@
       </div>
     </section>
 
+    <!-- FERRAMENTAS -->
     <section class="secao" id="secao-ferramentas">
       <div class="page-title">
         <h1>Ferramentas</h1><span class="divider"></span>
@@ -2812,9 +3011,17 @@
       </div>
       <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber
         uma comissão — <span class="gold">sem custo extra para você.</span></div>
-      <div class="grid grid-3" id="grid-ferramentas"></div>
+
+      <div class="bloco">
+        <div class="bloco-head">
+          <h2>Profissionais</h2>
+          <div class="linha"></div>
+        </div>
+        <div class="grid grid-3" id="grid-ferramentas"></div>
+      </div>
     </section>
 
+    <!-- BUSCA -->
     <section class="secao" id="secao-busca">
       <div class="page-title">
         <h1>Resultados</h1><span class="divider"></span>
@@ -2871,7 +3078,8 @@
         </div>
       </div>
     </div>
-  </
+  </div>
+
   <script src="https://unpkg.com/idb@8/build/umd.js" defer
     onerror="window.__idbFalhou=true;console.warn('idb CDN indisponível — busca persistente desativada')"></script>
   <script>
@@ -3220,12 +3428,13 @@
 
     /* DADOS */
     const visagismoData = {
-      oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', produto: 'Spray Volume', link: ML_LINKS.kerastase },
-      redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
-      quadrado: { nome: 'Quadrado', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', recomendacao: 'Ondas suaves e camadas.', desc: 'Suavize os ângulos marcados da mandíbula e da testa.', produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas },
-      coracao: { nome: 'Coração', img: 'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', recomendacao: 'Franja lateral e volume na base.', desc: 'Equilibre a testa mais larga e o queixo fino.', produto: 'Máscara de Reconstrução', link: ML_LINKS.joico },
-      diamante: { nome: 'Diamante', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', recomendacao: 'Volume no topo e na base.', desc: 'Suavize as maçãs do rosto largas.', produto: 'Shampoo Matizador', link: ML_LINKS.keune },
-      triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Disfarce a base mais larga criando volume no topo.', produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas }
+      oval: { nome: 'Oval', img: 'https://i.pinimg.com/736x/4a/d9/5b/4ad95bf7e6b141aadff33031fd09e9c5.jpg', recomendacao: 'Camadas suaves e comprimento médio.', desc: 'O rosto oval é o mais versátil. O objetivo é valorizar o equilíbrio natural.', lista: ['Camadas suaves', 'Comprimento médio', 'Valoriza o equilíbrio natural'], produto: 'Spray Volume', link: ML_LINKS.kerastase },
+      redondo: { nome: 'Redondo', img: 'https://i.pinimg.com/736x/d7/a8/8c/d7a88c60e5f7ce217264486e3fc506f4.jpg', recomendacao: 'Volume no topo e laterais justas.', desc: 'Crie a ilusão de alongamento. Evite cortes na altura das bochechas.', lista: ['Volume no topo', 'Laterais justas', 'Evite corte na altura das bochechas'], produto: 'Prancha Alisadora', link: ML_LINKS.ferramentas },
+      quadrado: { nome: 'Quadrado', img: 'https://i.pinimg.com/736x/34/27/f8/3427f83ed4451e1e17aa9822e4201d96.jpg', recomendacao: 'Ondas suaves e camadas.', desc: 'Suavize os ângulos marcados da mandíbula e da testa.', lista: ['Ondas suaves', 'Camadas', 'Suaviza mandíbula e testa'], produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas },
+      coracao: { nome: 'Coração', img: 'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', recomendacao: 'Franja lateral e volume na base.', desc: 'Equilibre a testa mais larga e o queixo fino.', lista: ['Franja lateral', 'Volume na base', 'Equilibra testa larga e queixo fino'], produto: 'Máscara de Reconstrução', link: ML_LINKS.joico },
+      diamante: { nome: 'Diamante', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', recomendacao: 'Volume no topo e na base.', desc: 'Suavize as maçãs do rosto largas.', lista: ['Volume no topo e na base', 'Suaviza maçãs do rosto largas', 'Franja lateral'], produto: 'Shampoo Matizador', link: ML_LINKS.keune },
+      triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Equilibre a base mais larga criando volume no topo.', lista: ['Camadas laterais', 'Topo volumoso', 'Equilibra a base mais larga'], produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas },
+      longo: { nome: 'Longo', img: '', recomendacao: 'Franja reta e volume nas laterais.', desc: 'Encurte visualmente o rosto e dê largura às laterais.', lista: ['Franja reta', 'Volume nas laterais', 'Encurta visualmente o rosto'], produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas }
     };
 
     const coresData = {
@@ -3305,7 +3514,6 @@
     };
 
     const makeProdutosData = [
-      /* PELE — 1) cobertura  2) selagem/anti-brilho */
       {
         title: 'Base Líquida MAC Studio Fix Fluid',
         sub: 'NW18 · Matte · SPF 15 · 30ml',
@@ -3326,8 +3534,6 @@
         img: 'https://i.pinimg.com/736x/72/3a/68/723a6849cd6b74d8aa9b1282cfceb7c9.jpg',
         link: MAC_LINK
       },
-
-      /* OLHOS — 1) sombra  2) delineado/2 em 1 */
       {
         title: 'Paleta de Sombras MAC Connect in Colour',
         sub: 'Encrypted Kryptonit',
@@ -3348,8 +3554,6 @@
         img: 'https://i.pinimg.com/736x/0f/d3/d1/0fd3d1b4918ed11c72d2fca3e8c8a8a7.jpg',
         link: MAC_LINK
       },
-
-      /* BOCA — 1) cor matte  2) contorno/definição */
       {
         title: 'Batom MAC Matte Macximal',
         sub: 'Diva',
@@ -3456,6 +3660,10 @@
       { title: 'Proteção Solar', sub: 'Evita desbotamento', desc: 'Como o sol afeta a cor e como proteger.', desc2: 'Ideal para manter a cor vibrante.', lista: ['Sol', 'Proteção'], img: 'https://i.pinimg.com/736x/81/b3/e3/81b3e38fcd2c99d11e48657daad65c74.jpg', link: ML_LINKS.kerastase }
     ];
     const kitsData = [
+      { title: 'Kit Mac', sub: 'Maquiagem', desc: 'Produtos de maquiagem profissional MAC.', img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: 'https://meli.la/2sHyDUk' }, // Lembre-se de colocar a imagem correta do MAC
+      { title: 'Kit Noiva', sub: 'Cuidados Especiais', desc: 'Kit preparatório e de finalização para noivas.', img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: 'https://meli.la/1Zs9Ncu' }, // Lembre-se de colocar a imagem correta do Kit Noiva
+      { title: 'Kit Davines', sub: 'Cuidados', desc: 'Produtos Davines para tratamento capilar.', img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: 'https://meli.la/1H35KAT' }, // Lembre-se de colocar a imagem correta da Davines
+
       { title: 'Kit Kérastase', sub: 'Reconstrução + Brilho', desc: 'Shampoo Nutritive + Condicionador Resistance + Máscara Genesis + Leave-In Elixir Ultime', img: 'https://i.pinimg.com/736x/51/2b/9f/512b9fb676bf357476492d4905dbc469.jpg', link: ML_LINKS.kerastase },
       { title: "Kit L'Oréal Expert", sub: 'Profissional', desc: 'Shampoo Vitamino Color + Condicionador Absolut Repair + Máscara Nutrioil + Sérum Pro Longer', img: 'https://i.pinimg.com/236x/27/a5/64/27a564e482dfc012261a1bf54b227bb8.jpg', link: ML_LINKS.expert },
       { title: 'Kit Joico', sub: 'Hidratação Intensa', desc: 'Shampoo Moisture Recovery + Condicionador + Máscara Intensa + Leave-In K-PAK', img: 'https://i.pinimg.com/1200x/e6/7d/8d/e67d8d0055148a948d067ca7ab035b3d.jpg', link: ML_LINKS.joico },
@@ -3535,16 +3743,6 @@
         if (!i.lista) i.lista = [i.sub].concat(c.lista);
         if (!i.link) i.link = c.link;
       }));
-
-      const vLista = {
-        oval: ['Camadas suaves', 'Comprimento médio', 'Valoriza o equilíbrio natural'],
-        redondo: ['Volume no topo', 'Laterais justas', 'Evite corte na altura das bochechas'],
-        quadrado: ['Ondas suaves', 'Camadas', 'Suaviza mandíbula e testa'],
-        coracao: ['Franja lateral', 'Volume na base', 'Equilibra testa larga e queixo fino'],
-        diamante: ['Volume no topo e na base', 'Suaviza maçãs do rosto largas', 'Franja lateral'],
-        triangular: ['Camadas laterais', 'Topo volumoso', 'Disfarça a base mais larga']
-      };
-      Object.keys(visagismoData).forEach(k => { if (!visagismoData[k].lista) visagismoData[k].lista = vLista[k]; });
 
       Object.keys(makeData).forEach(k => {
         if (!makeData[k].lista) {
@@ -3718,7 +3916,7 @@
 
       resultados.forEach((item, idx) => {
         const card = document.createElement('button');
-        card.className = 'card';
+        card.className = 'card card-elegante'; // NOVO PADRÃO AQUI
         card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio|maquiagem/i.test(item.cat || ''));
         card.style.animationDelay = Math.min(idx * 0.025, 0.4) + 's';
 
@@ -3842,26 +4040,46 @@
     }
 
     /* RENDER HELPERS */
-    function renderVisagismo(formato) {
+    function renderVisagismo(formato, rolar) {
       const data = visagismoData[formato];
       const container = document.getElementById('visagismoResultado');
       if (!container || !data) return;
+      const nomeMin = data.nome.toLowerCase();
+      const temImg = !!data.img;
       container.innerHTML = `
-    <div class="image-frame image-frame--portrait">
-      <img src="${data.img}" alt="${data.nome}" loading="lazy" decoding="async" onclick="var b=document.getElementById('visagismoDetalhes');if(b)b.click()" onerror="_imgErro(this)">
+    <div class="image-frame image-frame--portrait${temImg ? '' : ' img-erro'}"${temImg ? '' : ` data-nome="${data.nome}"`}>
+      ${temImg ? `<img src="${data.img}" alt="Exemplo de corte para rosto ${nomeMin}" loading="eager" decoding="async" onerror="_imgErro(this)">` : ''}
     </div>
     <div class="visagismo-painel-txt">
-      <h3>Seu Formato: ${data.nome}</h3>
+      <h3>Rosto ${nomeMin}</h3>
       <span class="recomendacao">Recomendação</span>
-      <p>${data.recomendacao}</p>
+      <p class="vis-rec">${data.recomendacao}</p>
       <p>${data.desc}</p>
-      <button type="button" class="btn-link" id="visagismoDetalhes">Ver Detalhes</button>
-      <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
+      <div class="vis-chips">${(data.lista || []).map(i => `<span>${i}</span>`).join('')}</div>
+      <div class="vis-acoes">
+        <button type="button" class="btn-link" id="visagismoDetalhes">Ver Detalhes</button>
+        <a href="${data.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" class="btn-link">Produto sugerido: ${data.produto}</a>
+      </div>
     </div>
   `;
+      const abrir = () => openModal(data.nome, 'Visagismo', data.desc, data.recomendacao, data.lista || [], data.link, data.img);
       const bd = document.getElementById('visagismoDetalhes');
-      if (bd) bd.addEventListener('click', () => openModal(data.nome, 'Visagismo', data.desc, data.recomendacao, data.lista || [], data.link, data.img));
-      document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.formato === formato); });
+      if (bd) bd.addEventListener('click', abrir);
+      const frame = container.querySelector('.image-frame');
+      if (frame) frame.addEventListener('click', abrir);
+      document.querySelectorAll('.visagismo-btn').forEach(btn => {
+        const ativo = btn.dataset.formato === formato;
+        btn.classList.toggle('ativo', ativo);
+        btn.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+      });
+      if (rolar) {
+        const nav = document.getElementById('visagismoNav');
+        const atual = nav && nav.querySelector('.visagismo-btn.ativo');
+        if (atual) {
+          const alvo = atual.getBoundingClientRect().left - nav.getBoundingClientRect().left + nav.scrollLeft - (nav.clientWidth - atual.offsetWidth) / 2;
+          if (nav.scrollTo) nav.scrollTo({ left: alvo, behavior: 'smooth' }); else nav.scrollLeft = alvo;
+        }
+      }
     }
 
     function renderPaleta(cor) {
@@ -3902,7 +4120,7 @@
       document.querySelectorAll('.cor-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.cor === cor); });
     }
 
-    document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato)); });
+    document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato, true)); });
     document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => renderPaleta(btn.dataset.cor)); });
 
     Object.keys(cabelosData).forEach(tipo => {
@@ -4010,7 +4228,7 @@
       grid.innerHTML = '';
       makeProdutosData.forEach((item, idx) => {
         const card = document.createElement('button');
-        card.className = 'card card--produto';
+        card.className = 'card card-elegante card--produto';
         card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
         card.innerHTML = `
       <span class="card-img-wrap">
@@ -4028,13 +4246,14 @@
 
     document.querySelectorAll('#makeTabs .col-tab').forEach(tab => { tab.addEventListener('click', () => renderMake(tab.dataset.cat)); });
 
+    // NOVO PADRÃO DE GRID
     function renderGrid(id, data, catLabel, linkDefault) {
       const grid = document.getElementById(id);
       if (!grid) return;
       grid.innerHTML = '';
       data.forEach((item, idx) => {
         const card = document.createElement('button');
-        card.className = 'card';
+        card.className = 'card card-elegante'; // A MÁGICA ACONTECE AQUI
         card.classList.toggle('card--produto', /kit|ferramenta|produto|acess[oó]rio|maquiagem/i.test(catLabel || item.cat || ''));
         card.style.animationDelay = Math.min(idx * 0.03, 0.5) + 's';
         const img = item.img || item.imgFrente || '';
@@ -4054,13 +4273,14 @@
       });
     }
 
+    // NOVO PADRÃO EDITORIAL SCROLL
     function renderEditorialScroll(id, data, catLabel, linkDefault) {
       const container = document.getElementById(id);
       if (!container) return;
       container.innerHTML = '';
       data.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'editorial-card';
+        card.className = 'editorial-card'; // Já está estilizado no CSS
         card.tabIndex = 0; card.setAttribute('role', 'button');
         card.setAttribute('aria-label', item.title);
         card.innerHTML = `
@@ -4081,13 +4301,14 @@
       });
     }
 
+    // NOVO PADRÃO MINI GRID
     function renderMiniGrid(id, data, catLabel, linkDefault) {
       const container = document.getElementById(id);
       if (!container) return;
       container.innerHTML = '';
       data.forEach(item => {
         const card = document.createElement('div');
-        card.className = 'mini-card-editorial';
+        card.className = 'mini-card-editorial'; // Já está estilizado no CSS
         card.tabIndex = 0; card.setAttribute('role', 'button');
         card.setAttribute('aria-label', item.title);
         card.innerHTML = `
