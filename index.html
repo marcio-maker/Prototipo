@@ -509,7 +509,9 @@
     }
 
     .drawer-nav button {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 14px;
       width: 100%;
       text-align: left;
       padding: 16px 24px;
@@ -526,6 +528,18 @@
       touch-action: manipulation
     }
 
+    .drawer-nav button svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .85;
+    }
+
     .drawer-nav button:last-child {
       border-bottom: none
     }
@@ -536,8 +550,16 @@
       padding-left: 30px
     }
 
+    .drawer-nav button:hover svg {
+      opacity: 1;
+    }
+
     .drawer-nav button.ativo {
       color: var(--gold)
+    }
+
+    .drawer-nav button.ativo svg {
+      opacity: 1;
     }
 
     .drawer-contribuir {
@@ -933,7 +955,7 @@
     .image-frame--contain>img {
       object-fit: contain;
       object-position: center;
-      padding: 12px;
+      padding: 4px;
     }
 
     @media (hover:hover) {
@@ -1029,11 +1051,11 @@
 
     /* VISAGISMO */
     .visagismo-container {
-      max-width: 560px;
+      width: 100%;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 40px;
     }
 
     .visagismo-nav {
@@ -1128,7 +1150,7 @@
     }
 
     .visagismo-painel>.image-frame {
-      max-width: 250px;
+      max-width: 420px;
       margin: 6px auto 0;
       border: 1px solid var(--border-gold);
       border-radius: var(--radius);
@@ -1140,6 +1162,33 @@
       margin: 26px auto 0;
       padding: 0 4px;
       text-align: center;
+    }
+
+    @media (min-width:601px) {
+      .visagismo-painel {
+        display: grid;
+        grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+        gap: 36px;
+        align-items: center;
+        max-width: 1000px;
+      }
+
+      .visagismo-painel>.image-frame {
+        max-width: none;
+        margin: 0;
+      }
+
+      .visagismo-painel-txt {
+        max-width: none;
+        margin: 0;
+        text-align: left;
+      }
+
+      .visagismo-painel .vis-chips,
+      .visagismo-painel .vis-acoes,
+      .visagismo-painel .vis-desejos .chips-rosto {
+        justify-content: flex-start;
+      }
     }
 
     .visagismo-painel-txt h3 {
@@ -1323,28 +1372,28 @@
       background: var(--bg-card);
       border: 1px solid var(--border-gold);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 24px 18px;
       text-align: center;
     }
 
     .paleta-titulo {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.1rem;
+      font-size: 1.35rem;
       color: var(--gold);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .paleta-swatches {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin-bottom: 22px;
     }
 
     .swatch-card {
-      width: 84px;
+      width: calc(50% - 7px);
       border-radius: 10px;
       overflow: hidden;
       background: var(--bg-elevated);
@@ -1365,32 +1414,53 @@
 
     .swatch-card>.image-frame {
       width: 100%;
+      aspect-ratio: 2 / 3;
+    }
+
+    @media (min-width:601px) and (max-width:1024px) {
+      .swatch-card {
+        width: calc(33.333% - 9.4px);
+      }
+    }
+
+    @media (min-width:1025px) {
+      .paleta-swatches {
+        gap: 18px;
+      }
+
+      .paleta-resultado {
+        padding: 28px 24px;
+      }
+
+      .swatch-card {
+        width: calc(25% - 13.5px);
+      }
     }
 
     .swatch-card-info {
-      padding: 6px;
+      padding: 12px 8px 14px;
       text-align: center;
       background: var(--bg-card);
     }
 
     .swatch-card-cor {
-      width: 14px;
-      height: 14px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      margin: 0 auto 4px;
+      margin: 0 auto 6px;
       border: 1px solid rgba(255, 255, 255, .2);
     }
 
     .swatch-card-info span {
       display: block;
-      font-size: 0.6rem;
+      font-size: 0.8rem;
       color: var(--text-sec);
       line-height: 1.2;
       font-weight: 500;
     }
 
     .paleta-resultado p {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: var(--text-sec);
       font-weight: 300;
       line-height: 1.5;
@@ -1419,6 +1489,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       color: var(--text);
       font-family: 'Playfair Display', serif;
       font-style: italic;
@@ -1426,6 +1497,29 @@
       cursor: pointer;
       transition: var(--tr-ui);
       touch-action: manipulation;
+    }
+
+    .acordeao-header .ac-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .acordeao-header svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .8;
+    }
+
+    .acordeao-header.active svg,
+    .acordeao-header:hover svg {
+      opacity: 1;
     }
 
     .acordeao-header:hover {
@@ -1518,10 +1612,13 @@
     }
 
     .col-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: transparent;
       border: 1px solid var(--border-gold);
       color: var(--text-muted);
-      padding: 10px 18px;
+      padding: 10px 16px;
       border-radius: 999px;
       font-family: inherit;
       font-size: 0.82rem;
@@ -1529,6 +1626,17 @@
       transition: var(--tr-ui);
       white-space: nowrap;
       touch-action: manipulation;
+    }
+
+    .col-tab svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .col-tab.ativo {
@@ -2468,7 +2576,7 @@
       }
 
       .swatch-card {
-        width: 72px;
+        width: calc(50% - 7px);
       }
 
       .card-nome {
@@ -2612,6 +2720,292 @@
       .image-frame--modal { max-height: 55dvh; width: min(100%, 220px, 36.6dvh); }
       .modal-img { padding: 8px; }
     }
+    /* CARROSSEL NO MOBILE — adicione a classe .carrossel-mobile em qualquer grid */
+    @media (max-width:600px) {
+      .grid.carrossel-mobile,
+      .mini-grid.carrossel-mobile {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 14px;
+        margin-inline: -14px;
+        padding: 0 14px 8px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+
+      .grid.carrossel-mobile::-webkit-scrollbar,
+      .mini-grid.carrossel-mobile::-webkit-scrollbar {
+        display: none;
+      }
+
+      .grid.carrossel-mobile>*,
+      .mini-grid.carrossel-mobile>* {
+        flex: 0 0 44%;
+        width: auto;
+        min-width: 0;
+        scroll-snap-align: start;
+      }
+    }
+    /* VISAGISMO MOBILE — imagem no tamanho dos cards, texto ao lado */
+    @media (max-width:600px) {
+      .visagismo-painel {
+        display: flow-root;
+        text-align: left;
+      }
+
+      .visagismo-painel>.image-frame {
+        float: left;
+        width: 42%;
+        max-width: 190px;
+        margin: 0 16px 10px 0;
+      }
+
+      .visagismo-painel-txt {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+      }
+
+      .visagismo-painel-txt h3 {
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+      }
+
+      .visagismo-painel-txt p {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+      }
+
+      .visagismo-painel-txt p.vis-rec {
+        font-size: 0.92rem;
+      }
+
+      .visagismo-painel .vis-chips,
+      .visagismo-painel .vis-acoes,
+      .visagismo-painel .vis-desejos .chips-rosto {
+        justify-content: flex-start;
+      }
+
+      .visagismo-painel .vis-desejos,
+      .visagismo-painel .vis-acoes {
+        clear: both;
+      }
+    }
+    /* ACESSÓRIOS — imagem quadrada */
+    #acessoriosGrid .card-img-wrap {
+      aspect-ratio: 1 / 1;
+    }
+    /* COLORAÇÃO MOBILE — bloco da paleta um pouco mais compacto */
+    @media (max-width:600px) {
+      #secao-coloracao .col-display {
+        max-width: 290px;
+        margin-bottom: 18px;
+      }
+
+      #secao-coloracao .col-display>.image-frame {
+        aspect-ratio: 3 / 4;
+      }
+
+      #secao-coloracao .col-paleta {
+        padding: 12px 12px 8px;
+      }
+    }
+    /* MODAL — produtos em moldura quadrada, maior */
+    .image-frame--modal.modal-quad {
+      aspect-ratio: 1 / 1;
+      width: min(100%, 300px);
+      max-height: none;
+    }
+
+    /* TIPOS DE CABELO NO MOBILE — carrossel com imagens maiores */
+    @media (max-width:600px) {
+      .acordeao-body-inner {
+        display: flex;
+        gap: 10px;
+        padding: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 14px;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+      }
+
+      .acordeao-body-inner>.mini-card {
+        flex: 0 0 46%;
+        min-width: 0;
+        scroll-snap-align: start;
+      }
+
+      .acordeao-body-inner .mini-card>.image-frame {
+        aspect-ratio: 3 / 4;
+      }
+
+      .mini-card-txt {
+        padding: 8px 4px 6px;
+      }
+
+      .mini-card-txt strong,
+      .mini-card-txt span {
+        line-height: 1.3;
+      }
+
+      .mini-card-txt span {
+        display: block;
+        margin-top: 2px;
+      }
+    }
+    /* PERFIL DA CLIENTE */
+    .perfil-card {
+      max-width: 720px;
+      margin: 0 auto 32px;
+      padding: 16px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius);
+    }
+
+    .perfil-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .perfil-tit {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--gold-light);
+    }
+
+    .perfil-sub {
+      display: block;
+      font-size: .78rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    .perfil-toggle {
+      flex: none;
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: .78rem;
+      cursor: pointer;
+      transition: var(--tr-ui);
+      touch-action: manipulation;
+    }
+
+    .perfil-corpo {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .perfil-corpo[hidden] {
+      display: none;
+    }
+
+    .perfil-grupo-t {
+      display: block;
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .perfil-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .perfil-chip {
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: .8rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: var(--tr-ui);
+      touch-action: manipulation;
+    }
+
+    .perfil-chip[aria-pressed="true"] {
+      background: var(--gold);
+      color: #1b1209;
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+
+    .perfil-rodape {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: .7rem;
+      color: var(--text-muted);
+    }
+
+    .perfil-limpar {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      text-decoration: underline;
+      font-family: inherit;
+      font-size: .72rem;
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    @media (max-width:600px) {
+      .perfil-chips {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin-inline: -18px;
+        padding-inline: 18px;
+      }
+
+      .perfil-chips::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .selo-perfil {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 3;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(10, 8, 8, .74);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-light);
+      font-size: .6rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
   </style>
 </head>
 
@@ -2689,13 +3083,34 @@
       <button type="button" class="drawer-fechar" id="drawerFechar" aria-label="Fechar menu">&times;</button>
     </div>
     <nav class="drawer-nav">
-      <button type="button" data-secao="cortes">Cortes</button>
-      <button type="button" data-secao="visagismo">Visagismo</button>
-      <button type="button" data-secao="coloracao">Coloração</button>
-      <button type="button" data-secao="noivas">Noivas</button>
-      <button type="button" data-secao="maquiagem">Maquiagem</button>
-      <button type="button" data-secao="kits" class="ativo">Kits & Acessórios</button>
-      <button type="button" data-secao="ferramentas">Ferramentas</button>
+      <button type="button" data-secao="cortes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        Cortes
+      </button>
+      <button type="button" data-secao="visagismo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.66V18a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2.66"/></svg>
+        Visagismo
+      </button>
+      <button type="button" data-secao="coloracao">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="14.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="15.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 3 3 0 0 0 0-6 3 3 0 0 1 0-6 3 3 0 0 0 0-6"/></svg>
+        Coloração
+      </button>
+      <button type="button" data-secao="noivas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Noivas
+      </button>
+      <button type="button" data-secao="maquiagem">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><circle cx="12" cy="12" r="4"/></svg>
+        Maquiagem
+      </button>
+      <button type="button" data-secao="kits" class="ativo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Kits & Acessórios
+      </button>
+      <button type="button" data-secao="ferramentas">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Ferramentas
+      </button>
     </nav>
 
     <div class="drawer-contribuir">
@@ -2800,25 +3215,45 @@
           </div>
           <div class="acordeao" id="acordeaoCabelos">
             <div class="acordeao-item">
-              <button class="acordeao-header" data-tipo="liso">Lisos (1A, 1B, 1C)</button>
+              <button class="acordeao-header" data-tipo="liso">
+                <span class="ac-label">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+                  Lisos (1A, 1B, 1C)
+                </span>
+              </button>
               <div class="acordeao-body">
                 <div class="acordeao-body-inner" id="acordeao-liso"></div>
               </div>
             </div>
             <div class="acordeao-item">
-              <button class="acordeao-header" data-tipo="ondulado">Ondulados (2A, 2B, 2C)</button>
+              <button class="acordeao-header" data-tipo="ondulado">
+                <span class="ac-label">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg>
+                  Ondulados (2A, 2B, 2C)
+                </span>
+              </button>
               <div class="acordeao-body">
                 <div class="acordeao-body-inner" id="acordeao-ondulado"></div>
               </div>
             </div>
             <div class="acordeao-item">
-              <button class="acordeao-header" data-tipo="cacheado">Cacheados (3A, 3B, 3C)</button>
+              <button class="acordeao-header" data-tipo="cacheado">
+                <span class="ac-label">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4c-2 2-3 4-3 6a3 3 0 0 0 6 0c0-2-1-4-3-6z"/><path d="M8 14c-1.5 1.5-2 3-2 4.5a2.5 2.5 0 0 0 5 0c0-1.5-.5-3-2-4.5"/><path d="M16 14c-1.5 1.5-2 3-2 4.5a2.5 2.5 0 0 0 5 0c0-1.5-.5-3-2-4.5"/></svg>
+                  Cacheados (3A, 3B, 3C)
+                </span>
+              </button>
               <div class="acordeao-body">
                 <div class="acordeao-body-inner" id="acordeao-cacheado"></div>
               </div>
             </div>
             <div class="acordeao-item">
-              <button class="acordeao-header" data-tipo="crespo">Crespos (4A, 4B, 4C)</button>
+              <button class="acordeao-header" data-tipo="crespo">
+                <span class="ac-label">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6c1 1.5 1 3 0 4.5S5 13.5 6 15s2 1.5 2 0"/><path d="M12 5c1 1.5 1 3 0 4.5S11 12.5 12 14s2 1.5 2 0"/><path d="M18 6c1 1.5 1 3 0 4.5S17 13.5 18 15s2 1.5 2 0"/></svg>
+                  Crespos (4A, 4B, 4C)
+                </span>
+              </button>
               <div class="acordeao-body">
                 <div class="acordeao-body-inner" id="acordeao-crespo"></div>
               </div>
@@ -2832,7 +3267,7 @@
             <div class="linha"></div>
           </div>
           <!-- ADICIONADO grid-3 para ficar igual à imagem 1 -->
-          <div class="grid grid-3" id="grid-franjas"></div>
+          <div class="grid grid-3 carrossel-mobile" id="grid-franjas"></div>
         </div>
 
         <div class="bloco" style="margin-bottom:0">
@@ -2863,10 +3298,22 @@
           <div class="linha"></div>
         </div>
         <div class="col-tabs" id="colTabs">
-          <button class="col-tab ativo" data-cat="loiros">Loiros</button>
-          <button class="col-tab" data-cat="castanhos">Castanhos</button>
-          <button class="col-tab" data-cat="ruivos">Ruivos</button>
-          <button class="col-tab" data-cat="escuros">Escuros</button>
+          <button class="col-tab ativo" data-cat="loiros">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Loiros
+          </button>
+          <button class="col-tab" data-cat="castanhos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            Castanhos
+          </button>
+          <button class="col-tab" data-cat="ruivos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            Ruivos
+          </button>
+          <button class="col-tab" data-cat="escuros">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Escuros
+          </button>
         </div>
         <div class="col-display">
           <div class="image-frame image-frame--portrait">
@@ -2899,7 +3346,7 @@
           <h2>Manutenção</h2>
           <div class="linha"></div>
         </div>
-        <div class="mini-grid" id="manutencaoGrid"></div>
+        <div class="mini-grid carrossel-mobile" id="manutencaoGrid"></div>
       </div>
     </section>
 
@@ -2919,12 +3366,21 @@
           <div class="linha"></div>
         </div>
         <div class="col-tabs" id="makeTabs">
-          <button class="col-tab ativo" data-cat="pele">Pele</button>
-          <button class="col-tab" data-cat="olhos">Olhos</button>
-          <button class="col-tab" data-cat="boca">Boca</button>
+          <button class="col-tab ativo" data-cat="pele">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+            Pele
+          </button>
+          <button class="col-tab" data-cat="olhos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Olhos
+          </button>
+          <button class="col-tab" data-cat="boca">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10c2 1 3.5 1.5 5 1.5s3-.5 5-1.5"/><path d="M7 10c1.5 3.5 3.5 5.5 5 5.5s3.5-2 5-5.5"/><path d="M9 10.2c.8-.4 1.8-.7 3-.7s2.2.3 3 .7"/></svg>
+            Boca
+          </button>
         </div>
         <div class="col-display">
-          <div class="image-frame image-frame--portrait">
+          <div class="image-frame image-frame--square" style="--image-focus: 50% 25%">
             <img id="makeImagem" src="" alt="Maquiagem" loading="lazy" decoding="async"
               onclick="var b=document.getElementById('makeDetalhes');if(b)b.click()" onerror="_imgErro(this)">
           </div>
@@ -2937,7 +3393,7 @@
           <h2>Produtos MAC</h2>
           <div class="linha"></div>
         </div>
-        <div class="grid grid-3" id="grid-make-produtos"></div>
+        <div class="grid grid-3 carrossel-mobile" id="grid-make-produtos"></div>
       </div>
     </section>
 
@@ -2951,12 +3407,22 @@
       <div class="aviso-afiliado"><span class="gold">Links de afiliado:</span> se você comprar por eles, podemos receber
         uma comissão — <span class="gold">sem custo extra para você.</span></div>
 
+      <div class="perfil-card" id="perfilCard" aria-live="polite"></div>
+
+      <div class="bloco" id="blocoParaVoce" hidden>
+        <div class="bloco-head">
+          <h2>Para você</h2>
+          <div class="linha"></div>
+        </div>
+        <div class="grid grid-3 carrossel-mobile" id="grid-paravoce"></div>
+      </div>
+
       <div class="bloco">
         <div class="bloco-head">
           <h2>Kits de Tratamento</h2>
           <div class="linha"></div>
         </div>
-        <div class="grid grid-3" id="grid-kits"></div>
+        <div class="grid grid-3 carrossel-mobile" id="grid-kits"></div>
       </div>
 
       <div class="bloco">
@@ -3301,6 +3767,8 @@
       } else {
         imgWrap.style.display = 'none';
       }
+      const frameModal = imgWrap.querySelector('.image-frame--modal');
+      if (frameModal) frameModal.classList.toggle('modal-quad', /kit|ferramenta|produto|acess[oó]rio|maquiagem/i.test(categoria || ''));
 
       const g = document.querySelector('.modal-body .corte-carrossel-wrapper');
       if (g) g.remove();
@@ -3426,7 +3894,7 @@
       coracao: { nome: 'Coração', img: 'https://i.pinimg.com/736x/c7/96/f6/c796f647e8e72985856e0032ffba1bd1.jpg', recomendacao: 'Franja lateral e volume na base.', desc: 'Equilibre a testa mais larga e o queixo fino.', lista: ['Franja lateral', 'Volume na base', 'Equilibra testa larga e queixo fino'], produto: 'Máscara de Reconstrução', link: ML_LINKS.joico },
       diamante: { nome: 'Diamante', img: 'https://i.pinimg.com/736x/06/15/ff/0615ff8b4ad4d40cf86d8f738b91eb44.jpg', recomendacao: 'Volume no topo e na base.', desc: 'Suavize as maçãs do rosto largas.', lista: ['Volume no topo e na base', 'Suaviza maçãs do rosto largas', 'Franja lateral'], produto: 'Shampoo Matizador', link: ML_LINKS.keune },
       triangular: { nome: 'Triangular', img: 'https://i.pinimg.com/736x/08/ab/69/08ab69db905060f2e62a6bed57d3e74e.jpg', recomendacao: 'Camadas laterais e topo volumoso.', desc: 'Equilibre a base mais larga criando volume no topo.', lista: ['Camadas laterais', 'Topo volumoso', 'Equilibra a base mais larga'], produto: 'Secador Iônico Pro', link: ML_LINKS.ferramentas },
-      longo: { nome: 'Longo', img: '', recomendacao: 'Franja reta e volume nas laterais.', desc: 'Encurte visualmente o rosto e dê largura às laterais.', lista: ['Franja reta', 'Volume nas laterais', 'Encurta visualmente o rosto'], produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas }
+      longo: { nome: 'Longo', img: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80', recomendacao: 'Franja reta e volume nas laterais.', desc: 'Encurte visualmente o rosto e dê largura às laterais.', lista: ['Franja reta', 'Volume nas laterais', 'Encurta visualmente o rosto'], produto: 'Modelador de Ondas', link: ML_LINKS.ferramentas }
     };
 
     const coresData = {
@@ -4123,8 +4591,8 @@
       document.querySelectorAll('.cor-btn').forEach(btn => { btn.classList.toggle('ativo', btn.dataset.cor === cor); });
     }
 
-    document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => renderVisagismo(btn.dataset.formato, true)); });
-    document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => renderPaleta(btn.dataset.cor)); });
+    document.querySelectorAll('.visagismo-btn').forEach(btn => { btn.addEventListener('click', () => { renderVisagismo(btn.dataset.formato, true); definirPerfil('rosto', btn.dataset.formato); }); });
+    document.querySelectorAll('.cor-btn').forEach(btn => { btn.addEventListener('click', () => { renderPaleta(btn.dataset.cor); definirPerfil('pele', btn.dataset.cor); }); });
 
     Object.keys(cabelosData).forEach(tipo => {
       const container = document.getElementById(`acordeao-${tipo}`);
@@ -4328,6 +4796,168 @@
       });
     }
 
+    /* PERFIL DA CLIENTE — salvo no IndexedDB (store 'estado'), só neste aparelho */
+    const PERFIL_OBJETIVOS = { hidratar: 'Hidratar', brilho: 'Brilho', reconstrucao: 'Reconstrução', cor: 'Cor', ferramentas: 'Ferramentas' };
+    const PERFIL_CABELOS = { liso: 'Liso', ondulado: 'Ondulado', cacheado: 'Cacheado', crespo: 'Crespo' };
+
+    /* Tags iniciais dos kits (ajuste aqui): obj = objetivos que atende; cabelo = tipos indicados ([] = qualquer) */
+    const KIT_TAGS = {
+      'Kit Kérastase': { obj: ['reconstrucao', 'brilho'], cabelo: ['liso', 'ondulado'] },
+      "Kit L'Oréal Expert": { obj: ['reconstrucao', 'cor'], cabelo: ['liso', 'ondulado', 'cacheado'] },
+      'Kit Joico': { obj: ['hidratar', 'reconstrucao'], cabelo: ['ondulado', 'cacheado', 'crespo'] },
+      'Kit Keune': { obj: ['cor'], cabelo: [] },
+      "Kit L'Oréal INOA": { obj: ['cor'], cabelo: [] },
+      'Kit Ferramentas': { obj: ['ferramentas'], cabelo: [] },
+      'Kit Igora Royal': { obj: ['cor'], cabelo: [] },
+      'Kit Moroccanoil': { obj: ['hidratar', 'brilho'], cabelo: ['ondulado', 'cacheado', 'crespo'] },
+      'Kit Schwarzkopf': { obj: ['cor'], cabelo: [] },
+      'Kit Living Proof': { obj: ['brilho', 'hidratar'], cabelo: ['liso', 'ondulado', 'cacheado', 'crespo'] }
+    };
+
+    let PERFIL = {};
+    let _perfilAberto = true;
+
+    function _perfilValido(k, v) {
+      if (k === 'cabelo') return Object.prototype.hasOwnProperty.call(PERFIL_CABELOS, v);
+      if (k === 'objetivo') return Object.prototype.hasOwnProperty.call(PERFIL_OBJETIVOS, v);
+      if (k === 'rosto') return Object.prototype.hasOwnProperty.call(visagismoData, v);
+      if (k === 'pele') return Object.prototype.hasOwnProperty.call(coresData, v);
+      return false;
+    }
+    async function carregarPerfil() {
+      const salvo = await dbGetEstado('perfil', {});
+      const limpo = {};
+      ['cabelo', 'objetivo', 'rosto', 'pele'].forEach(k => { if (salvo && _perfilValido(k, salvo[k])) limpo[k] = salvo[k]; });
+      PERFIL = Object.assign(limpo, PERFIL);
+    }
+    function salvarPerfil() { return dbSetEstado('perfil', PERFIL); }
+    function temPerfil() { return Object.keys(PERFIL).length > 0; }
+
+    function definirPerfil(chave, valor, alternar) {
+      if (!_perfilValido(chave, valor)) return;
+      if (alternar && PERFIL[chave] === valor) delete PERFIL[chave]; else PERFIL[chave] = valor;
+      salvarPerfil();
+      atualizarPerfilUI();
+    }
+    function limparPerfil() {
+      PERFIL = {};
+      salvarPerfil();
+      atualizarPerfilUI();
+    }
+
+    function resumoPerfil() {
+      const p = [];
+      if (PERFIL.cabelo) p.push(PERFIL_CABELOS[PERFIL.cabelo]);
+      if (PERFIL.rosto) p.push('Rosto ' + visagismoData[PERFIL.rosto].nome.toLowerCase());
+      if (PERFIL.objetivo) p.push(PERFIL_OBJETIVOS[PERFIL.objetivo]);
+      if (PERFIL.pele) p.push(coresData[PERFIL.pele].nome);
+      return p.join(' · ');
+    }
+
+    function renderPerfilCard() {
+      const el = document.getElementById('perfilCard');
+      if (!el) return;
+      const chips = (chave, opcoes) => Object.keys(opcoes).map(k =>
+        '<button type="button" class="perfil-chip" data-chave="' + chave + '" data-valor="' + k + '" aria-pressed="' + (PERFIL[chave] === k ? 'true' : 'false') + '">' + opcoes[k] + '</button>'
+      ).join('');
+      const rostos = {};
+      Object.keys(visagismoData).forEach(k => { rostos[k] = visagismoData[k].nome; });
+      const resumo = resumoPerfil();
+      el.innerHTML =
+        '<div class="perfil-head">' +
+          '<div><span class="perfil-tit">Seu perfil</span>' +
+          '<span class="perfil-sub">' + (resumo || 'Toque em 3 opções e sugerimos kits que combinam com você') + '</span></div>' +
+          '<button type="button" class="perfil-toggle" aria-expanded="' + (_perfilAberto ? 'true' : 'false') + '" aria-controls="perfilCorpo">' + (_perfilAberto ? 'Fechar' : (temPerfil() ? 'Editar' : 'Montar')) + '</button>' +
+        '</div>' +
+        '<div class="perfil-corpo" id="perfilCorpo"' + (_perfilAberto ? '' : ' hidden') + '>' +
+          '<div><span class="perfil-grupo-t">Tipo de cabelo</span><div class="perfil-chips">' + chips('cabelo', PERFIL_CABELOS) + '</div></div>' +
+          '<div><span class="perfil-grupo-t">Formato do rosto</span><div class="perfil-chips">' + chips('rosto', rostos) + '</div></div>' +
+          '<div><span class="perfil-grupo-t">O que você quer</span><div class="perfil-chips">' + chips('objetivo', PERFIL_OBJETIVOS) + '</div></div>' +
+          '<div class="perfil-rodape"><span>Fica salvo só neste aparelho.</span>' + (temPerfil() ? '<button type="button" class="perfil-limpar">Limpar perfil</button>' : '') + '</div>' +
+        '</div>';
+    }
+
+    function pontuarKit(kit) {
+      const t = KIT_TAGS[kit.title];
+      if (!t) return 0;
+      let pts = 0;
+      if (PERFIL.objetivo && t.obj.includes(PERFIL.objetivo)) pts += 3;
+      if (PERFIL.cabelo && t.cabelo.length && t.cabelo.includes(PERFIL.cabelo)) pts += 2;
+      return pts;
+    }
+    function kitsParaVoce() {
+      return kitsData
+        .map((k, i) => ({ k, i, pts: pontuarKit(k) }))
+        .filter(x => x.pts > 0)
+        .sort((a, b) => b.pts - a.pts || a.i - b.i)
+        .slice(0, 3);
+    }
+
+    function rostosDoItem(item) {
+      if (item.rostos && item.rostos.length) return item.rostos;
+      const t = (item.desc2 || '').toLowerCase();
+      if (/todos os formatos/.test(t)) return [];
+      const r = [];
+      if (/long/.test(t)) r.push('longo');
+      if (/redond/.test(t)) r.push('redondo');
+      if (/quadrad/.test(t)) r.push('quadrado');
+      if (/ova/.test(t)) r.push('oval');
+      if (/cora[cç]/.test(t)) r.push('coracao');
+      if (/diamante/.test(t)) r.push('diamante');
+      if (/triangul/.test(t)) r.push('triangular');
+      return r;
+    }
+
+    function _seloEm(card) {
+      const wrap = card && card.querySelector('.card-img-wrap');
+      if (!wrap || wrap.querySelector('.selo-perfil')) return;
+      const s = document.createElement('span');
+      s.className = 'selo-perfil';
+      s.textContent = 'Combina com você';
+      wrap.appendChild(s);
+    }
+    function aplicarSelos() {
+      document.querySelectorAll('.selo-perfil').forEach(n => n.remove());
+      const gk = document.getElementById('grid-kits');
+      if (gk) kitsParaVoce().forEach(x => _seloEm(gk.children[x.i]));
+      if (PERFIL.rosto) {
+        [['grid-franjas', franjasData], ['grid-comprimentos', comprimentosData]].forEach(([id, data]) => {
+          const g = document.getElementById(id);
+          if (!g) return;
+          data.forEach((item, i) => { if (rostosDoItem(item).includes(PERFIL.rosto)) _seloEm(g.children[i]); });
+        });
+      }
+    }
+
+    function renderParaVoce() {
+      const bloco = document.getElementById('blocoParaVoce');
+      if (!bloco) return;
+      const top = kitsParaVoce();
+      if (!top.length) { bloco.hidden = true; return; }
+      renderGrid('grid-paravoce', top.map(x => x.k), 'Kit', null);
+      bloco.hidden = false;
+    }
+
+    function atualizarPerfilUI() {
+      renderPerfilCard();
+      renderParaVoce();
+      aplicarSelos();
+    }
+
+    document.addEventListener('click', e => {
+      const card = e.target.closest && e.target.closest('#perfilCard');
+      if (!card) return;
+      const chip = e.target.closest('.perfil-chip');
+      if (chip) {
+        const chave = chip.dataset.chave, valor = chip.dataset.valor;
+        definirPerfil(chave, valor, true);
+        if (chave === 'rosto' && PERFIL.rosto) renderVisagismo(PERFIL.rosto);
+        return;
+      }
+      if (e.target.closest('.perfil-toggle')) { _perfilAberto = !_perfilAberto; renderPerfilCard(); return; }
+      if (e.target.closest('.perfil-limpar')) { limparPerfil(); }
+    });
+
     /* HEADER ESCONDE AO ROLAR */
     (function () {
       const main = document.getElementById('mainContent');
@@ -4368,6 +4998,13 @@
       document.querySelectorAll('.mini-card img').forEach(im => im.addEventListener('load', _reajustarAcordeao));
 
       initBusca();
+      renderPerfilCard();
+      carregarPerfil().then(() => {
+        if (temPerfil()) _perfilAberto = false;
+        atualizarPerfilUI();
+        if (PERFIL.rosto) renderVisagismo(PERFIL.rosto);
+        if (PERFIL.pele) renderPaleta(PERFIL.pele);
+      }).catch(() => { });
       document.body.classList.add('app-pronta');
       irParaSecao('kits');
     });
